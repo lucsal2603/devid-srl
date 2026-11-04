@@ -13,340 +13,255 @@
 <meta property="og:url" content="https://www.devidsrl.it/">
 <meta property="og:image" content="https://www.devidsrl.it/assets/img/condivisione.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0d0d0c">
+<meta name="theme-color" content="#eceef5">
 <link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="icon" href="assets/icona.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="preload" href="assets/fonts/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/inter-tight-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/sito.css">
 <script>(function(h){h.classList.add('js');try{if(sessionStorage.getItem('devid-tenda'))h.classList.add('arrivo');if(sessionStorage.getItem('devid-visto'))h.classList.add('visto-carica')}catch(e){}setTimeout(function(){if(!window.devidPronto)h.classList.remove('js','arrivo')},4000)})(document.documentElement)</script>
 </head>
 <body class="pagina-home">
 <div class="carica" data-carica aria-hidden="true">
-  <div class="carica-meta carica-su"></div>
-  <div class="carica-meta carica-giu"></div>
-  <div class="carica-dentro">
-    <p class="carica-marchio"><span class="carica-segno"><svg class="g g-forbici" viewBox="0 0 40 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="6" r="4.6"/><circle cx="7" cy="18" r="4.6"/><path d="M11 8.2 38 19M11 15.8 38 5"/></g></svg></span><span data-carica-nome>Devid</span><sup>®</sup></p>
-    <p class="carica-frase f1" data-frase="Taglio tessuti"></p>
-    <p class="carica-frase f2" data-frase="Modellistica CAD-CAM"></p>
-    <p class="carica-frase f3" data-frase="Vezzano sul Crostolo, Reggio Emilia"></p>
-    <p class="carica-frase f4" data-frase="Dagli anni Cinquanta"></p>
-    <span class="carica-laser"></span>
-  </div>
+  <div class="carica-barra"><i></i></div>
+  <p class="carica-conta"><span data-conta-carica>0</span></p>
+  <p class="carica-nome">DEVID SRL</p>
 </div>
 <a class="salta" href="#contenuto">Vai al contenuto</a>
-<div class="tenda" aria-hidden="true"><div class="tenda-fondo"></div><p class="tenda-titolo"></p></div>
+<div class="tenda" aria-hidden="true"><div class="tenda-pannello"><p class="tenda-titolo"></p></div></div>
 <header class="testata" data-testata>
-  <a class="marchio" href="" aria-label="Devid srl, pagina iniziale" data-tenda="Devid srl">
-    <span class="marchio-nome">Devid<sup>®</sup></span>
-    <span class="marchio-segno"><svg class="g g-forbici" viewBox="0 0 40 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="6" r="4.6"/><circle cx="7" cy="18" r="4.6"/><path d="M11 8.2 38 19M11 15.8 38 5"/></g></svg></span>
-  </a>
+  <a class="marchio" href="" aria-label="Devid srl, pagina iniziale" data-tenda="Devid srl"><svg class="g g-marchio" viewBox="0 0 40 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="6" r="4.4"/><circle cx="7" cy="18" r="4.4"/><path d="M11 8.2 38 19M11 15.8 38 5"/></g></svg><span>DEVID</span></a>
   <nav class="menu" aria-label="Principale">
-    <a href="servizi/"  data-tenda="Servizi"><span data-gira>Servizi</span></a><span class="virgola">,</span> <a href="azienda/"  data-tenda="Azienda"><span data-gira>Azienda</span></a><span class="virgola">,</span> <a href="news/"  data-tenda="News"><span data-gira>News</span></a><span class="virgola">,</span> <a href="contatti/"  data-tenda="Contatti"><span data-gira>Contatti</span></a>
+    <a class="menu-voce" href="servizi/"  data-tenda="Servizi"><span data-gira>Servizi</span></a><a class="menu-voce" href="azienda/"  data-tenda="Azienda"><span data-gira>Azienda</span></a><a class="menu-voce" href="news/"  data-tenda="News"><span data-gira>News</span></a><a class="menu-voce" href="contatti/"  data-tenda="Contatti"><span data-gira>Contatti</span></a>
   </nav>
-  <a class="testata-scrivi" href="contatti/" data-tenda="Contatti"><span data-gira>Scriveteci</span></a>
-  <button class="apri-menu" type="button" aria-expanded="false" aria-controls="menu-telefono"><span data-apri>Menu</span><span data-chiudi>Chiudi</span></button>
+  <div class="testata-destra">
+    <a class="bottone bottone-blu" href="contatti/" data-tenda="Contatti" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Scriveteci</span></span></a>
+    <button class="bottone bottone-chiaro apri-menu" type="button" aria-expanded="false" aria-controls="menu-telefono" aria-label="Apri il menu"><span class="bottone-fondo"></span><span class="bottone-testo"><span class="hamburger"><i></i><i></i></span></span></button>
+  </div>
 </header>
 <div class="menu-telefono" id="menu-telefono" hidden>
-  <nav aria-label="Menu del telefono">
-    <a href="" data-tenda="Devid srl"><span>Home</span></a>
-    <a href="servizi/" data-tenda="Servizi"><span>Servizi</span></a><a href="azienda/" data-tenda="Azienda"><span>Azienda</span></a><a href="news/" data-tenda="News"><span>News</span></a><a href="contatti/" data-tenda="Contatti"><span>Contatti</span></a>
-  </nav>
-  <div class="menu-telefono-piede">
-    <a href="tel:+390522606201">0522 606201</a>
-    <a href="mailto:info@devidsrl.it">info@devidsrl.it</a>
+  <div class="menu-telefono-carta">
+    <nav aria-label="Menu">
+      <a href="" data-tenda="Devid srl"><span>Home</span></a>
+      <a href="servizi/" data-tenda="Servizi"><span>Servizi</span></a><a href="azienda/" data-tenda="Azienda"><span>Azienda</span></a><a href="news/" data-tenda="News"><span>News</span></a><a href="contatti/" data-tenda="Contatti"><span>Contatti</span></a>
+    </nav>
+    <div class="menu-telefono-piede">
+      <a href="tel:+390522606201">0522 606201</a>
+      <a href="mailto:info@devidsrl.it">info@devidsrl.it</a>
+    </div>
   </div>
 </div>
 <main id="contenuto">
-  <section class="eroe" data-tema="scuro" data-eroe>
-    <div class="eroe-foto" data-eroe-foto>
-      <img src="assets/img/hero-laser-blu-1400.webp" srcset="assets/img/hero-laser-blu-800.webp 800w, assets/img/hero-laser-blu-1400.webp 1400w" sizes="100vw" alt="Le linee del laser di posizionamento proiettate sul tessuto steso sul tavolo di taglio" fetchpriority="high">
-      <span class="eroe-scansione" aria-hidden="true"></span>
-      <span class="grana" aria-hidden="true"></span>
+  <section class="eroe" data-eroe>
+    <div class="eroe-palco">
+      <div class="eroe-carta" data-eroe-carta>
+        <div class="eroe-dietro" aria-hidden="true">
+          <p class="etichetta etichetta-chiara">Taglio con l’intelligenza artificiale</p>
+          <p class="eroe-dietro-titolo">Il taglio del futuro<br>è già presente.</p>
+        </div>
+        <canvas class="eroe-tela" data-tela aria-hidden="true"></canvas>
+        <div class="eroe-velo" aria-hidden="true"></div>
+        <div class="eroe-sopra">
+          <p class="etichetta etichetta-chiara eroe-luogo"><span>Vezzano sul Crostolo</span><span>Reggio Emilia</span></p>
+          <h1 class="eroe-titolo"><span class="riga"><span class="riga-dentro">Il tessuto,</span></span><span class="riga"><span class="riga-dentro">tagliato al millimetro.</span></span></h1>
+          <div class="eroe-basso">
+            <p class="eroe-testo">Taglio tessuti e modellistica dagli anni ’50: controllo, adesivazione, CAD-CAM, taglio automatico e confezione campioni.</p>
+            <p class="eroe-scorri"><span class="eroe-scorri-cerchio"><svg class="g g-giu" viewBox="0 0 14 18" aria-hidden="true"><path d="M7 1v15M1.5 10.5 7 16l5.5-5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span><span>Scorrete per tagliare</span></p>
+          </div>
+        </div>
+        <div class="eroe-laser-dato etichetta etichetta-chiara" aria-hidden="true"><span>Taglio</span><span data-cut>0%</span></div>
+      </div>
     </div>
-    <div class="eroe-testo">
-      <h1 class="eroe-titolo">
-        <span class="riga"><span class="riga-dentro"><span class="etichetta" aria-hidden="true"><b>TAGLIO</b><span><i>CAD</i><i>CAM</i></span></span>Devid<sup>®</sup></span></span>
-        <span class="riga"><span class="riga-dentro">Taglio tessuti e modellistica<span class="eroe-mirino"><svg class="g g-mirino" viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="16" cy="16" r="9"/><path d="M16 1v9M16 22v9M1 16h9M22 16h9"/></g></svg></span><a class="eroe-srl" href="azienda/" data-tenda="Azienda">srl</a></span></span>
-      </h1>
-    </div>
-    <p class="eroe-luogo"><span data-scramble-eroe>Vezzano sul Crostolo, Reggio Emilia</span></p>
-    <p class="eroe-anni"><span data-scramble-eroe>Dagli anni ’50</span></p>
   </section>
 
-  <section class="sessanta" aria-labelledby="sessanta-t">
-    <h2 id="sessanta-t" class="nascosto">Sessant’anni di esperienza</h2>
-    <div class="sessanta-quadro">
-      <p class="cap cap-a" data-scramble>Sessant’anni</p>
-      <p class="cap cap-b" data-scramble>di esperienza</p>
-      <figure class="sessanta-foto" data-foto>
-        <div class="foto-dentro" data-parallasse="-12"><img class="" src="assets/img/metro-800.webp" srcset="assets/img/metro-800.webp 800w, assets/img/metro-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="Metro da sarta e forbici appoggiati sulla macchina, davanti al rotolo di tessuto" loading="lazy" decoding="async"></div>
-      </figure>
-      <p class="cap cap-c" data-scramble>Dagli anni ’50</p>
-      <a class="cap cap-d riga-link" href="azienda/" data-tenda="Azienda" data-linea><span data-gira>La nostra storia</span><svg class="g g-freccia-dx" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6h16M11 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
+  <section class="dichiarazione" aria-labelledby="dich-t">
+    <p class="etichetta" data-sale>Chi siamo</p>
+    <h2 id="dich-t" class="dichiarazione-testo" data-accende>L’esperienza dell’artigianato italiano, unita alla ricerca e alle macchine più moderne. <em>Generazioni di lavoro sartoriale</em> e un aggiornamento continuo, per un tagliato preciso e capi che escono come devono.</h2>
+    <div class="dichiarazione-sotto">
+      <a class="bottone bottone-scuro" href="azienda/" data-tenda="Azienda" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>L’azienda</span><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a>
+      <a class="bottone bottone-linea" href="assets/devid-srl-brochure.pdf" target="_blank" rel="noopener" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Brochure</span><svg class="g g-freccia" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5.5 3.5h7v7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a>
     </div>
   </section>
 
   <section class="servizi" aria-labelledby="servizi-t">
-    <div class="servizi-testa" data-linea>
-      <h2 id="servizi-t" class="sopratitolo">Servizi</h2>
-      <p class="sopratitolo">(5)</p>
+    <div class="sezione-testa">
+      <h2 id="servizi-t" class="sezione-titolo" data-righe>Cinque lavorazioni,<br>un solo stabilimento</h2>
+      <a class="bottone bottone-linea" href="servizi/" data-tenda="Servizi" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Tutti i servizi</span><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a>
     </div>
-    <ul class="elenco-grande" data-elenco>
-      <li class="voce" data-linea>
-        <a href="servizi/controllo-tessuti/" data-foto-voce="stesura" data-tenda="Controllo tessuti">
-          <span class="voce-nome"><span class="voce-testo">Controllo tessuti</span></span>
-          <span class="voce-breve">Ogni pezza verificata alla specula, misurata senza tensione e segnalata fallo per fallo.</span>
-          <span class="voce-mini"><img class="" src="assets/img/stesura-800.webp" srcset="assets/img/stesura-800.webp 800w, assets/img/stesura-1400.webp 1400w" sizes="40vw" alt="" loading="lazy" decoding="async"></span>
-        </a>
-      </li><li class="voce" data-linea>
-        <a href="servizi/adesivazione-tessuto/" data-foto-voce="adesivazione" data-tenda="Adesivazione">
-          <span class="voce-nome"><span class="voce-testo">Adesivazione</span></span>
-          <span class="voce-breve">Adesivazione, accoppiatura e decatizzo con la strumentazione nuova del reparto.</span>
-          <span class="voce-mini"><img class="" src="assets/img/adesivazione-800.webp" srcset="assets/img/adesivazione-800.webp 800w, assets/img/adesivazione-1400.webp 1400w" sizes="40vw" alt="" loading="lazy" decoding="async"></span>
-        </a>
-      </li><li class="voce" data-linea>
-        <a href="servizi/modellistica-cad-cam/" data-foto-voce="sagome" data-tenda="Modellistica CAD-CAM">
-          <span class="voce-nome"><span class="voce-testo">Modellistica CAD-CAM</span></span>
-          <span class="voce-breve">Sviluppo taglie, digitalizzazione dei cartamodelli e piazzamento automatico.</span>
-          <span class="voce-mini"><img class="" src="assets/img/sagome-800.webp" srcset="assets/img/sagome-800.webp 800w, assets/img/sagome-1400.webp 1400w" sizes="40vw" alt="" loading="lazy" decoding="async"></span>
-        </a>
-      </li><li class="voce" data-linea>
-        <a href="servizi/taglio-tessuti/" data-foto-voce="zund-sala" data-tenda="Taglio computerizzato">
-          <span class="voce-nome"><span class="voce-testo">Taglio computerizzato</span></span>
-          <span class="voce-breve">Dai tessuti leggeri agli spalmati, fino a 7 cm di materasso, anche con l’intelligenza artificiale.</span>
-          <span class="voce-mini"><img class="" src="assets/img/zund-sala-800.webp" srcset="assets/img/zund-sala-800.webp 800w, assets/img/zund-sala-1400.webp 1400w" sizes="40vw" alt="" loading="lazy" decoding="async"></span>
-        </a>
-      </li><li class="voce" data-linea>
-        <a href="servizi/confezione-campioni/" data-foto-voce="camice" data-tenda="Confezione campioni">
-          <span class="voce-nome"><span class="voce-testo">Confezione campioni</span></span>
-          <span class="voce-breve">Capi campionario e di produzione, cuciti da operatrici con esperienza decennale.</span>
-          <span class="voce-mini"><img class="" src="assets/img/camice-800.webp" srcset="assets/img/camice-800.webp 800w, assets/img/camice-1400.webp 1400w" sizes="40vw" alt="" loading="lazy" decoding="async"></span>
-        </a>
-      </li>
-    </ul>
-    <div class="finestra" aria-hidden="true" data-finestra>
-      <div class="finestra-dentro">
-        <div class="finestra-foto" data-foto-nome="stesura"><img class="" src="assets/img/stesura-800.webp" srcset="assets/img/stesura-800.webp 800w, assets/img/stesura-1400.webp 1400w" sizes="30vw" alt="" loading="lazy" decoding="async"></div><div class="finestra-foto" data-foto-nome="adesivazione"><img class="" src="assets/img/adesivazione-800.webp" srcset="assets/img/adesivazione-800.webp 800w, assets/img/adesivazione-1400.webp 1400w" sizes="30vw" alt="" loading="lazy" decoding="async"></div><div class="finestra-foto" data-foto-nome="sagome"><img class="" src="assets/img/sagome-800.webp" srcset="assets/img/sagome-800.webp 800w, assets/img/sagome-1400.webp 1400w" sizes="30vw" alt="" loading="lazy" decoding="async"></div><div class="finestra-foto" data-foto-nome="zund-sala"><img class="" src="assets/img/zund-sala-800.webp" srcset="assets/img/zund-sala-800.webp 800w, assets/img/zund-sala-1400.webp 1400w" sizes="30vw" alt="" loading="lazy" decoding="async"></div><div class="finestra-foto" data-foto-nome="camice"><img class="" src="assets/img/camice-800.webp" srcset="assets/img/camice-800.webp 800w, assets/img/camice-1400.webp 1400w" sizes="30vw" alt="" loading="lazy" decoding="async"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="manifesto" aria-labelledby="manifesto-t">
-    <h2 id="manifesto-t" class="nascosto">Come lavoriamo</h2>
-    <p class="manifesto-testo" data-parole>
-      <span class="manifesto-segno"><span class="etichetta" aria-hidden="true"><b>DAL</b><span><i>19</i><i>50</i></span></span></span>L’esperienza dell’artigianato italiano <svg class="g g-ago" viewBox="0 0 48 16" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 8h38c3 0 6-1.6 6-3.2S43 2 40 2H31"/><ellipse cx="41" cy="5" rx="2.6" ry="1.1"/><path d="M2 8c8 0 10 6 20 6s14-4 18-6" stroke-dasharray="2 2"/></g></svg> unita alla ricerca e alle macchine più moderne. Generazioni di lavoro sartoriale <svg class="g g-rocchetto" viewBox="0 0 28 32" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 2h22M3 30h22M6 2c0 5 2 6 2 14s-2 9-2 14M22 2c0 5-2 6-2 14s2 9 2 14"/><path d="M8 9l12 3M8 14l12 3M8 19l12 3M8 24l12-1"/></g></svg> e un aggiornamento continuo, per un tagliato preciso al millimetro <svg class="g g-metro" viewBox="0 0 64 20" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="3" width="62" height="14" rx="1"/><path d="M8 3v6M16 3v4M24 3v6M32 3v4M40 3v6M48 3v4M56 3v6"/></g></svg> e capi che escono come devono.
-    </p>
-    <div class="manifesto-griglia">
-      <figure class="manifesto-foto" data-foto>
-        <div class="foto-dentro" data-parallasse="-10"><img class="" src="assets/img/zund-postazione-800.webp" srcset="assets/img/zund-postazione-800.webp 800w, assets/img/zund-postazione-1400.webp 1400w, assets/img/zund-postazione-2400.webp 2400w" sizes="(max-width: 760px) 90vw, 34vw" alt="Un’operatrice alla postazione del tavolo di taglio automatico" loading="lazy" decoding="async"></div>
-      </figure>
-      <div class="manifesto-lato">
-        <p class="testo" data-righe>Controlliamo il tessuto acquistato dal cliente, sviluppiamo i modelli al computer per consumarne il meno possibile, lo tagliamo in automatico e confezioniamo i campioni. Tutto a Vezzano sul Crostolo, senza viaggi fra un fornitore e l’altro.</p>
-        <a class="riga-link" href="azienda/" data-linea data-tenda="Azienda"><span data-gira>Azienda</span><svg class="g g-freccia-dx" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6h16M11 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
-        <a class="riga-link" href="contatti/" data-linea data-tenda="Contatti"><span data-gira>Dove siamo</span><svg class="g g-freccia-dx" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6h16M11 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
-      </div>
-    </div>
-  </section>
-
-  <section class="taglio" data-tema="scuro" data-taglio aria-labelledby="taglio-t">
-    <div class="taglio-palco">
-      <div class="taglio-testa">
-        <p class="sopratitolo" data-scramble>Taglio con l’intelligenza artificiale</p>
-        <h2 id="taglio-t" class="taglio-titolo" data-righe>Il taglio del futuro<br>è già presente.</h2>
-      </div>
-      <div class="taglio-tavolo">
-      <svg class="taglio-svg" viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-        <defs>
-          <pattern id="fori" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="9" cy="9" r="1.15" fill="currentColor"/></pattern>
-          <linearGradient id="raggio" x1="0" x2="1"><stop offset="0" stop-color="#aab6ff" stop-opacity="0"/><stop offset=".85" stop-color="#aab6ff" stop-opacity=".35"/><stop offset="1" stop-color="#eef0ff" stop-opacity="1"/></linearGradient>
-          <pattern id="stampa" width="64" height="64" patternUnits="userSpaceOnUse" patternTransform="rotate(-18)"><path d="M10 32c8-14 22-14 30 0s22 14 30 0M-22 32c8-14 22-14 30 0" fill="none" stroke="#7d8cff" stroke-width="1.2"/><circle cx="25" cy="12" r="2.2" fill="#7d8cff"/></pattern>
-        </defs>
-        <rect class="taglio-fori" width="1000" height="620" fill="url(#fori)"/>
-        <rect class="taglio-stampa" width="1000" height="620" fill="url(#stampa)"/>
-        <g class="taglio-pezzi">
-          <g class="pezzo" data-pezzo>
-            <path class="pezzo-forma" d="M118 96 L214 74 C226 128 286 150 334 126 L352 104 C356 176 388 226 432 246 L446 548 L104 552 L112 262 C134 216 132 154 118 96 Z"/>
-            <path class="pezzo-filo" d="M276 230 V470 M266 244 l10-14 10 14 M266 456 l10 14 10-14"/>
-            <path class="pezzo-tacche" d="M104 400 h14 M446 400 h-14 M228 552 v-12 M322 552 v-12"/>
-          </g>
-          <g class="pezzo" data-pezzo>
-            <path class="pezzo-forma" d="M500 552 L520 330 C540 178 608 116 660 116 C712 116 780 178 800 330 L820 552 C760 566 560 566 500 552 Z"/>
-            <path class="pezzo-filo" d="M660 230 V490 M650 244 l10-14 10 14 M650 476 l10 14 10-14"/>
-            <path class="pezzo-tacche" d="M618 132 l6 12 M702 132 l-6 12 M660 116 v14"/>
-          </g>
-          <g class="pezzo" data-pezzo>
-            <path class="pezzo-forma" d="M850 90 Q918 62 972 96 L962 168 Q912 140 858 160 Z"/>
-            <path class="pezzo-filo" d="M884 128 H940"/>
-          </g>
-          <g class="pezzo" data-pezzo>
-            <path class="pezzo-forma" d="M852 250 H964 V420 Q964 462 924 462 H892 Q852 462 852 420 Z"/>
-            <path class="pezzo-filo" d="M908 290 V420 M898 304 l10-14 10 14"/>
-          </g>
-        </g>
-        <g class="taglio-tracce"></g>
-        <rect class="taglio-raggio" x="-120" y="0" width="120" height="620" fill="url(#raggio)"/>
-        <g class="testa-taglio">
-          <circle r="16" fill="none" stroke="currentColor" stroke-width="1.2"/>
-          <path d="M0 -26V-8M0 8V26M-26 0H-8M8 0H26" stroke="currentColor" stroke-width="1.2"/>
-          <circle r="2.4" fill="currentColor"/>
-        </g>
-      </svg></div>
-      <ol class="taglio-fasi">
-        <li class="fase" data-fase>
-          <p class="fase-nome">Scansione</p>
-          <p class="fase-testo">Il portale legge tutta la pezza: allover, immagini, stampa digitale, loghi e motivi ripetuti.</p>
-        </li>
-        <li class="fase" data-fase>
-          <p class="fase-nome">Piazzamento</p>
-          <p class="fase-testo">I pezzi si incastrano sul tessuto per consumarne il meno possibile, anche da file DXF di qualsiasi CAD-CAM.</p>
-        </li>
-        <li class="fase" data-fase>
-          <p class="fase-nome">Taglio</p>
-          <p class="fase-testo">Automatico e senza tensioni, fino a <span class="dato" data-conta="7">7</span> cm di materasso.</p>
-        </li>
-      </ol>
-      <p class="taglio-partner">Con <strong>Crea Solution</strong>, partner di Devid</p>
-    </div>
-  </section>
-
-  <section class="laboratorio" data-laboratorio aria-labelledby="lab-t">
-    <div class="laboratorio-testa">
-      <h2 id="lab-t" class="laboratorio-titolo" data-righe>Dentro il laboratorio</h2>
-      <p class="sopratitolo" data-scramble>Vezzano sul Crostolo</p>
-    </div>
-    <div class="laboratorio-binario" data-binario>
-      <figure class="scatto g-alta">
-        <div class="scatto-quadro"><div class="scatto-dentro"><img class="" src="assets/img/zund-operatrice-800.webp" srcset="assets/img/zund-operatrice-800.webp 800w, assets/img/zund-operatrice-1400.webp 1400w, assets/img/zund-operatrice-2400.webp 2400w" sizes="(max-width: 760px) 80vw, 40vw" alt="Il taglio automatico guidato dallo schermo" loading="lazy" decoding="async"></div></div>
-        <figcaption><span>Sala taglio</span></figcaption>
-      </figure><figure class="scatto g-larga">
-        <div class="scatto-quadro"><div class="scatto-dentro"><img class="" src="assets/img/taglio-testa-800.webp" srcset="assets/img/taglio-testa-800.webp 800w, assets/img/taglio-testa-1400.webp 1400w" sizes="(max-width: 760px) 80vw, 40vw" alt="Il gruppo di taglio, da vicino" loading="lazy" decoding="async"></div></div>
-        <figcaption><span>Testa di taglio</span></figcaption>
-      </figure><figure class="scatto g-media">
-        <div class="scatto-quadro"><div class="scatto-dentro"><img class="" src="assets/img/cartamodello-800.webp" srcset="assets/img/cartamodello-800.webp 800w, assets/img/cartamodello-1400.webp 1400w" sizes="(max-width: 760px) 80vw, 40vw" alt="Cartamodelli pronti per la digitalizzazione" loading="lazy" decoding="async"></div></div>
-        <figcaption><span>Cartamodelli</span></figcaption>
-      </figure><figure class="scatto g-stretta">
-        <div class="scatto-quadro"><div class="scatto-dentro"><img class="" src="assets/img/proiettore-800.webp" srcset="assets/img/proiettore-800.webp 800w, assets/img/proiettore-1400.webp 1400w" sizes="(max-width: 760px) 80vw, 40vw" alt="Il proiettore sopra il tavolo di taglio" loading="lazy" decoding="async"></div></div>
-        <figcaption><span>Proiezione</span></figcaption>
-      </figure><figure class="scatto g-larga">
-        <div class="scatto-quadro"><div class="scatto-dentro"><img class="" src="assets/img/zund-portale-800.webp" srcset="assets/img/zund-portale-800.webp 800w, assets/img/zund-portale-1400.webp 1400w, assets/img/zund-portale-2400.webp 2400w" sizes="(max-width: 760px) 80vw, 40vw" alt="Il portale che scansiona il tessuto" loading="lazy" decoding="async"></div></div>
-        <figcaption><span>Scansione</span></figcaption>
-      </figure><figure class="scatto g-media">
-        <div class="scatto-quadro"><div class="scatto-dentro"><img class="" src="assets/img/pannello-800.webp" srcset="assets/img/pannello-800.webp 800w, assets/img/pannello-1400.webp 1400w" sizes="(max-width: 760px) 80vw, 40vw" alt="Il pannello comandi di una macchina" loading="lazy" decoding="async"></div></div>
-        <figcaption><span>Comandi</span></figcaption>
-      </figure><figure class="scatto g-alta">
-        <div class="scatto-quadro"><div class="scatto-dentro"><img class="" src="assets/img/pressa-800.webp" srcset="assets/img/pressa-800.webp 800w, assets/img/pressa-1400.webp 1400w" sizes="(max-width: 760px) 80vw, 40vw" alt="Un operatore alla pressa" loading="lazy" decoding="async"></div></div>
-        <figcaption><span>Pressa</span></figcaption>
-      </figure>
-      <a class="scatto scatto-fine" href="servizi/taglio-tessuti/" data-tenda="Taglio computerizzato">
-        <span class="scatto-fine-testo">Vedi il parco macchine</span><svg class="g g-freccia-dx" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6h16M11 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
-      </a>
+    <div class="servizi-griglia">
+      <a class="servizio-carta " href="servizi/controllo-tessuti/" data-tenda="Controllo tessuti" data-carta-servizio>
+  <div class="servizio-foto" data-cursore="Apri"><img src="assets/img/stesura-800.webp" srcset="assets/img/stesura-800.webp 800w, assets/img/stesura-1400.webp 1400w" sizes="(max-width: 760px) 92vw, 46vw" alt="Un tavolo di stesura con il tessuto disteso nel reparto di Devid" loading="lazy" decoding="async"></div>
+  <div class="servizio-testo">
+    <h3 class="servizio-nome">Controllo tessuti</h3>
+    <p class="servizio-breve">Ogni pezza verificata alla specula, misurata senza tensione e segnalata fallo per fallo.</p>
+    <ul class="servizio-tag"><li>Specula</li><li>Spettrofotometro</li><li>Prova vapore</li></ul>
+  </div>
+</a><a class="servizio-carta carta-giu" href="servizi/adesivazione-tessuto/" data-tenda="Adesivazione" data-carta-servizio>
+  <div class="servizio-foto" data-cursore="Apri"><img src="assets/img/adesivazione-800.webp" srcset="assets/img/adesivazione-800.webp 800w, assets/img/adesivazione-1400.webp 1400w" sizes="(max-width: 760px) 92vw, 46vw" alt="La macchina per l’adesivazione dei tessuti di Devid" loading="lazy" decoding="async"></div>
+  <div class="servizio-testo">
+    <h3 class="servizio-nome">Adesivazione</h3>
+    <p class="servizio-breve">Adesivazione, accoppiatura e decatizzo con la strumentazione nuova del reparto.</p>
+    <ul class="servizio-tag"><li>Adesivazione</li><li>Accoppiatura</li><li>Decatizzo</li></ul>
+  </div>
+</a><a class="servizio-carta " href="servizi/modellistica-cad-cam/" data-tenda="Modellistica CAD-CAM" data-carta-servizio>
+  <div class="servizio-foto" data-cursore="Apri"><img src="assets/img/sagome-800.webp" srcset="assets/img/sagome-800.webp 800w, assets/img/sagome-1400.webp 1400w" sizes="(max-width: 760px) 92vw, 46vw" alt="Sagome di un piazzamento stampate sul piano di lavoro" loading="lazy" decoding="async"></div>
+  <div class="servizio-testo">
+    <h3 class="servizio-nome">Modellistica CAD-CAM</h3>
+    <p class="servizio-breve">Sviluppo taglie, digitalizzazione dei cartamodelli e piazzamento automatico.</p>
+    <ul class="servizio-tag"><li>Sviluppo taglie</li><li>Intelli-di</li><li>Piazzamento</li></ul>
+  </div>
+</a><a class="servizio-carta carta-giu" href="servizi/taglio-tessuti/" data-tenda="Taglio computerizzato" data-carta-servizio>
+  <div class="servizio-foto" data-cursore="Apri"><img src="assets/img/zund-sala-800.webp" srcset="assets/img/zund-sala-800.webp 800w, assets/img/zund-sala-1400.webp 1400w, assets/img/zund-sala-2400.webp 2400w" sizes="(max-width: 760px) 92vw, 46vw" alt="La sala taglio con il tavolo di taglio automatico e il portale di scansione" loading="lazy" decoding="async"></div>
+  <div class="servizio-testo">
+    <h3 class="servizio-nome">Taglio computerizzato</h3>
+    <p class="servizio-breve">Dai tessuti leggeri agli spalmati, fino a 7 cm di materasso, anche con l’intelligenza artificiale.</p>
+    <ul class="servizio-tag"><li>Intelligenza artificiale</li><li>Fino a 7 cm</li><li>Conveyor</li></ul>
+  </div>
+</a><a class="servizio-carta " href="servizi/confezione-campioni/" data-tenda="Confezione campioni" data-carta-servizio>
+  <div class="servizio-foto" data-cursore="Apri"><img src="assets/img/camice-800.webp" srcset="assets/img/camice-800.webp 800w, assets/img/camice-1400.webp 1400w" sizes="(max-width: 760px) 92vw, 46vw" alt="Un camice in poliestere confezionato da Devid, disteso sul tavolo" loading="lazy" decoding="async"></div>
+  <div class="servizio-testo">
+    <h3 class="servizio-nome">Confezione campioni</h3>
+    <p class="servizio-breve">Capi campionario e di produzione, cuciti da operatrici con esperienza decennale.</p>
+    <ul class="servizio-tag"><li>Campionario</li><li>Produzione</li><li>In casa</li></ul>
+  </div>
+</a>
     </div>
   </section>
 
   <section class="numeri" aria-labelledby="numeri-t">
-    <div class="numeri-testa" data-linea>
-      <h2 id="numeri-t" class="sopratitolo">Il parco macchine</h2>
-      <p class="sopratitolo">(6)</p>
+    <div class="numeri-carta" data-carta>
+      <div class="numeri-testa">
+        <p class="etichetta etichetta-chiara">Il parco macchine</p>
+        <h2 id="numeri-t" class="numeri-titolo" data-righe>Macchine sempre aggiornate,<br>mani che sanno cosa fanno.</h2>
+      </div>
+      <ul class="numeri-griglia">
+        <li class="numero"><p class="numero-cifra"><span data-conta="7">7</span><small>cm</small></p><p class="numero-testo">di materasso con l’Investronica Diamond</p></li><li class="numero"><p class="numero-cifra"><span data-conta="200">200</span><small>cm</small></p><p class="numero-testo">di altezza utile del plotter Algotex Stream 180</p></li><li class="numero"><p class="numero-cifra"><span data-conta="1">1</span><small>m</small></p><p class="numero-testo">di diametro dei rotoli al banco di controllo</p></li><li class="numero"><p class="numero-cifra"><span data-conta="20">20</span><small>s</small></p><p class="numero-testo">al massimo di prova vapore, metodo Hoffman</p></li>
+      </ul>
+      <div class="nastro" aria-label="Le macchine di Devid">
+        <div class="nastro-binario" data-nastro>
+          <p class="nastro-giro" ><span>Morgan Next 2</span><svg class="g g-mirino" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></g></svg><span>Investronica Diamond</span><svg class="g g-mirino" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></g></svg><span>Stenditori Oteman e Bkr</span><svg class="g g-mirino" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></g></svg><span>Algotex Stream 180</span><svg class="g g-mirino" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></g></svg><span>Intelli-di</span><svg class="g g-mirino" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></g></svg><span>Datacolor 3890</span><svg class="g g-mirino" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></g></svg><span>Crea Solution</span><svg class="g g-mirino" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></g></svg></p><p class="nastro-giro" aria-hidden="true"><span>Morgan Next 2</span><svg class="g g-mirino" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></g></svg><span>Investronica Diamond</span><svg class="g g-mirino" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></g></svg><span>Stenditori Oteman e Bkr</span><svg class="g g-mirino" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></g></svg><span>Algotex Stream 180</span><svg class="g g-mirino" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></g></svg><span>Intelli-di</span><svg class="g g-mirino" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></g></svg><span>Datacolor 3890</span><svg class="g g-mirino" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></g></svg><span>Crea Solution</span><svg class="g g-mirino" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v6M12 17v6M1 12h6M17 12h6"/></g></svg></p>
+        </div>
+      </div>
     </div>
-    <ul class="numeri-elenco">
-      <li class="numero-voce" data-linea>
-        <p class="numero-cifra"><span data-conta="7">7</span><small>cm</small></p>
-        <p class="numero-testo">di materasso con l’Investronica Diamond</p>
-      </li><li class="numero-voce" data-linea>
-        <p class="numero-cifra"><span data-conta="5">5</span><small>cm</small></p>
-        <p class="numero-testo">di materasso con il Morgan Next 2</p>
-      </li><li class="numero-voce" data-linea>
-        <p class="numero-cifra"><span data-conta="200">200</span><small>cm</small></p>
-        <p class="numero-testo">di altezza utile del plotter Algotex Stream 180</p>
-      </li><li class="numero-voce" data-linea>
-        <p class="numero-cifra"><span data-conta="1">1</span><small>m</small></p>
-        <p class="numero-testo">di diametro dei rotoli al banco di controllo</p>
-      </li><li class="numero-voce" data-linea>
-        <p class="numero-cifra"><span data-conta="2">2</span><small></small></p>
-        <p class="numero-testo">stenditori elettronici, Oteman e Bkr, con conveyor</p>
-      </li><li class="numero-voce" data-linea>
-        <p class="numero-cifra"><span data-conta="20">20</span><small>s</small></p>
-        <p class="numero-testo">al massimo di prova vapore col metodo Hoffman</p>
+  </section>
+
+  <section class="laboratorio" aria-labelledby="lab-t">
+    <div class="sezione-testa">
+      <h2 id="lab-t" class="sezione-titolo" data-righe>Dentro il laboratorio</h2>
+      <p class="sezione-nota">Vezzano sul Crostolo, Reggio Emilia. Le foto sono del nostro reparto.</p>
+    </div>
+    <div class="galleria" data-galleria>
+      <div class="galleria-binario" data-galleria-binario>
+        <figure class="galleria-foto"><img src="assets/img/zund-operatrice-800.webp" srcset="assets/img/zund-operatrice-800.webp 800w, assets/img/zund-operatrice-1400.webp 1400w, assets/img/zund-operatrice-2400.webp 2400w" sizes="(max-width: 760px) 70vw, 30vw" alt="Il taglio automatico guidato dallo schermo" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/taglio-testa-800.webp" srcset="assets/img/taglio-testa-800.webp 800w, assets/img/taglio-testa-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="La testa di taglio, da vicino" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/sagome-800.webp" srcset="assets/img/sagome-800.webp 800w, assets/img/sagome-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="Le sagome di un piazzamento" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/proiettore-800.webp" srcset="assets/img/proiettore-800.webp 800w, assets/img/proiettore-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="Il proiettore sopra il tavolo" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/zund-portale-800.webp" srcset="assets/img/zund-portale-800.webp 800w, assets/img/zund-portale-1400.webp 1400w, assets/img/zund-portale-2400.webp 2400w" sizes="(max-width: 760px) 70vw, 30vw" alt="Il portale di scansione" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/cartamodello-800.webp" srcset="assets/img/cartamodello-800.webp 800w, assets/img/cartamodello-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="Cartamodelli sul tavolo" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/pannello-800.webp" srcset="assets/img/pannello-800.webp 800w, assets/img/pannello-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="Il pannello comandi" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/metro-800.webp" srcset="assets/img/metro-800.webp 800w, assets/img/metro-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="Metro e forbici sulla macchina" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/adesivazione-800.webp" srcset="assets/img/adesivazione-800.webp 800w, assets/img/adesivazione-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="La macchina per l’adesivazione" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/zund-piano-800.webp" srcset="assets/img/zund-piano-800.webp 800w, assets/img/zund-piano-1400.webp 1400w, assets/img/zund-piano-2400.webp 2400w" sizes="(max-width: 760px) 70vw, 30vw" alt="Il piano di taglio" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/zund-operatrice-800.webp" srcset="assets/img/zund-operatrice-800.webp 800w, assets/img/zund-operatrice-1400.webp 1400w, assets/img/zund-operatrice-2400.webp 2400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/taglio-testa-800.webp" srcset="assets/img/taglio-testa-800.webp 800w, assets/img/taglio-testa-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/sagome-800.webp" srcset="assets/img/sagome-800.webp 800w, assets/img/sagome-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/proiettore-800.webp" srcset="assets/img/proiettore-800.webp 800w, assets/img/proiettore-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/zund-portale-800.webp" srcset="assets/img/zund-portale-800.webp 800w, assets/img/zund-portale-1400.webp 1400w, assets/img/zund-portale-2400.webp 2400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/cartamodello-800.webp" srcset="assets/img/cartamodello-800.webp 800w, assets/img/cartamodello-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/pannello-800.webp" srcset="assets/img/pannello-800.webp 800w, assets/img/pannello-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/metro-800.webp" srcset="assets/img/metro-800.webp 800w, assets/img/metro-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/adesivazione-800.webp" srcset="assets/img/adesivazione-800.webp 800w, assets/img/adesivazione-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/zund-piano-800.webp" srcset="assets/img/zund-piano-800.webp 800w, assets/img/zund-piano-1400.webp 1400w, assets/img/zund-piano-2400.webp 2400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="settori" aria-labelledby="settori-t">
+    <div class="sezione-testa">
+      <h2 id="settori-t" class="sezione-titolo" data-righe>Per chi tagliamo</h2>
+    </div>
+    <ul class="settori-elenco">
+      <li class="settore" data-settore>
+        <span class="settore-fondo"></span>
+        <span class="settore-nome">Moda e lusso</span>
+        <span class="settore-testo">Allover, stampa digitale, loghi e motivi ripetuti, tagliati con l’intelligenza artificiale.</span>
+        <span class="settore-foto"><img src="assets/img/zund-schermo-800.webp" srcset="assets/img/zund-schermo-800.webp 800w, assets/img/zund-schermo-1400.webp 1400w" sizes="160px" alt="" loading="lazy" decoding="async"></span>
+      </li><li class="settore" data-settore>
+        <span class="settore-fondo"></span>
+        <span class="settore-nome">Automotive</span>
+        <span class="settore-testo">Materiali tecnici e spalmati, fino a 7 cm di materasso.</span>
+        <span class="settore-foto"><img src="assets/img/taglio-testa-800.webp" srcset="assets/img/taglio-testa-800.webp 800w, assets/img/taglio-testa-1400.webp 1400w" sizes="160px" alt="" loading="lazy" decoding="async"></span>
+      </li><li class="settore" data-settore>
+        <span class="settore-fondo"></span>
+        <span class="settore-nome">Arredamento</span>
+        <span class="settore-testo">Tessuti per imbottiti e tendaggi, stesi senza tensioni.</span>
+        <span class="settore-foto"><img src="assets/img/stesura-800.webp" srcset="assets/img/stesura-800.webp 800w, assets/img/stesura-1400.webp 1400w" sizes="160px" alt="" loading="lazy" decoding="async"></span>
+      </li><li class="settore" data-settore>
+        <span class="settore-fondo"></span>
+        <span class="settore-nome">Modellistica</span>
+        <span class="settore-testo">Sviluppo taglie, digitalizzazione e piazzamenti da qualsiasi CAD-CAM.</span>
+        <span class="settore-foto"><img src="assets/img/cad-800.webp" srcset="assets/img/cad-800.webp 800w" sizes="160px" alt="" loading="lazy" decoding="async"></span>
+      </li><li class="settore" data-settore>
+        <span class="settore-fondo"></span>
+        <span class="settore-nome">Sanitario</span>
+        <span class="settore-testo">Mascherine, tute e camici in poliestere idrorepellente.</span>
+        <span class="settore-foto"><img src="assets/img/tuta-800.webp" srcset="assets/img/tuta-800.webp 800w" sizes="160px" alt="" loading="lazy" decoding="async"></span>
       </li>
     </ul>
   </section>
 
-  <section class="settori" aria-labelledby="settori-t">
-    <div class="settori-sx">
-      <h2 id="settori-t" class="sopratitolo" data-scramble>Per chi tagliamo</h2>
+  <section class="novita" aria-labelledby="news-t">
+    <div class="sezione-testa">
+      <h2 id="news-t" class="sezione-titolo" data-righe>Ultime novità</h2>
+      <a class="bottone bottone-linea" href="news/" data-tenda="News" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Tutte le news</span><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a>
     </div>
-    <ul class="settori-elenco">
-      <li data-linea><span class="settore" data-righe>Moda e lusso</span></li><li data-linea><span class="settore" data-righe>Automotive</span></li><li data-linea><span class="settore" data-righe>Arredamento</span></li><li data-linea><span class="settore" data-righe>Modellistica</span></li><li data-linea><span class="settore" data-righe>Sanitario</span></li>
-    </ul>
-  </section>
-
-  <section class="ultime" aria-labelledby="ultime-t">
-    <div class="ultime-testa">
-      <h2 id="ultime-t" class="ultime-titolo" data-righe>Ultime novità</h2>
-      <p class="ultime-conta">(2)</p>
-    </div>
-    <div class="ultime-griglia">
-      <p class="sopratitolo" data-linea>News</p>
-      <ul class="ultime-elenco">
-        <li data-linea><a href="news/adesivazione-tessuti/" data-tenda="Adesivazione tessuti" data-foto-voce="adesivazione"><span data-gira>Adesivazione tessuti</span><time datetime="2020-09-03">3 settembre 2020</time></a></li><li data-linea><a href="news/tute-e-camici-in-poliestere/" data-tenda="Tute e camici in poliestere" data-foto-voce="tuta"><span data-gira>Tute e camici in poliestere</span><time datetime="2020-08-28">28 agosto 2020</time></a></li>
-        <li data-linea><a href="assets/devid-srl-brochure.pdf" target="_blank" rel="noopener"><span data-gira>La brochure di Devid</span><span>PDF <svg class="g g-freccia" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M5.5 3H13v7.5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></span></a></li>
-      </ul>
+    <div class="novita-griglia">
+      <a class="novita-carta" href="news/adesivazione-tessuti/" data-tenda="Adesivazione tessuti">
+        <div class="novita-foto" data-cursore="Leggi"><img src="assets/img/adesivazione-800.webp" srcset="assets/img/adesivazione-800.webp 800w, assets/img/adesivazione-1400.webp 1400w" sizes="(max-width: 760px) 92vw, 46vw" alt="La nuova macchina per l’adesivazione" loading="lazy" decoding="async"></div>
+        <p class="etichetta"><time datetime="2020-09-03">3 settembre 2020</time></p>
+        <h3 class="novita-titolo">Adesivazione tessuti</h3>
+      </a><a class="novita-carta" href="news/tute-e-camici-in-poliestere/" data-tenda="Tute e camici in poliestere">
+        <div class="novita-foto" data-cursore="Leggi"><img src="assets/img/tuta-800.webp" srcset="assets/img/tuta-800.webp 800w" sizes="(max-width: 760px) 92vw, 46vw" alt="Una tuta protettiva in poliestere idrorepellente prodotta da Devid" loading="lazy" decoding="async"></div>
+        <p class="etichetta"><time datetime="2020-08-28">28 agosto 2020</time></p>
+        <h3 class="novita-titolo">Tute e camici in poliestere</h3>
+      </a>
     </div>
   </section>
 </main>
-<footer class="piede" data-tema="scuro">
-  <div class="piede-dentro" data-piede>
-    <div class="piede-chiamata">
-      <p class="sopratitolo" data-scramble>Avete richieste?</p>
-      <h2 class="piede-titolo" data-righe>Non esitate,<br>scriveteci.</h2>
-      <a class="pillola pillola-chiara" href="contatti/" data-magnete data-tenda="Contatti"><span class="pillola-fondo"></span><span class="pillola-testo">Contattateci <svg class="g g-freccia-dx" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6h16M11 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></span></a>
+<section class="chiamata" aria-labelledby="chiamata-t">
+  <div class="chiamata-carta" data-carta>
+    <p class="etichetta etichetta-chiara">Avete richieste?</p>
+    <h2 id="chiamata-t" class="chiamata-titolo" data-righe>Parliamo del<br>vostro tessuto.</h2>
+    <div class="chiamata-azioni">
+      <a class="bottone bottone-bianco bottone-grande" href="contatti/" data-tenda="Contatti" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Contattateci</span><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a>
+      <a class="chiamata-tel" href="tel:+390522606201">0522 606201</a>
     </div>
-    <div class="piede-colonne">
-      <div class="colonna">
-        <p class="colonna-titolo" data-linea>Menu</p>
-        <ul>
-          <li><a href="" data-tenda="Devid srl"><span data-gira>Home</span></a></li>
-          <li><a href="servizi/" data-tenda="Servizi"><span data-gira>Servizi</span></a></li><li><a href="azienda/" data-tenda="Azienda"><span data-gira>Azienda</span></a></li><li><a href="news/" data-tenda="News"><span data-gira>News</span></a></li><li><a href="contatti/" data-tenda="Contatti"><span data-gira>Contatti</span></a></li>
-          <li><a href="privacy/" data-tenda="Privacy"><span data-gira>Privacy</span></a></li>
-        </ul>
-      </div>
-      <div class="colonna">
-        <p class="colonna-titolo" data-linea>Servizi</p>
-        <ul>
-          <li><a href="servizi/controllo-tessuti/" data-tenda="Controllo tessuti"><span data-gira>Controllo tessuti</span></a></li><li><a href="servizi/adesivazione-tessuto/" data-tenda="Adesivazione"><span data-gira>Adesivazione</span></a></li><li><a href="servizi/modellistica-cad-cam/" data-tenda="Modellistica CAD-CAM"><span data-gira>Modellistica CAD-CAM</span></a></li><li><a href="servizi/taglio-tessuti/" data-tenda="Taglio computerizzato"><span data-gira>Taglio computerizzato</span></a></li><li><a href="servizi/confezione-campioni/" data-tenda="Confezione campioni"><span data-gira>Confezione campioni</span></a></li>
-        </ul>
-      </div>
-      <div class="colonna">
-        <p class="colonna-titolo" data-linea>Altro</p>
-        <ul>
-          <li><a href="assets/devid-srl-brochure.pdf" target="_blank" rel="noopener"><span data-gira>Brochure</span> <svg class="g g-freccia" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M5.5 3H13v7.5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a></li>
-          <li><a href="https://www.google.com/maps/search/?api=1&query=Via+Achille+Grandi+12+42030+Vezzano+sul+Crostolo+RE" target="_blank" rel="noopener"><span data-gira>Google Maps</span> <svg class="g g-freccia" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M5.5 3H13v7.5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a></li>
-        </ul>
-      </div>
+    <canvas class="chiamata-trama" data-trama aria-hidden="true"></canvas>
+  </div>
+</section>
+<footer class="piede">
+  <div class="piede-colonne">
+    <div class="piede-colonna piede-intro">
+      <p class="piede-frase">Controllo, adesivazione, modellistica, taglio e confezione. Tutto sotto lo stesso tetto, dagli anni ’50.</p>
     </div>
-    <address class="indirizzo">
-      <a class="indirizzo-riga" href="https://www.google.com/maps/search/?api=1&query=Via+Achille+Grandi+12+42030+Vezzano+sul+Crostolo+RE" target="_blank" rel="noopener"><span><svg class="g g-pin" viewBox="0 0 22 30" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 29s9-10 9-17a9 9 0 0 0-18 0c0 7 9 17 9 17Z"/><circle cx="11" cy="12" r="3.2"/></g></svg>Via Achille Grandi 12,</span></a>
-      <span class="indirizzo-riga"><span>42030 Vezzano sul Crostolo<span class="etichetta" aria-hidden="true"><b>RE</b><span><i>Reggio</i><i>Emilia</i></span></span></span></span>
-      <a class="indirizzo-riga" href="tel:+390522606201"><span>Telefono <span class="numero" aria-hidden="true"><b>0522</b><span><i>606</i><i>201</i></span></span></span></a>
-      <a class="indirizzo-riga" href="mailto:info@devidsrl.it"><span>info<svg class="g g-busta" viewBox="0 0 34 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1.5" y="1.5" width="31" height="21" rx="1"/><path d="m2 2 15 12L32 2"/></g></svg>devidsrl.it</span></a>
-    </address>
-    <div class="piede-fondo">
-      <p>Devid srl · P. IVA 01704150356</p>
-      <p>Taglio tessuti e modellistica</p>
-      <p>©<span data-anno>2026</span></p>
-      <button class="su" type="button" data-su>Torna su <svg class="g g-freccia" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 13 3M5.5 3H13v7.5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></button>
+    <div class="piede-colonna">
+      <p class="etichetta">Menu</p>
+      <ul>
+        <li><a href="" data-tenda="Devid srl"><span data-gira>Home</span></a></li>
+        <li><a href="servizi/" data-tenda="Servizi"><span data-gira>Servizi</span></a></li><li><a href="azienda/" data-tenda="Azienda"><span data-gira>Azienda</span></a></li><li><a href="news/" data-tenda="News"><span data-gira>News</span></a></li><li><a href="contatti/" data-tenda="Contatti"><span data-gira>Contatti</span></a></li>
+      </ul>
+    </div>
+    <div class="piede-colonna">
+      <p class="etichetta">Servizi</p>
+      <ul><li><a href="servizi/controllo-tessuti/" data-tenda="Controllo tessuti"><span data-gira>Controllo tessuti</span></a></li><li><a href="servizi/adesivazione-tessuto/" data-tenda="Adesivazione"><span data-gira>Adesivazione</span></a></li><li><a href="servizi/modellistica-cad-cam/" data-tenda="Modellistica CAD-CAM"><span data-gira>Modellistica CAD-CAM</span></a></li><li><a href="servizi/taglio-tessuti/" data-tenda="Taglio computerizzato"><span data-gira>Taglio computerizzato</span></a></li><li><a href="servizi/confezione-campioni/" data-tenda="Confezione campioni"><span data-gira>Confezione campioni</span></a></li></ul>
+    </div>
+    <div class="piede-colonna">
+      <p class="etichetta">Contatti</p>
+      <ul>
+        <li><a href="https://www.google.com/maps/search/?api=1&query=Via+Achille+Grandi+12+42030+Vezzano+sul+Crostolo+RE" target="_blank" rel="noopener">Via Achille Grandi 12<br>42030 Vezzano sul Crostolo (RE)</a></li>
+        <li><a href="tel:+390522606201"><span data-gira>0522 606201</span></a></li>
+        <li><a href="mailto:info@devidsrl.it"><span data-gira>info@devidsrl.it</span></a></li>
+        <li><a href="assets/devid-srl-brochure.pdf" target="_blank" rel="noopener"><span data-gira>Brochure PDF</span> <svg class="g g-freccia" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5.5 3.5h7v7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a></li>
+      </ul>
     </div>
   </div>
+  <div class="piede-marchio" aria-hidden="true" data-marchio-grande><span>D</span><span>E</span><span>V</span><span>I</span><span>D</span></div>
+  <div class="piede-fondo">
+    <p>Devid srl · P. IVA 01704150356</p>
+    <p><a href="privacy/" data-tenda="Privacy"><span data-gira>Privacy</span></a></p>
+    <p>© <span data-anno>2026</span></p>
+    <button class="su" type="button" data-su><span data-gira>Torna su</span></button>
+  </div>
 </footer>
+<div class="cursore" aria-hidden="true" data-cursore-bolla><span></span></div>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","name":"Devid srl","description":"Taglio tessuti e modellistica: controllo tessuti, adesivazione, modellistica CAD-CAM, taglio computerizzato, confezione campioni e produzione.","url":"https://www.devidsrl.it/","telephone":"+39 0522 606201","email":"info@devidsrl.it","vatID":"IT01704150356","image":"https://www.devidsrl.it/assets/img/condivisione.jpg","address":{"@type":"PostalAddress","streetAddress":"Via Achille Grandi 12","postalCode":"42030","addressLocality":"Vezzano sul Crostolo","addressRegion":"RE","addressCountry":"IT"}}</script>
 <script src="assets/js/gsap.min.js" defer></script>
 <script src="assets/js/ScrollTrigger.min.js" defer></script>
 <script src="assets/js/SplitText.min.js" defer></script>
-<script src="assets/js/ScrambleTextPlugin.min.js" defer></script>
 <script src="assets/js/CustomEase.min.js" defer></script>
 <script src="assets/js/lenis.min.js" defer></script>
 <script src="assets/js/sito.js" defer></script>
+<script type="module" src="assets/js/tessuto.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-/* Devid srl: movimento del sito. GSAP 3 + ScrollTrigger + SplitText + ScrambleText + Lenis. */
+/* Devid srl: movimento del sito. GSAP 3 + ScrollTrigger + SplitText + Lenis. */
 (function () {
   'use strict';
   var html = document.documentElement;
@@ -6,7 +6,7 @@
   window.devidPronto = true;
   if (!window.gsap || !window.ScrollTrigger) { html.classList.remove('js'); return; }
 
-  gsap.registerPlugin(ScrollTrigger, SplitText, ScrambleTextPlugin, CustomEase);
+  gsap.registerPlugin(ScrollTrigger, SplitText, CustomEase);
   CustomEase.create('uscita', '0.16,1,0.3,1');
   CustomEase.create('tenda', '0.76,0,0.24,1');
   CustomEase.create('morbida', '0.65,0,0.35,1');
@@ -14,31 +14,28 @@
 
   var ridotto = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var tocco = matchMedia('(hover: none)').matches;
-  var telefono = matchMedia('(max-width: 760px)');
-  var CARATTERI = 'ABCDEFGHIKLMNOPRSTUVZ0123456789<>/[]=+#';
   if (ridotto) html.classList.add('ridotto');
+  var stato = (window.devidEroe = window.devidEroe || { taglio: 0, apertura: 0, entrata: 0, pronto: false });
 
   var memoria = {
     leggi: function (k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
     scrivi: function (k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} },
     togli: function (k) { try { sessionStorage.removeItem(k); } catch (e) {} },
   };
+  var tutti = function (sel, dove) { return Array.prototype.slice.call((dove || document).querySelectorAll(sel)); };
+  tutti('[data-anno]').forEach(function (a) { a.textContent = String(new Date().getFullYear()); });
 
   /* ---------- scorrimento morbido ---------- */
   var lenis = null;
   if (!ridotto && window.Lenis) {
-    lenis = new Lenis({ lerp: 0.09, smoothWheel: true, wheelMultiplier: 0.95 });
+    lenis = new Lenis({ lerp: 0.085, smoothWheel: true });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
     gsap.ticker.lagSmoothing(0);
+    lenis.stop();
   }
   var ferma = function () { if (lenis) lenis.stop(); };
   var riparti = function () { if (lenis) lenis.start(); };
-  if (lenis) lenis.stop();
-
-  var tutti = function (sel, dove) { return Array.prototype.slice.call((dove || document).querySelectorAll(sel)); };
-  var anno = tutti('[data-anno]');
-  anno.forEach(function (a) { a.textContent = String(new Date().getFullYear()); });
 
   /* ---------- testo che gira al passaggio ---------- */
   tutti('[data-gira]').forEach(function (el) {
@@ -49,51 +46,43 @@
     el.appendChild(a); el.appendChild(b);
   });
 
-  /* ---------- testata: si nasconde scendendo, cambia colore sulle parti scure ---------- */
+  /* ---------- testata ---------- */
   var testata = document.querySelector('[data-testata]');
-  var scure = new Set();
-  tutti('[data-tema="scuro"]').forEach(function (sez) {
-    ScrollTrigger.create({
-      trigger: sez, start: 'top 34px', end: 'bottom 34px',
-      onToggle: function (s) { if (s.isActive) scure.add(sez); else scure.delete(sez); testata.classList.toggle('su-scuro', scure.size > 0 || menuAperto); },
-    });
-  });
+  var menuAperto = false;
   ScrollTrigger.create({
     start: 0, end: 'max',
-    onUpdate: function (s) {
-      var giu = s.direction === 1 && s.scroll() > 140;
-      testata.classList.toggle('nascosta', giu && !menuAperto);
-    },
+    onUpdate: function (s) { testata.classList.toggle('nascosta', s.direction === 1 && s.scroll() > 160 && !menuAperto); },
   });
 
   /* ---------- menu del telefono ---------- */
-  var menuAperto = false;
   var bottone = document.querySelector('.apri-menu');
   var menuTel = document.getElementById('menu-telefono');
   if (bottone && menuTel) {
+    var cartaMenu = menuTel.querySelector('.menu-telefono-carta');
     var voci = tutti('nav a span', menuTel);
+    var chiudi = function () {
+      menuAperto = false;
+      bottone.setAttribute('aria-expanded', 'false');
+      gsap.to(cartaMenu, { scale: 0.9, autoAlpha: 0, duration: ridotto ? 0.01 : 0.45, ease: 'power3.in', onComplete: function () { menuTel.hidden = true; riparti(); } });
+      gsap.to(menuTel, { backgroundColor: 'rgba(11,12,20,0)', duration: 0.4 });
+    };
     bottone.addEventListener('click', function () {
-      menuAperto = !menuAperto;
-      bottone.setAttribute('aria-expanded', String(menuAperto));
-      testata.classList.toggle('su-scuro', menuAperto || scure.size > 0);
-      if (menuAperto) {
-        menuTel.hidden = false; ferma();
-        gsap.timeline()
-          .fromTo(menuTel, { clipPath: 'inset(0% 0% 100% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: ridotto ? 0.01 : 0.8, ease: 'tenda' })
-          .fromTo(voci, { yPercent: 105 }, { yPercent: 0, duration: ridotto ? 0.01 : 0.9, stagger: 0.06, ease: 'uscita' }, '-=0.35')
-          .fromTo('.menu-telefono-piede', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5 }, '-=0.6');
-      } else {
-        gsap.to(menuTel, { clipPath: 'inset(0% 0% 100% 0%)', duration: ridotto ? 0.01 : 0.7, ease: 'tenda', onComplete: function () { menuTel.hidden = true; riparti(); } });
-      }
+      if (menuAperto) { chiudi(); return; }
+      menuAperto = true;
+      bottone.setAttribute('aria-expanded', 'true');
+      menuTel.hidden = false; ferma();
+      gsap.fromTo(menuTel, { backgroundColor: 'rgba(11,12,20,0)' }, { backgroundColor: 'rgba(11,12,20,.28)', duration: 0.5 });
+      gsap.fromTo(cartaMenu, { scale: 0.86, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: ridotto ? 0.01 : 0.8, ease: 'back.out(1.5)' });
+      gsap.fromTo(voci, { yPercent: 110 }, { yPercent: 0, duration: ridotto ? 0.01 : 0.9, stagger: 0.05, ease: 'uscita', delay: 0.08 });
     });
+    menuTel.addEventListener('click', function (e) { if (e.target === menuTel) chiudi(); });
   }
 
   /* ---------- tenda fra le pagine ---------- */
   var tenda = document.querySelector('.tenda');
-  var tendaFondo = tenda && tenda.querySelector('.tenda-fondo');
+  var pannello = tenda && tenda.querySelector('.tenda-pannello');
   var tendaTitolo = tenda && tenda.querySelector('.tenda-titolo');
   var inUscita = false;
-
   function interno(a) {
     if (!a || a.target === '_blank' || a.hasAttribute('download')) return false;
     var h = a.getAttribute('href') || '';
@@ -109,11 +98,12 @@
     inUscita = true;
     memoria.scrivi('devid-tenda', titolo || 'Devid srl');
     if (ridotto) { fare(); return; }
-    tendaTitolo.textContent = '';
+    tendaTitolo.textContent = titolo || 'Devid srl';
     gsap.set(tenda, { visibility: 'visible' });
     gsap.timeline({ onComplete: fare })
-      .fromTo(tendaFondo, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.75, ease: 'tenda' })
-      .to(tendaTitolo, { duration: 0.5, scrambleText: { text: titolo || 'Devid srl', chars: CARATTERI, speed: 0.9 } }, '-=0.25');
+      .fromTo(pannello, { clipPath: 'inset(100% 0% 0% 0% round 40px 40px 0px 0px)' }, { clipPath: 'inset(0% 0% 0% 0% round 0px 0px 0px 0px)', duration: 0.8, ease: 'tenda' })
+      .fromTo(tendaTitolo, { yPercent: 120, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.6, ease: 'uscita' }, 0.35)
+      .fromTo('main', { y: 0 }, { y: -80, duration: 0.8, ease: 'tenda' }, 0);
   }
   document.addEventListener('click', function (e) {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -121,453 +111,345 @@
     if (!interno(a)) return;
     e.preventDefault();
     var titolo = a.getAttribute('data-tenda') || a.textContent.trim().slice(0, 40);
-    var vaIndietro = a.hasAttribute('data-indietro') && document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1;
-    esci(function () { if (vaIndietro) history.back(); else location.href = a.href; }, titolo);
+    var indietro = a.hasAttribute('data-indietro') && document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1;
+    esci(function () { if (indietro) history.back(); else location.href = a.href; }, titolo);
   });
-  window.addEventListener('pageshow', function (e) {
-    if (e.persisted) {
-      inUscita = false;
-      gsap.set(tenda, { visibility: 'hidden' });
-      gsap.set(tendaFondo, { clipPath: 'inset(100% 0% 0% 0%)' });
-      riparti();
-    }
+  addEventListener('pageshow', function (e) {
+    if (!e.persisted) return;
+    inUscita = false;
+    gsap.set(tenda, { visibility: 'hidden' });
+    gsap.set('main', { y: 0 });
+    riparti();
   });
 
-  /* ---------- pezzi riusati ---------- */
-  function scrambla(el, ritardo, durata) {
-    var t = el.getAttribute('data-testo') || el.textContent;
-    el.setAttribute('data-testo', t);
-    if (!el.getAttribute('aria-label')) el.setAttribute('aria-label', t);
-    return gsap.fromTo(el, { autoAlpha: 1, scrambleText: { text: '' } }, {
-      duration: durata || Math.min(1.4, 0.35 + t.length * 0.035), delay: ritardo || 0, ease: 'none',
-      scrambleText: { text: t, chars: CARATTERI, speed: 0.6, revealDelay: 0.15 },
-    });
-  }
-
-  /* comparse allo scorrimento */
+  /* ---------- comparse allo scorrimento ---------- */
   function comparse() {
-    /* filetti */
-    ScrollTrigger.batch('[data-linea]', {
-      start: 'top 94%',
-      onEnter: function (els) { els.forEach(function (el, i) { el.style.setProperty('--ritardo', (i * 0.07) + 's'); el.classList.add('visto'); }); },
-    });
+    if (ridotto) return;
 
-    /* righe di testo che salgono */
+    /* righe dei titoli */
     tutti('[data-righe]').forEach(function (el) {
-      if (ridotto) return;
       SplitText.create(el, {
-        type: 'lines', mask: 'lines', linesClass: 'riga-split', autoSplit: true,
+        type: 'lines', mask: 'lines', autoSplit: true,
         onSplit: function (self) {
-          return gsap.from(self.lines, {
-            yPercent: 108, duration: 1.25, ease: 'uscita', stagger: 0.085,
-            scrollTrigger: { trigger: el, start: 'top 90%' },
-          });
+          return gsap.from(self.lines, { yPercent: 112, duration: 1.3, ease: 'uscita', stagger: 0.08, scrollTrigger: { trigger: el, start: 'top 90%' } });
         },
       });
     });
 
-    /* scritte che si compongono */
-    tutti('[data-scramble]').forEach(function (el) {
-      if (ridotto) return;
-      gsap.set(el, { autoAlpha: 0 });
-      ScrollTrigger.create({ trigger: el, start: 'top 92%', once: true, onEnter: function () { scrambla(el); } });
+    /* etichette piccole */
+    tutti('[data-sale]').forEach(function (el) {
+      gsap.from(el, { y: 14, autoAlpha: 0, duration: 1, ease: 'uscita', scrollTrigger: { trigger: el, start: 'top 94%' } });
     });
 
-    /* foto che si aprono */
-    tutti('[data-foto]').forEach(function (fig) {
-      if (ridotto) return;
-      var im = fig.querySelector('img');
-      var tl = gsap.timeline({ scrollTrigger: { trigger: fig, start: 'top 88%' } });
-      tl.fromTo(fig, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.5, ease: 'tenda' });
-      if (im) tl.fromTo(im, { scale: 1.32 }, { scale: 1, duration: 2, ease: 'uscita' }, 0);
-    });
-
-    /* parallasse dentro le cornici */
-    tutti('[data-parallasse]').forEach(function (el) {
-      if (ridotto) return;
-      var v = parseFloat(el.getAttribute('data-parallasse')) || -10;
-      gsap.fromTo(el, { yPercent: -v / 2 }, {
-        yPercent: v / 2, ease: 'none',
-        scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: true },
+    /* la dichiarazione si accende parola per parola */
+    tutti('[data-accende]').forEach(function (el) {
+      SplitText.create(el, { type: 'words', wordsClass: 'parola' });
+      var parole = tutti('.parola', el);
+      var tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 80%', end: 'bottom 45%', scrub: 0.5 } });
+      parole.forEach(function (p, i) {
+        var blu = p.closest('em');
+        tl.to(p, { color: blu ? '#1f35df' : '#0b0c14', duration: 1, ease: 'none' }, i * 0.18);
       });
+    });
+
+    /* le carte scure e blu si allargano entrando */
+    tutti('[data-carta]').forEach(function (c) {
+      gsap.fromTo(c, { scale: 0.92, borderRadius: 64 }, {
+        scale: 1, borderRadius: getComputedStyle(c).borderRadius, ease: 'none',
+        scrollTrigger: { trigger: c, start: 'top bottom', end: 'top 35%', scrub: true },
+      });
+    });
+
+    /* le carte dei servizi salgono, con la foto che si apre */
+    tutti('[data-carta-servizio]').forEach(function (c, i) {
+      var f = c.querySelector('.servizio-foto');
+      var im = f.querySelector('img');
+      var tl = gsap.timeline({ scrollTrigger: { trigger: c, start: 'top 92%' } });
+      tl.from(c, { y: 90, duration: 1.4, ease: 'uscita' })
+        .fromTo(f, { clipPath: 'inset(14% 10% 14% 10% round 40px)' }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', duration: 1.5, ease: 'uscita' }, 0)
+        .fromTo(im, { scale: 1.35 }, { scale: 1.02, duration: 1.8, ease: 'uscita' }, 0)
+        .from(c.querySelectorAll('.servizio-nome, .servizio-breve, .servizio-tag li'), { y: 16, autoAlpha: 0, duration: 0.9, stagger: 0.05, ease: 'uscita' }, 0.25);
+      gsap.to(im, { yPercent: -6, ease: 'none', scrollTrigger: { trigger: c, start: 'top bottom', end: 'bottom top', scrub: true } });
+    });
+
+    /* foto generiche e carte delle pagine interne */
+    tutti('[data-foto]').forEach(function (f) {
+      var im = f.querySelector('img, iframe');
+      var tl = gsap.timeline({ scrollTrigger: { trigger: f, start: 'top 90%' } });
+      tl.fromTo(f, { clipPath: 'inset(12% 8% 12% 8% round 40px)' }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', duration: 1.5, ease: 'uscita' });
+      if (im && im.tagName === 'IMG') tl.fromTo(im, { scale: 1.3 }, { scale: 1, duration: 1.8, ease: 'uscita' }, 0);
+    });
+    ScrollTrigger.batch('[data-scheda]', {
+      start: 'top 92%',
+      onEnter: function (els) { gsap.from(els, { y: 50, autoAlpha: 0, scale: 0.97, duration: 1.1, ease: 'uscita', stagger: 0.07 }); },
+    });
+    tutti('.novita-carta').forEach(function (c) {
+      gsap.from(c, { y: 70, autoAlpha: 0, duration: 1.3, ease: 'uscita', scrollTrigger: { trigger: c, start: 'top 92%' } });
+    });
+
+    /* settori: entrano uno dopo l'altro */
+    ScrollTrigger.batch('[data-settore]', {
+      start: 'top 94%',
+      onEnter: function (els) { gsap.from(els, { y: 40, autoAlpha: 0, duration: 1, ease: 'uscita', stagger: 0.08 }); },
     });
 
     /* numeri che contano */
     tutti('[data-conta]').forEach(function (el) {
       var fine = parseFloat(el.getAttribute('data-conta'));
-      if (ridotto || el.closest('[data-taglio]')) return;
       var o = { v: 0 };
       el.textContent = '0';
-      gsap.to(o, {
-        v: fine, duration: 1.8, ease: 'morbida',
-        scrollTrigger: { trigger: el, start: 'top 90%' },
-        onUpdate: function () { el.textContent = String(Math.round(o.v)); },
-      });
+      gsap.to(o, { v: fine, duration: 2, ease: 'morbida', scrollTrigger: { trigger: el, start: 'top 90%' }, onUpdate: function () { el.textContent = String(Math.round(o.v)); } });
     });
 
-    /* manifesto: le parole si accendono mentre si scorre */
-    tutti('[data-parole]').forEach(function (el) {
-      if (ridotto) return;
-      SplitText.create(el, { type: 'words', wordsClass: 'parola' });
-      var pezzi = tutti('.parola, :scope > .g, .manifesto-segno', el);
-      gsap.fromTo(pezzi, { opacity: 0.13 }, {
-        opacity: 1, ease: 'none', stagger: 0.08,
-        scrollTrigger: { trigger: el, start: 'top 78%', end: 'bottom 42%', scrub: 0.6 },
-      });
-      tutti(':scope > .g', el).forEach(function (g) {
-        gsap.fromTo(g, { rotate: -14, scale: 0.7 }, { rotate: 0, scale: 1, ease: 'back.out(2.2)', duration: 1.1, scrollTrigger: { trigger: g, start: 'top 72%' } });
-      });
-    });
+    /* il marchio grande in fondo */
+    var lettere = tutti('[data-marchio-grande] span');
+    if (lettere.length) gsap.from(lettere, { yPercent: 100, duration: 1.4, ease: 'uscita', stagger: 0.06, scrollTrigger: { trigger: '[data-marchio-grande]', start: 'top 95%' } });
+  }
 
-    /* pillole magnetiche */
-    if (!tocco && !ridotto) {
-      tutti('[data-magnete]').forEach(function (p) {
-        var x = gsap.quickTo(p, 'x', { duration: 0.6, ease: 'power3' });
-        var y = gsap.quickTo(p, 'y', { duration: 0.6, ease: 'power3' });
-        var testo = p.querySelector('.pillola-testo');
-        var tx = gsap.quickTo(testo, 'x', { duration: 0.6, ease: 'power3' });
-        var ty = gsap.quickTo(testo, 'y', { duration: 0.6, ease: 'power3' });
-        p.addEventListener('pointermove', function (e) {
-          var r = p.getBoundingClientRect();
-          var dx = e.clientX - (r.left + r.width / 2);
-          var dy = e.clientY - (r.top + r.height / 2);
-          x(dx * 0.28); y(dy * 0.36); tx(dx * 0.12); ty(dy * 0.16);
-        });
-        p.addEventListener('pointerleave', function () {
-          gsap.to([p, testo], { x: 0, y: 0, duration: 1.1, ease: 'elastic.out(1, 0.38)', overwrite: true });
-        });
-      });
-    }
+  /* ---------- foto grande delle pagine interne ---------- */
+  function fotoGrande() {
+    var f = document.querySelector('[data-foto-grande]');
+    if (!f) return null;
+    var im = f.querySelector('img');
+    if (!ridotto) gsap.to(im, { yPercent: 7, ease: 'none', scrollTrigger: { trigger: f, start: 'top bottom', end: 'bottom top', scrub: true } });
+    return function (tl, at) {
+      tl.fromTo(f, { clipPath: 'inset(18% 12% 0% 12% round 60px)' }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', duration: 1.8, ease: 'tenda' }, at)
+        .fromTo(im, { scale: 1.35 }, { scale: 1, duration: 2.2, ease: 'uscita' }, at);
+    };
+  }
 
-    /* il piede sale da sotto */
-    var piede = document.querySelector('[data-piede]');
-    if (piede && !ridotto) {
-      gsap.fromTo(piede, { yPercent: -14 }, {
-        yPercent: 0, ease: 'none',
-        scrollTrigger: { trigger: piede.parentElement, start: 'top bottom', end: 'top 20%', scrub: true },
-      });
-      var righe = tutti('.indirizzo-riga > span', piede);
-      gsap.from(righe, { yPercent: 105, duration: 1.3, ease: 'uscita', stagger: 0.09, scrollTrigger: { trigger: '.indirizzo', start: 'top 92%' } });
-    }
-    tutti('[data-su]').forEach(function (b) {
-      b.addEventListener('click', function () { if (lenis) lenis.scrollTo(0, { duration: 2.2, easing: function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; } }); else window.scrollTo(0, 0); });
+  /* ---------- nastro delle macchine ---------- */
+  function nastro() {
+    var b = document.querySelector('[data-nastro]');
+    if (!b || ridotto) return;
+    var giro = b.firstElementChild;
+    var x = 0, vel = 0;
+    gsap.ticker.add(function (t, dt) {
+      var w = giro.offsetWidth;
+      if (!w) return;
+      var extra = lenis ? Math.abs(lenis.velocity) * 0.25 : 0;
+      vel += (1 + extra - vel) * 0.08;
+      x -= vel * dt * 0.06;
+      if (x <= -w) x += w;
+      b.style.transform = 'translate3d(' + x + 'px,0,0)';
     });
   }
 
-  /* ---------- elenchi grandi con la foto che segue il cursore ---------- */
-  function elenchi() {
-    tutti('[data-elenco]').forEach(function (lista) {
-      var sezione = lista.parentElement;
-      var voci = tutti('.voce', lista);
-      /* entrata: il nome sale dalla sua riga */
-      if (!ridotto) {
-        voci.forEach(function (v, i) {
-          gsap.from(v.querySelector('.voce-testo'), { yPercent: 105, duration: 1.3, ease: 'uscita', delay: (i % 6) * 0.06, scrollTrigger: { trigger: v, start: 'top 94%' } });
-        });
+  /* ---------- galleria: scorre da sola, si trascina, segue lo scroll ---------- */
+  function galleria() {
+    var g = document.querySelector('[data-galleria]');
+    if (!g) return;
+    var b = g.querySelector('[data-galleria-binario]');
+    var foto = tutti('.galleria-foto', b);
+    var meta = foto.length / 2;
+    var giro = function () { return foto[meta].offsetLeft - foto[0].offsetLeft; };
+    if (ridotto) { g.style.overflowX = 'auto'; return; }
+    var x = 0, spinta = 0, preso = false, ultimoX = 0, vista = false;
+    new IntersectionObserver(function (v) { vista = v[0].isIntersecting; }).observe(g);
+    g.addEventListener('pointerdown', function (e) { preso = true; ultimoX = e.clientX; g.setPointerCapture(e.pointerId); spinta = 0; });
+    g.addEventListener('pointermove', function (e) { if (!preso) return; var d = e.clientX - ultimoX; ultimoX = e.clientX; x += d; spinta = d; });
+    var lascia = function () { preso = false; };
+    g.addEventListener('pointerup', lascia); g.addEventListener('pointercancel', lascia);
+    var inclina = foto.map(function (f) { return gsap.quickSetter(f, 'skewX', 'deg'); });
+    var curva = 0;
+    gsap.ticker.add(function (t, dt) {
+      if (!vista) return;
+      var w = giro();
+      var sv = lenis ? lenis.velocity : 0;
+      if (!preso) { spinta *= 0.94; x += spinta - (0.5 + Math.abs(sv) * 0.35) * dt * 0.06; }
+      if (x <= -w) x += w; if (x > 0) x -= w;
+      b.style.transform = 'translate3d(' + x + 'px,0,0)';
+      var obiettivo = gsap.utils.clamp(-8, 8, (preso ? -spinta : sv) * 0.25);
+      curva += (obiettivo - curva) * 0.1;
+      for (var i = 0; i < inclina.length; i++) inclina[i](curva);
+    });
+  }
+
+  /* ---------- bolla del cursore sopra le foto ---------- */
+  function cursore() {
+    var c = document.querySelector('[data-cursore-bolla]');
+    if (!c || tocco || ridotto) return;
+    var testo = c.querySelector('span');
+    var px = gsap.quickTo(c, 'x', { duration: 0.5, ease: 'power3' });
+    var py = gsap.quickTo(c, 'y', { duration: 0.5, ease: 'power3' });
+    addEventListener('pointermove', function (e) { px(e.clientX); py(e.clientY); }, { passive: true });
+    tutti('[data-cursore]').forEach(function (z) {
+      z.addEventListener('pointerenter', function () { testo.textContent = z.getAttribute('data-cursore'); gsap.to(c, { scale: 1, duration: 0.6, ease: 'back.out(2)', overwrite: 'auto' }); });
+      z.addEventListener('pointerleave', function () { gsap.to(c, { scale: 0, duration: 0.4, ease: 'power3.out', overwrite: 'auto' }); });
+    });
+  }
+
+  /* ---------- bottoni magnetici ---------- */
+  function magneti() {
+    if (tocco || ridotto) return;
+    tutti('[data-magnete]').forEach(function (p) {
+      var x = gsap.quickTo(p, 'x', { duration: 0.6, ease: 'power3' });
+      var y = gsap.quickTo(p, 'y', { duration: 0.6, ease: 'power3' });
+      var t = p.querySelector('.bottone-testo');
+      var tx = gsap.quickTo(t, 'x', { duration: 0.6, ease: 'power3' });
+      var ty = gsap.quickTo(t, 'y', { duration: 0.6, ease: 'power3' });
+      p.addEventListener('pointermove', function (e) {
+        var r = p.getBoundingClientRect();
+        var dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+        x(dx * 0.3); y(dy * 0.4); tx(dx * 0.12); ty(dy * 0.16);
+      });
+      p.addEventListener('pointerleave', function () { gsap.to([p, t], { x: 0, y: 0, duration: 1, ease: 'elastic.out(1, 0.35)', overwrite: true }); });
+    });
+  }
+
+  /* ---------- la trama di fili nella carta blu ---------- */
+  function trama() {
+    var c = document.querySelector('[data-trama]');
+    if (!c) return;
+    var g = c.getContext('2d');
+    var mx = -999, my = -999, vista = false, w = 0, h = 0, dpr = Math.min(devicePixelRatio || 1, 2);
+    var carta = c.parentElement;
+    var misura = function () { w = c.clientWidth; h = c.clientHeight; c.width = w * dpr; c.height = h * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0); };
+    misura(); addEventListener('resize', misura);
+    new IntersectionObserver(function (v) { vista = v[0].isIntersecting; }).observe(c);
+    carta.addEventListener('pointermove', function (e) { var r = c.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; });
+    carta.addEventListener('pointerleave', function () { mx = my = -999; });
+    var t = 0;
+    var disegna = function () {
+      g.clearRect(0, 0, w, h);
+      g.lineWidth = 1;
+      var passo = 22;
+      for (var y = passo / 2; y < h; y += passo) {
+        g.beginPath();
+        for (var x = 0; x <= w; x += 12) {
+          var dx = x - mx, dy = y - my, d = Math.sqrt(dx * dx + dy * dy);
+          var spinta = d < 170 ? (1 - d / 170) * 26 * (dy < 0 ? -1 : 1) : 0;
+          var yy = y + Math.sin(x * 0.012 + t + y * 0.05) * 2.4 + spinta;
+          if (x === 0) g.moveTo(x, yy); else g.lineTo(x, yy);
+        }
+        g.strokeStyle = 'rgba(255,255,255,' + (0.07 + 0.05 * Math.sin(y * 0.1 + t)) + ')';
+        g.stroke();
       }
-      var fin = sezione.querySelector('[data-finestra]');
-      if (!fin || tocco || ridotto) return;
-      var dentro = fin.querySelector('.finestra-dentro');
-      var foto = {};
-      tutti('.finestra-foto', fin).forEach(function (f) { foto[f.getAttribute('data-foto-nome')] = f; });
-      var px = gsap.quickTo(fin, 'x', { duration: 0.75, ease: 'power3' });
-      var py = gsap.quickTo(fin, 'y', { duration: 0.75, ease: 'power3' });
-      var rot = gsap.quickTo(fin, 'rotation', { duration: 0.9, ease: 'power3' });
-      var ultimoX = 0, sopra = 0, attuale = null, indice = -1;
-      gsap.set(fin, { xPercent: -50, yPercent: -50 });
-      lista.addEventListener('pointermove', function (e) {
-        px(e.clientX); py(e.clientY);
-        var dx = e.clientX - ultimoX; ultimoX = e.clientX;
-        rot(gsap.utils.clamp(-7, 7, dx * 0.35));
-      });
-      lista.addEventListener('pointerenter', function (e) {
-        gsap.set(fin, { x: e.clientX, y: e.clientY, visibility: 'visible' });
-        ultimoX = e.clientX;
-        gsap.to(dentro, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.8, ease: 'uscita', overwrite: true });
-      });
-      lista.addEventListener('pointerleave', function () {
-        gsap.to(dentro, { clipPath: 'inset(50% 50% 50% 50%)', duration: 0.6, ease: 'uscita', overwrite: true });
-        rot(0); attuale = null; indice = -1;
-      });
-      voci.forEach(function (v, i) {
-        var a = v.querySelector('a');
-        a.addEventListener('pointerenter', function () {
-          var f = foto[a.getAttribute('data-foto-voce')];
-          if (!f || f === attuale) return;
-          var giu = i > indice;
-          indice = i; attuale = f;
-          f.style.zIndex = String(++sopra);
-          gsap.fromTo(f, { yPercent: giu ? 100 : -100 }, { yPercent: 0, duration: 0.8, ease: 'uscita', overwrite: true });
-          gsap.fromTo(f.querySelector('img'), { yPercent: giu ? -40 : 40, scale: 1.3 }, { yPercent: 0, scale: 1.08, duration: 1.1, ease: 'uscita', overwrite: true });
-        });
-      });
-    });
+    };
+    if (ridotto) { disegna(); return; }
+    gsap.ticker.add(function () { if (!vista) return; t += 0.012; disegna(); });
   }
 
-  /* ---------- prossimo servizio: la foto segue il cursore dentro la riga ---------- */
-  function prossimo() {
-    var p = document.querySelector('.prossimo-link');
-    if (!p || tocco || ridotto) return;
-    var f = p.querySelector('.prossimo-foto');
-    var x = gsap.quickTo(f, 'x', { duration: 0.8, ease: 'power3' });
-    p.addEventListener('pointermove', function (e) {
-      var r = p.getBoundingClientRect();
-      x((e.clientX - r.left - r.width / 2) * 0.35);
-    });
-  }
-
-  /* ---------- la sezione del taglio, bloccata mentre si scorre ---------- */
-  function taglio() {
-    var sez = document.querySelector('[data-taglio]');
-    if (!sez) return;
-    var svg = sez.querySelector('.taglio-svg');
-    var NS = 'http://www.w3.org/2000/svg';
-    var pezzi = tutti('[data-pezzo]', sez);
-    var tracce = sez.querySelector('.taglio-tracce');
-    var testa = sez.querySelector('.testa-taglio');
-    var raggio = sez.querySelector('.taglio-raggio');
-    var stampa = sez.querySelector('.taglio-stampa');
-    var fasi = tutti('[data-fase]', sez);
-    var dato = sez.querySelector('[data-conta]');
-
-    var tagli = pezzi.map(function (p) {
-      var forma = p.querySelector('.pezzo-forma');
-      var t = document.createElementNS(NS, 'path');
-      t.setAttribute('d', forma.getAttribute('d'));
-      tracce.appendChild(t);
-      var lun = t.getTotalLength();
-      gsap.set(t, { strokeDasharray: lun, strokeDashoffset: lun });
-      return { pezzo: p, forma: forma, traccia: t, lun: lun };
-    });
+  /* ---------- l'eroe col tessuto ---------- */
+  function eroe() {
+    var sez = document.querySelector('[data-eroe]');
+    if (!sez) return null;
+    var carta = sez.querySelector('[data-eroe-carta]');
+    var sopra = sez.querySelector('.eroe-sopra');
+    var dietro = sez.querySelector('.eroe-dietro');
+    var dato = sez.querySelector('.eroe-laser-dato');
+    var cut = sez.querySelector('[data-cut]');
+    var righe = tutti('.eroe-titolo .riga-dentro', sez);
+    var basso = tutti('.eroe-basso > *, .eroe-luogo', sez);
 
     if (ridotto) {
-      tagli.forEach(function (c) { gsap.set(c.traccia, { strokeDashoffset: 0 }); gsap.set(c.forma, { fill: 'rgba(43,59,212,.32)' }); });
-      gsap.set(stampa, { opacity: 0.35 });
-      return;
+      gsap.set(righe, { y: 0, yPercent: 0 });
+      gsap.set(dietro, { autoAlpha: 0 });
+      stato.entrata = 1;
+      return function () {};
     }
 
-    var sparsi = [
-      { x: -160, y: -90, rotation: -24 }, { x: 140, y: 120, rotation: 18 },
-      { x: 120, y: -140, rotation: 40 }, { x: 160, y: 60, rotation: -32 },
-    ];
-    gsap.set(pezzi, { transformOrigin: '50% 50%', transformBox: 'fill-box' });
-    pezzi.forEach(function (p, i) { gsap.set(p, Object.assign({ opacity: 0 }, sparsi[i % sparsi.length])); });
-    gsap.set(fasi.slice(1), { autoAlpha: 0, y: 30 });
-    gsap.set(fasi[0], { autoAlpha: 1 });
-    if (dato) dato.textContent = '0';
-
-    var cambio = function (tl, da, a, at) {
-      tl.to(fasi[da], { autoAlpha: 0, y: -30, duration: 0.35, ease: 'power2.in' }, at)
-        .to(fasi[a], { autoAlpha: 1, y: 0, duration: 0.5, ease: 'uscita' }, at + 0.3);
-      var nome = fasi[a].querySelector('.fase-nome');
-      tl.fromTo(nome, { scrambleText: { text: '' } }, { duration: 0.5, scrambleText: { text: nome.textContent, chars: CARATTERI, speed: 0.6 } }, at + 0.3);
-    };
-
+    gsap.set(dietro, { autoAlpha: 0, scale: 0.9 });
+    var proxy = { taglio: 0, apertura: 0 };
     var tl = gsap.timeline({
       defaults: { ease: 'none' },
       scrollTrigger: {
-        trigger: sez, start: 'top top', end: function () { return '+=' + Math.round(innerHeight * 3.4); },
-        pin: true, scrub: 0.8, anticipatePin: 1, invalidateOnRefresh: true,
+        trigger: sez, start: 'top top', end: function () { return '+=' + Math.round(innerHeight * 2.2); },
+        pin: true, scrub: 0.6, anticipatePin: 1,
+        onUpdate: function (s) { stato.velocita = s.getVelocity() / 10000; },
+      },
+      onUpdate: function () {
+        stato.taglio = proxy.taglio; stato.apertura = proxy.apertura;
+        cut.textContent = Math.round(proxy.taglio * 100) + '%';
       },
     });
+    tl.to(sopra, { autoAlpha: 0, y: -60, duration: 0.14 }, 0.02)
+      .to(dato, { autoAlpha: 1, duration: 0.06 }, 0.08)
+      .to(proxy, { taglio: 1, duration: 0.44 }, 0.1)
+      .to(dato, { autoAlpha: 0, duration: 0.06 }, 0.56)
+      .to(proxy, { apertura: 1, duration: 0.32, ease: 'power1.inOut' }, 0.58)
+      .to(dietro, { autoAlpha: 1, scale: 1, duration: 0.26, ease: 'power2.out' }, 0.66)
+      .to('.eroe-velo', { opacity: 0.4, duration: 0.3 }, 0.6)
+      .to({}, { duration: 0.08 }, 0.92);
 
-    /* scansione: il raggio passa e svela la stampa */
-    tl.set(raggio, { opacity: 1 }, 0)
-      .fromTo(raggio, { attr: { x: -120 } }, { attr: { x: 1000 }, duration: 1.4, ease: 'morbida' }, 0.1)
-      .fromTo(stampa, { opacity: 0 }, { opacity: 0.55, duration: 1.2 }, 0.2)
-      .to(raggio, { opacity: 0, duration: 0.15 }, 1.45);
-
-    /* piazzamento: i pezzi si incastrano */
-    cambio(tl, 0, 1, 1.5);
-    pezzi.forEach(function (p, i) {
-      tl.to(p, { opacity: 1, x: 0, y: 0, rotation: 0, duration: 1.1, ease: 'back.out(1.15)' }, 1.7 + i * 0.16);
-    });
-    tl.to(stampa, { opacity: 0.22, duration: 0.6 }, 2.4);
-
-    /* taglio: la testa segue ogni contorno */
-    cambio(tl, 1, 2, 3.25);
-    var inizio = 3.55;
-    tl.set(testa, { opacity: 1 }, inizio);
-    tagli.forEach(function (c, i) {
-      var o = { p: 0 };
-      var dur = 0.35 + c.lun / 2400;
-      tl.to(o, {
-        p: 1, duration: dur,
-        onUpdate: function () {
-          var l = c.lun * o.p;
-          c.traccia.style.strokeDashoffset = String(c.lun - l);
-          var pt = c.traccia.getPointAtLength(l);
-          testa.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ' ' + pt.y.toFixed(1) + ')');
-        },
-      }, inizio);
-      tl.to(c.forma, { fill: 'rgba(43,59,212,.34)', duration: 0.3 }, inizio + dur - 0.05)
-        .to(c.pezzo, { y: -6, duration: 0.3, ease: 'back.out(3)' }, inizio + dur - 0.05);
-      inizio += dur + 0.06;
-    });
-    tl.to(testa, { opacity: 0, duration: 0.2 }, inizio);
-    if (dato) {
-      var n = { v: 0 };
-      tl.to(n, { v: 7, duration: inizio - 3.55, onUpdate: function () { dato.textContent = String(Math.round(n.v)); } }, 3.55);
-    }
-    tl.to({}, { duration: 0.4 });
-  }
-
-  /* ---------- il laboratorio scorre di lato ---------- */
-  function laboratorio() {
-    var sez = document.querySelector('[data-laboratorio]');
-    if (!sez || ridotto) return;
-    var binario = sez.querySelector('[data-binario]');
-    var distanza = function () { return Math.max(0, binario.scrollWidth - innerWidth); };
-    var corsa = gsap.to(binario, {
-      x: function () { return -distanza(); }, ease: 'none',
-      scrollTrigger: {
-        trigger: sez, start: 'top top', end: function () { return '+=' + distanza(); },
-        pin: true, scrub: 0.6, invalidateOnRefresh: true, anticipatePin: 1,
-      },
-    });
-    tutti('.scatto-dentro img', binario).forEach(function (im) {
-      gsap.fromTo(im, { xPercent: 6 }, {
-        xPercent: -6, ease: 'none',
-        scrollTrigger: { trigger: im.closest('.scatto'), containerAnimation: corsa, start: 'left right', end: 'right left', scrub: true },
-      });
-    });
-    tutti('.scatto', binario).forEach(function (s) {
-      var q = s.querySelector('.scatto-quadro');
-      var cap = s.querySelector('figcaption span');
-      if (!q) return;
-      gsap.fromTo(q, { clipPath: 'inset(0% 0% 0% 100%)' }, {
-        clipPath: 'inset(0% 0% 0% 0%)', ease: 'tenda', duration: 1.3,
-        scrollTrigger: { trigger: s, containerAnimation: corsa, start: 'left 96%' },
-      });
-      if (cap) {
-        gsap.set(cap, { autoAlpha: 0 });
-        ScrollTrigger.create({ trigger: s, containerAnimation: corsa, start: 'left 80%', once: true, onEnter: function () { scrambla(cap); } });
-      }
-    });
-  }
-
-  /* ---------- eroe della home ---------- */
-  function eroe(subito) {
-    var sez = document.querySelector('[data-eroe]');
-    if (!sez) return gsap.timeline();
-    var foto = sez.querySelector('[data-eroe-foto]');
-    var img = foto.querySelector('img');
-    var righe = tutti('.eroe-titolo .riga-dentro', sez);
-    var mirino = sez.querySelector('.eroe-mirino');
-    var scan = sez.querySelector('.eroe-scansione');
-    var piccole = tutti('[data-scramble-eroe]', sez);
-
-    var tl = gsap.timeline({ paused: true });
-    if (ridotto) {
-      tl.fromTo(sez, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.6 });
-      gsap.set(righe, { y: 0, yPercent: 0 });
-      return tl;
-    }
-    tl.fromTo(img, { scale: 1.38 }, { scale: 1.04, duration: 2.6, ease: 'uscita' }, 0)
-      .fromTo(righe, { y: 0, yPercent: 108 }, { y: 0, yPercent: 0, duration: 1.5, ease: 'uscita', stagger: 0.12 }, subito ? 0.1 : 0.35)
-      .fromTo(mirino, { rotate: -180, scale: 0 }, { rotate: 0, scale: 1, duration: 1.4, ease: 'back.out(1.8)' }, subito ? 0.5 : 0.8);
-    piccole.forEach(function (p, i) { gsap.set(p, { autoAlpha: 0 }); tl.add(function () { scrambla(p); }, (subito ? 0.6 : 1) + i * 0.15); });
-
-    /* la luce di controllo che scorre sul tessuto */
-    gsap.timeline({ repeat: -1, repeatDelay: 2.4, delay: 2.2 })
-      .fromTo(scan, { top: '0%', opacity: 0 }, { top: '100%', duration: 5.5, ease: 'morbida' })
-      .to(scan, { opacity: 0.85, duration: 0.8 }, 0)
-      .to(scan, { opacity: 0, duration: 0.8 }, 4.7);
-
-    /* scorrendo, la foto rallenta e il titolo si alza */
-    gsap.to(foto, { yPercent: 24, ease: 'none', scrollTrigger: { trigger: sez, start: 'top top', end: 'bottom top', scrub: true } });
-    gsap.to('.eroe-testo', { yPercent: -60, opacity: 0.2, ease: 'none', scrollTrigger: { trigger: sez, start: 'top top', end: 'bottom top', scrub: true } });
-
-    /* il cursore sposta appena la foto */
-    if (!tocco) {
-      var mx = gsap.quickTo(img, 'x', { duration: 1.6, ease: 'power3' });
-      var my = gsap.quickTo(img, 'y', { duration: 1.6, ease: 'power3' });
-      sez.addEventListener('pointermove', function (e) {
-        mx((e.clientX / innerWidth - 0.5) * -22);
-        my((e.clientY / innerHeight - 0.5) * -14);
-      });
-    }
-    return tl;
+    /* entrata: la pezza scende sulla barra e il titolo sale */
+    return function () {
+      gsap.to(stato, { entrata: 1, duration: 2.4, ease: 'power3.out' });
+      gsap.fromTo(righe, { y: 0, yPercent: 110 }, { y: 0, yPercent: 0, duration: 1.5, ease: 'uscita', stagger: 0.1, delay: 0.5 });
+      gsap.from(basso, { y: 20, autoAlpha: 0, duration: 1.2, ease: 'uscita', stagger: 0.08, delay: 0.8 });
+      gsap.fromTo(carta, { scale: 0.94, borderRadius: 60 }, { scale: 1, borderRadius: getComputedStyle(carta).borderRadius, duration: 1.8, ease: 'uscita' });
+    };
   }
 
   /* ---------- apertura delle pagine interne ---------- */
   function apertura() {
     var tl = gsap.timeline({ paused: true });
     var righe = tutti('.apertura-titolo .riga-dentro');
+    var foto = fotoGrande();
     if (ridotto) { gsap.set(righe, { y: 0, yPercent: 0 }); return tl; }
-    if (righe.length) tl.fromTo(righe, { y: 0, yPercent: 108 }, { y: 0, yPercent: 0, duration: 1.4, ease: 'uscita', stagger: 0.1 }, 0);
-    var piena = document.querySelector('[data-foto-piena]');
-    if (piena) {
-      tl.fromTo(piena, { clipPath: 'inset(22% 8% 0% 8%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.8, ease: 'tenda' }, 0.25)
-        .fromTo(piena.querySelector('img'), { scale: 1.35 }, { scale: 1, duration: 2.2, ease: 'uscita' }, 0.25);
-    }
+    if (righe.length) tl.fromTo(righe, { y: 0, yPercent: 110 }, { y: 0, yPercent: 0, duration: 1.4, ease: 'uscita', stagger: 0.09 }, 0);
+    var tag = tutti('.apertura-tag li, .indietro');
+    if (tag.length) tl.from(tag, { y: 14, autoAlpha: 0, duration: 0.9, ease: 'uscita', stagger: 0.05 }, 0.3);
+    if (foto) foto(tl, 0.2);
     return tl;
   }
 
   /* ---------- caricamento della prima visita ---------- */
   function caricamento(poi) {
     var c = document.querySelector('[data-carica]');
-    if (!c || getComputedStyle(c).display === 'none' || ridotto) { if (c) c.style.display = 'none'; poi(true); return; }
+    if (!c || getComputedStyle(c).display === 'none' || ridotto) { if (c) c.style.display = 'none'; poi(); return; }
     memoria.scrivi('devid-visto', '1');
-    var frasi = tutti('[data-frase]', c);
-    var marchio = c.querySelector('.carica-marchio');
-    var laser = c.querySelector('.carica-laser');
-    var su = c.querySelector('.carica-su');
-    var giu = c.querySelector('.carica-giu');
-    var tl = gsap.timeline();
-    tl.fromTo(marchio, { autoAlpha: 0, y: 12, filter: 'blur(6px)' }, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'uscita' }, 0.1)
-      .fromTo(marchio.querySelector('.g'), { rotate: -90 }, { rotate: 0, duration: 1.1, ease: 'back.out(2)' }, 0.1);
-    frasi.forEach(function (f, i) {
-      var t = f.getAttribute('data-frase');
-      tl.to(f, { duration: 0.7, scrambleText: { text: t, chars: CARATTERI, speed: 0.7 } }, 0.3 + i * 0.22)
-        .to(f, { duration: 0.45, scrambleText: { text: '', chars: CARATTERI, speed: 1 } }, 1.55 + i * 0.07);
-    });
-    tl.to(marchio, { autoAlpha: 0, y: -10, duration: 0.45, ease: 'power2.in' }, 1.75)
-      .to(laser, { scaleX: 1, duration: 0.8, ease: 'tenda' }, 1.85)
-      .add(function () { poi(false); }, 2.55)
-      .to(su, { yPercent: -101, duration: 1.25, ease: 'tenda' }, 2.6)
-      .to(giu, { yPercent: 101, duration: 1.25, ease: 'tenda' }, 2.6)
-      .to(laser, { opacity: 0, duration: 0.5 }, 2.75)
+    var barra = c.querySelector('.carica-barra i');
+    var conta = c.querySelector('[data-conta-carica]');
+    var o = { v: 0 };
+    var inizio = performance.now();
+    var tl = gsap.timeline({ paused: true });
+    tl.to(o, { v: 100, duration: 2, ease: 'morbida', onUpdate: function () { conta.textContent = String(Math.round(o.v)); barra.style.transform = 'scaleX(' + o.v / 100 + ')'; } })
+      .to([conta, c.querySelector('.carica-nome')], { yPercent: -40, autoAlpha: 0, duration: 0.5, ease: 'power2.in' }, '+=0.1')
+      .to(c.querySelector('.carica-barra'), { scaleX: 0, autoAlpha: 0, duration: 0.5, ease: 'power2.in' }, '<')
+      .add(poi, '-=0.05')
+      .to(c, { clipPath: 'inset(0% 0% 100% 0% round 0px 0px 60px 60px)', duration: 1.1, ease: 'tenda' }, '-=0.1')
       .set(c, { display: 'none' });
+    gsap.set(c, { clipPath: 'inset(0% 0% 0% 0% round 0px 0px 0px 0px)' });
+    var parti = function () { tl.play(); };
+    /* aspetta il tessuto, ma mai più di tre secondi */
+    var attesa = setInterval(function () {
+      if (stato.pronto || performance.now() - inizio > 3000) { clearInterval(attesa); parti(); }
+    }, 60);
   }
 
   /* ---------- avvio ---------- */
   function avvio() {
     var home = corpo.classList.contains('pagina-home');
-    var intro = home ? eroe(false) : apertura();
-    comparse();
-    elenchi();
-    prossimo();
-    taglio();
-    laboratorio();
+    var entra = home ? eroe() : null;
+    var intro = home ? null : apertura();
+    comparse(); nastro(); galleria(); cursore(); magneti(); trama();
+    tutti('[data-su]').forEach(function (b) { b.addEventListener('click', function () { if (lenis) lenis.scrollTo(0, { duration: 2 }); else scrollTo(0, 0); }); });
 
+    var parti = function () { if (entra) entra(); if (intro) intro.play(); riparti(); };
     var arrivo = html.classList.contains('arrivo');
     var titolo = memoria.leggi('devid-tenda');
     memoria.togli('devid-tenda');
     html.classList.remove('arrivo');
 
     if (arrivo && tenda && !ridotto) {
-      gsap.set(tenda, { visibility: 'visible' });
-      gsap.set(tendaFondo, { clipPath: 'inset(0% 0% 0% 0%)' });
       tendaTitolo.textContent = titolo || '';
+      gsap.set(tenda, { visibility: 'visible' });
       gsap.timeline()
-        .to(tendaTitolo, { yPercent: -60, autoAlpha: 0, duration: 0.5, ease: 'power2.in' }, 0.1)
-        .to(tendaFondo, { clipPath: 'inset(0% 0% 100% 0%)', duration: 0.95, ease: 'tenda' }, 0.2)
-        .add(function () { intro.play(); riparti(); }, 0.45)
+        .to(tendaTitolo, { yPercent: -120, autoAlpha: 0, duration: 0.5, ease: 'power2.in' }, 0.05)
+        .to(pannello, { clipPath: 'inset(0% 0% 100% 0% round 0px 0px 40px 40px)', duration: 0.95, ease: 'tenda' }, 0.2)
+        .add(parti, 0.4)
         .set(tenda, { visibility: 'hidden' });
     } else if (home) {
-      caricamento(function () { intro.play(); riparti(); });
+      caricamento(parti);
     } else {
-      intro.play(); riparti();
+      parti();
     }
-    html.classList.add('pronto');
   }
 
-  if (document.fonts && document.fonts.ready) {
-    var partito = false;
-    var via = function () { if (!partito) { partito = true; avvio(); } };
-    document.fonts.ready.then(via);
-    setTimeout(via, 1200);
-  } else avvio();
-  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+  var partito = false;
+  var via = function () { if (!partito) { partito = true; avvio(); } };
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(via);
+  setTimeout(via, 1200);
+  addEventListener('load', function () { ScrollTrigger.refresh(); });
 })();
