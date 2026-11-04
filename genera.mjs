@@ -282,26 +282,25 @@ ${intestazione(r, '')}
     </div>
   </section>
 
-  <section class="lente" data-lente aria-labelledby="lente-t">
-    <div class="lente-palco">
-      <div class="lente-foto" aria-hidden="false">
+  <section class="colonne" data-colonne aria-labelledby="colonne-t">
+    <div class="colonne-testa">
+      <h2 id="colonne-t" class="colonne-titolo" data-righe>Dentro il laboratorio</h2>
+      <p class="colonne-frase" data-righe>Il reparto di Vezzano sul Crostolo, macchina per macchina. Le foto sono nostre.</p>
+    </div>
+    <div class="colonne-griglia">
+      ${[0, 1].map((c) => `<div class="colonne-col" data-colonna="${c}">
         ${[
-          ['zund-sala', 'La sala taglio', 'Sala taglio, Vezzano sul Crostolo'],
-          ['sagome', 'Le sagome di un piazzamento', 'Modellistica CAD-CAM'],
-          ['zund-operatrice', 'Il taglio guidato dallo schermo', 'Taglio con l’intelligenza artificiale'],
-        ].map(([f, n, rep], i) => `<figure class="lente-strato" data-strato data-nome="${n}" data-reparto="${rep}">${img(r, f, n, { sizes: '100vw', larghe: f.startsWith('zund') })}</figure>`).join('')}
-        <span class="lente-laser" data-laser aria-hidden="true"></span>
-        <span class="lente-velo" aria-hidden="true"></span>
-      </div>
-      <svg class="lente-maschera" data-maschera aria-hidden="true" preserveAspectRatio="none">
-        <defs><mask id="lente-buco" maskUnits="userSpaceOnUse"><rect class="lente-pieno" fill="#fff"/><text class="lente-parola" fill="#000" text-anchor="middle" dominant-baseline="central">LABORATORIO</text></mask></defs>
-        <rect class="lente-notte" fill="#080a16" mask="url(#lente-buco)"/>
-      </svg>
-      <div class="lente-testi">
-        <h2 id="lente-t" class="lente-titolo"><span class="etichetta etichetta-chiara">Dentro il laboratorio</span></h2>
-        <div class="lente-dida"><p class="lente-nome" data-lente-nome></p><p class="lente-reparto etichetta etichetta-chiara" data-lente-reparto></p></div>
-        <p class="lente-aiuto etichetta etichetta-chiara" data-lente-aiuto>Scorrete per entrare</p>
-      </div>
+          [['zund-operatrice', 'Taglio con l’intelligenza artificiale', 'Il taglio guidato dallo schermo, sul tavolo di Crea Solution.', 'taglio-tessuti', 'alta'],
+           ['sagome', 'Modellistica CAD-CAM', 'Le sagome di un piazzamento, pronte per il taglio.', 'modellistica-cad-cam', 'larga'],
+           ['metro', 'Confezione campioni', 'Metro e forbici, accanto alla macchina.', 'confezione-campioni', 'alta']],
+          [['taglio-testa', 'Taglio computerizzato', 'La testa di taglio del Morgan Next 2, da vicino.', 'taglio-tessuti', 'alta'],
+           ['zund-portale', 'Scansione', 'Il portale che legge tutta la pezza prima del taglio.', 'taglio-tessuti', 'larga'],
+           ['adesivazione', 'Adesivazione', 'La macchina per adesivazione, accoppiatura e decatizzo.', 'adesivazione-tessuto', 'alta']],
+        ][c].map(([f, rep, dida, slug, forma]) => `<a class="colonne-carta" href="servizi/${slug}/" data-tenda="${rep}" data-colonne-carta>
+          <span class="colonne-foto colonne-${forma}" data-cursore="Apri"><span class="colonne-zoom">${img(r, f, dida, { sizes: '(max-width: 760px) 92vw, 44vw', larghe: f.startsWith('zund') })}</span></span>
+          <span class="colonne-dida"><span class="colonne-rep">${rep}</span><span class="colonne-riga">${dida}</span></span>
+        </a>`).join('')}
+      </div>`).join('')}
     </div>
   </section>
 

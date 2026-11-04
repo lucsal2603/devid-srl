@@ -595,3 +595,31 @@ ul, ol { list-style: none; }
   .lente-dida { left: calc(var(--m) * 1.4); right: calc(var(--m) * 1.4); flex-direction: column; gap: 8px; }
   .lente-nome { font-size: clamp(30px, 9vw, 46px); }
 }
+
+/* ---------- dentro il laboratorio: due colonne sfalsate (sul modello di Cuberto, «Selected work») ---------- */
+.colonne { padding: var(--spazio) calc(var(--m) * 2) var(--spazio); }
+.colonne-testa { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: clamp(40px, 5vw, 90px); }
+.colonne-titolo { font-size: clamp(40px, 5.4vw, 104px); font-weight: 520; letter-spacing: -.06em; line-height: .92; color: #fff; }
+.colonne-frase { max-width: 22em; color: var(--ghiaccio-2); font-size: 15px; }
+.colonne-griglia { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 4vw, 80px); align-items: start; }
+.colonne-col { display: flex; flex-direction: column; gap: clamp(60px, 8vw, 140px); will-change: transform; }
+.colonne-col[data-colonna="1"] { padding-top: clamp(120px, 16vw, 300px); }
+.colonne-carta { display: flex; flex-direction: column; gap: 16px; }
+.colonne-foto { position: relative; display: block; overflow: hidden; border-radius: var(--raggio); background: #12162f; transform: translateZ(0); }
+.colonne-alta { aspect-ratio: 4 / 5; }
+.colonne-larga { aspect-ratio: 4 / 3; }
+.colonne-zoom { position: absolute; inset: 0; display: block; transition: transform 1.4s var(--uscita); }
+.colonne-foto img { width: 100%; height: 112%; margin-top: -6%; object-fit: cover; will-change: transform; }
+@media (hover: hover) { .colonne-carta:hover .colonne-zoom { transform: scale(1.07); } .colonne-carta:hover .colonne-rep { color: #fff; } }
+.colonne-dida { display: flex; flex-direction: column; gap: 4px; padding: 0 4px; }
+.colonne-rep { font-size: clamp(18px, 1.5vw, 26px); font-weight: 520; letter-spacing: -.035em; color: rgba(238, 240, 255, .9); transition: color .4s var(--uscita); }
+.colonne-riga { font-size: 14px; color: var(--ghiaccio-2); max-width: 30em; }
+@media (max-width: 760px) {
+  .colonne { padding: var(--spazio) calc(var(--m) * 1.4); }
+  .colonne-testa { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .colonne-griglia { gap: 12px; }
+  .colonne-col { gap: 40px; }
+  .colonne-col[data-colonna="1"] { padding-top: 110px; }
+  .colonne-rep { font-size: 16px; }
+  .colonne-riga { font-size: 12.5px; }
+}

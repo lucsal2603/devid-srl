@@ -735,6 +735,23 @@
     addEventListener('resize', misura);
   }
 
+  /* ---------- dentro il laboratorio: due colonne che scorrono a velocità diverse ---------- */
+  function colonne() {
+    var sez = document.querySelector('[data-colonne]');
+    if (!sez || ridotto) return;
+    var cols = tutti('[data-colonna]', sez);
+    if (cols[0]) gsap.fromTo(cols[0], { y: 60 }, { y: -60, ease: 'none', scrollTrigger: { trigger: sez, start: 'top bottom', end: 'bottom top', scrub: true } });
+    if (cols[1]) gsap.fromTo(cols[1], { y: 160 }, { y: -220, ease: 'none', scrollTrigger: { trigger: sez, start: 'top bottom', end: 'bottom top', scrub: true } });
+    tutti('[data-colonne-carta]', sez).forEach(function (c) {
+      var f = c.querySelector('.colonne-foto'), im = f.querySelector('img');
+      gsap.timeline({ scrollTrigger: { trigger: c, start: 'top 90%' } })
+        .fromTo(f, { clipPath: 'inset(100% 0% 0% 0% round 24px)' }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', duration: 1.5, ease: 'tenda' })
+        .fromTo(im, { scale: 1.35 }, { scale: 1, duration: 1.9, ease: 'uscita' }, 0)
+        .from(c.querySelectorAll('.colonne-rep, .colonne-riga'), { y: 18, autoAlpha: 0, duration: 1, ease: 'uscita', stagger: 0.08 }, 0.4);
+      gsap.fromTo(im, { yPercent: -5 }, { yPercent: 5, ease: 'none', scrollTrigger: { trigger: c, start: 'top bottom', end: 'bottom top', scrub: true } });
+    });
+  }
+
   /* ---------- la bobina del laboratorio ---------- */
   function bobina() {
     var sez = document.querySelector('[data-bobina]');
@@ -885,7 +902,7 @@
     var home = corpo.classList.contains('pagina-home');
     var entra = home ? eroe() : null;
     var intro = home ? null : apertura();
-    accesi(); sguardo(); lente(); vetrine(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
+    accesi(); sguardo(); colonne(); vetrine(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
     ScrollTrigger.sort(); ScrollTrigger.refresh();
     tutti('[data-su]').forEach(function (b) { b.addEventListener('click', function () { if (lenis) lenis.scrollTo(0, { duration: 2 }); else scrollTo(0, 0); }); });
 
