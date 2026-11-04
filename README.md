@@ -46,7 +46,7 @@ poi si apre http://localhost:8000.
 
 - **«Sessant'anni di esperienza» e «dagli anni ’50»**: li dice il sito attuale (scritto nel 2020). Se l'attività è degli anni Cinquanta, oggi gli anni sono più di settanta: meglio chiedere la data giusta.
 - **Indirizzo**: il sito attuale scrive sia «via Grandi 12» sia «via Grandi 12/A» (il ritiro del tessuto). Qui sono rimasti tutti e due così.
-- **Il logo**: c'è solo un JPG piccolo (219 per 80). Nel sito il marchio è scritto col carattere del sito; se Devid ha il logo in vettoriale (SVG, AI, PDF) lo si mette al suo posto.
+- **Il logo**: è il loro, preso dal sito attuale (`devidsrl-new-logo-piccolo.jpg`, solo 219 per 80 pixel) e ricalcato fedelmente in vettoriale in `assets/logo-devid.svg` (colori originali) e `assets/logo-devid-bianco.svg` (per i fondi scuri), con le lettere a timbro e la grana. Le icone del sito sono la loro icona attuale. Se Devid ha il file originale del logo (AI, EPS, PDF o SVG) basta sostituire quei due file e il risultato sarà ancora più preciso.
 - **Crea Solution** come partner per il taglio con l'AI e i macchinari (Morgan Next 2, Investronica Diamond, stenditori Oteman e Bkr, plotter Algotex Stream 180, Datacolor 3890): presi dal sito attuale, da confermare che ci siano ancora tutti.
 - **Le foto** sono quelle del sito attuale, ritoccate per avere lo stesso colore. Con un servizio fotografico nuovo (soprattutto in verticale e in alta risoluzione) il sito farebbe ancora più effetto.
 - **Le news** sono le due del 2020: se ci sono novità recenti, si aggiungono in `NEWS` dentro `contenuti.mjs`.

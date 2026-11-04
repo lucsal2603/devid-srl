@@ -65,7 +65,7 @@ const testa = ({ r, titolo, descrizione, url }) => `<!doctype html>
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#eceef5">
 <link rel="icon" href="${r}favicon.ico" sizes="32x32">
-<link rel="icon" href="${r}assets/icona.svg" type="image/svg+xml">
+<link rel="icon" href="${r}assets/icona-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="${r}apple-touch-icon.png">
 <link rel="preload" href="${r}assets/fonts/inter-tight-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="${r}assets/css/sito.css">
@@ -75,7 +75,7 @@ const testa = ({ r, titolo, descrizione, url }) => `<!doctype html>
 const intestazione = (r, attiva) => `<a class="salta" href="#contenuto">Vai al contenuto</a>
 <div class="tenda" aria-hidden="true"><div class="tenda-pannello"><p class="tenda-titolo"></p></div></div>
 <header class="testata" data-testata>
-  <a class="marchio" href="${r}" aria-label="Devid srl, pagina iniziale" data-tenda="Devid srl">${G.marchio}<span>DEVID</span></a>
+  <a class="marchio" href="${r}" aria-label="Devid srl, pagina iniziale" data-tenda="Devid srl"><img src="${r}assets/logo-devid.svg" alt="Devid srl" width="98" height="33"></a>
   <nav class="menu" aria-label="Principale">
     ${NAV.map(([n, h]) => `<a class="menu-voce" href="${r}${h}" ${attiva === h ? 'aria-current="page"' : ''} data-tenda="${n}"><span data-gira>${n}</span></a>`).join('')}
   </nav>
@@ -97,7 +97,7 @@ const intestazione = (r, attiva) => `<a class="salta" href="#contenuto">Vai al c
   </div>
 </div>`;
 
-const piede = (r) => `<section class="chiamata" aria-labelledby="chiamata-t">
+const piede = (r, notte = false) => `<section class="chiamata" aria-labelledby="chiamata-t">
   <div class="chiamata-carta" data-carta>
     <p class="etichetta etichetta-chiara">Avete richieste?</p>
     <h2 id="chiamata-t" class="chiamata-titolo" data-righe>Parliamo del<br>vostro tessuto.</h2>
@@ -134,7 +134,7 @@ const piede = (r) => `<section class="chiamata" aria-labelledby="chiamata-t">
       </ul>
     </div>
   </div>
-  <div class="piede-marchio" aria-hidden="true" data-marchio-grande><span>D</span><span>E</span><span>V</span><span>I</span><span>D</span></div>
+  <div class="piede-marchio" data-marchio-grande><img src="${r}assets/logo-devid${notte ? '-bianco' : ''}.svg" alt="Devid srl" width="1513" height="476" loading="lazy"></div>
   <div class="piede-fondo">
     <p>${AZIENDA.nome} · P. IVA ${AZIENDA.piva}</p>
     <p><a href="${r}privacy/" data-tenda="Privacy"><span data-gira>Privacy</span></a></p>
@@ -163,6 +163,7 @@ const schema = () => `<script type="application/ld+json">${JSON.stringify({
   email: AZIENDA.email,
   vatID: 'IT' + AZIENDA.piva,
   image: DOMINIO + '/assets/img/condivisione.jpg',
+  logo: DOMINIO + '/assets/icona-192.png',
   address: { '@type': 'PostalAddress', streetAddress: AZIENDA.via, postalCode: AZIENDA.cap, addressLocality: AZIENDA.citta, addressRegion: 'RE', addressCountry: 'IT' },
 })}</script>`;
 
@@ -196,7 +197,7 @@ function home() {
 <div class="carica" data-carica aria-hidden="true">
   <div class="carica-barra"><i></i></div>
   <p class="carica-conta"><span data-conta-carica>0</span></p>
-  <p class="carica-nome">DEVID SRL</p>
+  <img class="carica-logo" src="assets/logo-devid-bianco.svg" alt="" width="196" height="62">
 </div>
 ${intestazione(r, '')}
 <main id="contenuto">
@@ -335,7 +336,7 @@ ${intestazione(r, '')}
     </div>
   </section>
 </main>
-${piede(r)}
+${piede(r, true)}
 <div class="cursore" aria-hidden="true" data-cursore-bolla><span></span></div>
 ${schema()}
 ${coda(r, true)}`;

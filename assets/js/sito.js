@@ -203,8 +203,8 @@
     });
 
     /* il marchio grande in fondo */
-    var lettere = tutti('[data-marchio-grande] span');
-    if (lettere.length) gsap.from(lettere, { yPercent: 100, duration: 1.4, ease: 'uscita', stagger: 0.06, scrollTrigger: { trigger: '[data-marchio-grande]', start: 'top 95%' } });
+    var grande = document.querySelector('[data-marchio-grande] img');
+    if (grande) gsap.fromTo(grande, { yPercent: 70, clipPath: 'inset(0% 0% 100% 0%)' }, { yPercent: 0, clipPath: 'inset(0% 0% 0% 0%)', duration: 1.6, ease: 'uscita', scrollTrigger: { trigger: '[data-marchio-grande]', start: 'top 96%' } });
   }
 
   /* ---------- foto grande delle pagine interne ---------- */
@@ -516,11 +516,13 @@
     var inizio = performance.now();
     var tl = gsap.timeline({ paused: true });
     tl.to(o, { v: 100, duration: 2, ease: 'morbida', onUpdate: function () { conta.textContent = String(Math.round(o.v)); barra.style.transform = 'scaleX(' + o.v / 100 + ')'; } })
-      .to([conta, c.querySelector('.carica-nome')], { yPercent: -40, autoAlpha: 0, duration: 0.5, ease: 'power2.in' }, '+=0.1')
+      .to([conta, c.querySelector('.carica-logo')], { yPercent: -40, autoAlpha: 0, duration: 0.5, ease: 'power2.in' }, '+=0.1')
       .to(c.querySelector('.carica-barra'), { scaleX: 0, autoAlpha: 0, duration: 0.5, ease: 'power2.in' }, '<')
       .add(poi, '-=0.05')
       .to(c, { clipPath: 'inset(0% 0% 100% 0% round 0px 0px 60px 60px)', duration: 1.1, ease: 'tenda' }, '-=0.1')
       .set(c, { display: 'none' });
+    var logo = c.querySelector('.carica-logo');
+    if (logo) tl.fromTo(logo, { clipPath: 'inset(0% 100% 0% 0%)', x: -10 }, { clipPath: 'inset(0% 0% 0% 0%)', x: 0, duration: 1.4, ease: 'uscita' }, 0);
     gsap.set(c, { clipPath: 'inset(0% 0% 0% 0% round 0px 0px 0px 0px)' });
     var parti = function () { tl.play(); };
     /* aspetta il tessuto, ma mai più di tre secondi */
