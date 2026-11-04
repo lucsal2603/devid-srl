@@ -180,16 +180,16 @@ const carta = (r, s, i) => `<a class="servizio-carta ${i % 2 ? 'carta-giu' : ''}
 function home() {
   const r = '';
   const foto = [
-    ['zund-operatrice', 'Il taglio automatico guidato dallo schermo'],
-    ['taglio-testa', 'La testa di taglio, da vicino'],
-    ['sagome', 'Le sagome di un piazzamento'],
-    ['proiettore', 'Il proiettore sopra il tavolo'],
-    ['zund-portale', 'Il portale di scansione'],
-    ['cartamodello', 'Cartamodelli sul tavolo'],
-    ['pannello', 'Il pannello comandi'],
-    ['metro', 'Metro e forbici sulla macchina'],
-    ['adesivazione', 'La macchina per l’adesivazione'],
-    ['zund-piano', 'Il piano di taglio'],
+    ['zund-operatrice', 'Il taglio guidato dallo schermo', 'Sala taglio'],
+    ['taglio-testa', 'La testa di taglio', 'Sala taglio'],
+    ['sagome', 'Le sagome di un piazzamento', 'Modellistica'],
+    ['proiettore', 'Il proiettore sul tavolo', 'Sala taglio'],
+    ['zund-portale', 'Il portale di scansione', 'Taglio con l’AI'],
+    ['cartamodello', 'I cartamodelli', 'Modellistica'],
+    ['pannello', 'Il pannello comandi', 'Stesura'],
+    ['metro', 'Metro e forbici', 'Confezione'],
+    ['adesivazione', 'La macchina per l’adesivazione', 'Adesivazione'],
+    ['zund-piano', 'Il piano di taglio', 'Sala taglio'],
   ];
   const macchine = ['Morgan Next 2', 'Investronica Diamond', 'Stenditori Oteman e Bkr', 'Algotex Stream 180', 'Intelli-di', 'Datacolor 3890', 'Crea Solution'];
   return `${testa({ r, titolo: 'Devid srl, taglio tessuti e modellistica a Reggio Emilia', descrizione: 'Controllo tessuti, adesivazione, modellistica CAD-CAM, taglio computerizzato e confezione campioni a Vezzano sul Crostolo, Reggio Emilia. Dagli anni Cinquanta.', url: '/' })}
@@ -254,43 +254,43 @@ ${intestazione(r, '')}
     </div>
   </section>
 
-  <section class="numeri" aria-labelledby="numeri-t">
-    <div class="numeri-carta" data-carta>
-      <div class="numeri-testa">
+  <section class="sguardo" data-sguardo aria-labelledby="sguardo-t">
+    <div class="sguardo-palco">
+      <div class="sguardo-testa">
         <p class="etichetta etichetta-chiara">Il parco macchine</p>
-        <h2 id="numeri-t" class="numeri-titolo" data-righe>Macchine sempre aggiornate,<br>mani che sanno cosa fanno.</h2>
+        <h2 id="sguardo-t" class="sguardo-titolo" data-righe>Macchine sempre aggiornate,<br>mani che sanno cosa fanno.</h2>
       </div>
-      <ul class="numeri-griglia">
+      <div class="sguardo-binario" data-sguardo-binario>
         ${[
-          ['7', 'cm', 'di materasso con l’Investronica Diamond'],
-          ['200', 'cm', 'di altezza utile del plotter Algotex Stream 180'],
-          ['1', 'm', 'di diametro dei rotoli al banco di controllo'],
-          ['20', 's', 'al massimo di prova vapore, metodo Hoffman'],
-        ].map(([n, u, t]) => `<li class="numero"><p class="numero-cifra"><span data-conta="${n}">${n}</span><small>${u}</small></p><p class="numero-testo">${t}</p></li>`).join('')}
-      </ul>
-      <div class="nastro" aria-label="Le macchine di Devid">
-        <div class="nastro-binario" data-nastro>
-          ${[0, 1].map((k) => `<p class="nastro-giro" ${k ? 'aria-hidden="true"' : ''}>${macchine.map((m) => `<span>${m}</span>${G.mirino}`).join('')}</p>`).join('')}
-        </div>
+          ['dato', 'scuro', '7', 'cm', 'di materasso tagliato in automatico dall’Investronica Diamond'],
+          ['foto', 'zund-portale', 'Crea Solution', 'Il taglio con l’intelligenza artificiale'],
+          ['dato', 'chiaro', '200', 'cm', 'di altezza utile del plotter Algotex Stream 180'],
+          ['foto', 'taglio-testa', 'Morgan Next 2', 'Taglio automatico fino a 5 cm'],
+          ['dato', 'blu', '1', 'm', 'di diametro dei rotoli al banco di controllo'],
+          ['foto', 'stesura', 'Oteman e Bkr', 'Stenditori elettronici con conveyor'],
+          ['dato', 'scuro', '20', 's', 'al massimo di prova vapore, col metodo Hoffman'],
+          ['foto', 'sagome', 'Intelli-di', 'Cartamodelli digitalizzati da una fotografia'],
+        ].map((c) => c[0] === 'dato'
+          ? `<div class="sguardo-carta sguardo-dato sguardo-${c[1]}"><p class="sguardo-cifra"><span data-conta-lato="${c[2]}">${c[2]}</span><small>${c[3]}</small></p><p class="sguardo-testo">${c[4]}</p></div>`
+          : `<figure class="sguardo-carta sguardo-foto"><div class="sguardo-foto-dentro">${img(r, c[1], c[3], { sizes: '(max-width: 760px) 80vw, 34vw', larghe: c[1].startsWith('zund') })}</div><figcaption><span class="sguardo-nome">${c[2]}</span><span class="sguardo-sotto">${c[3]}</span></figcaption></figure>`).join('')}
+        <a class="sguardo-carta sguardo-fine" href="servizi/taglio-tessuti/" data-tenda="Taglio computerizzato"><span>Tutte le macchine del taglio</span><span class="sguardo-fine-cerchio">${G.frecciaDx}</span></a>
       </div>
     </div>
   </section>
 
-  <section class="bobina" data-bobina aria-labelledby="lab-t">
-    <div class="bobina-palco">
-      <div class="bobina-testa">
-        <p class="etichetta etichetta-chiara">Vezzano sul Crostolo, Reggio Emilia</p>
-        <h2 id="lab-t" class="bobina-titolo" data-righe>Dentro il laboratorio</h2>
+  <section class="mirino" data-mirino aria-labelledby="mirino-t">
+    <div class="mirino-palco">
+      <div class="mirino-sx">
+        <p class="etichetta etichetta-chiara">Vezzano sul Crostolo</p>
+        <h2 id="mirino-t" class="mirino-titolo" data-righe>Dentro il<br>laboratorio</h2>
+        <ol class="mirino-elenco" aria-hidden="true">${foto.map(([f, a, rep]) => `<li data-mirino-nome>${a}</li>`).join('')}</ol>
       </div>
-      <div class="bobina-scena" data-bobina-scena>
-        <div class="bobina-rullo" data-rullo>
-          ${foto.map(([f, a]) => `<figure class="bobina-foto" data-pannello>${img(r, f, a, { sizes: '(max-width: 760px) 60vw, 26vw', larghe: f.startsWith('zund') })}<figcaption>${a}</figcaption></figure>`).join('')}
-        </div>
-        <div class="bobina-asse" aria-hidden="true"></div>
+      <div class="mirino-colonna" data-mirino-colonna>
+        ${foto.map(([f, a]) => `<figure class="mirino-foto" data-mirino-foto>${img(r, f, a, { sizes: '(max-width: 760px) 60vw, 30vw', larghe: f.startsWith('zund') })}</figure>`).join('')}
       </div>
-      <div class="bobina-basso">
-        <p class="bobina-dida" data-dida aria-hidden="true"></p>
-        <p class="bobina-aiuto etichetta etichetta-chiara">Scorrete o trascinate</p>
+      <div class="mirino-cornice" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div class="mirino-dx" aria-hidden="true">
+        ${foto.map(([f, a, rep]) => `<p class="mirino-reparto" data-mirino-reparto>${rep}</p>`).join('')}
       </div>
     </div>
   </section>
@@ -315,18 +315,21 @@ ${intestazione(r, '')}
     </ul>
   </section>
 
-  <section class="novita" aria-labelledby="news-t">
-    <div class="sezione-testa">
-      <h2 id="news-t" class="sezione-titolo" data-righe>Ultime novità</h2>
-      <a class="bottone bottone-linea" href="news/" data-tenda="News" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Tutte le news</span>${G.frecciaDx}</span></a>
-    </div>
-    <div class="novita-griglia">
-      ${NEWS.map((n) => `<a class="novita-carta" href="news/${n.slug}/" data-tenda="${n.titolo}">
-        <div class="novita-foto" data-cursore="Leggi">${img(r, n.foto, n.alt, { sizes: '(max-width: 760px) 92vw, 46vw' })}</div>
-        <p class="etichetta"><time datetime="${n.data}">${n.dataIt}</time></p>
-        <h3 class="novita-titolo">${n.titolo}</h3>
-      </a>`).join('')}
-    </div>
+  <section class="vetrine" aria-labelledby="news-t">
+    <h2 id="news-t" class="nascosto">Ultime novità</h2>
+    ${[
+      ...NEWS.map((n) => ({ href: `news/${n.slug}/`, foto: n.foto, alt: n.alt, titolo: n.titolo, sotto: n.dataIt, azione: 'Leggi la notizia', tenda: n.titolo })),
+      { href: 'assets/devid-srl-brochure.pdf', foto: 'zund-schermo', alt: 'La postazione del taglio automatico', titolo: 'La brochure di Devid', sotto: 'PDF', azione: 'Scarica', fuori: true },
+    ].map((v, i) => `<div class="vetrina" data-vetrina>
+      <a class="vetrina-carta" href="${v.href}"${v.fuori ? ' target="_blank" rel="noopener"' : ` data-tenda="${v.tenda}"`}>
+        <span class="vetrina-foto">${img(r, v.foto, v.alt, { sizes: '100vw', larghe: v.foto.startsWith('zund') })}</span>
+        <span class="vetrina-buio"></span>
+        <span class="vetrina-alto"><span class="etichetta etichetta-chiara">${i < NEWS.length ? 'Ultime novità' : 'Da scaricare'}</span><span class="etichetta etichetta-chiara">${v.sotto}</span></span>
+        <span class="vetrina-titolo">${v.titolo}</span>
+        <span class="vetrina-basso"><span class="vetrina-azione"><span data-gira>${v.azione}</span>${v.fuori ? G.freccia : G.frecciaDx}</span></span>
+      </a>
+    </div>`).join('')}
+    <div class="vetrine-tutte"><a class="bottone bottone-linea" href="news/" data-tenda="News" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Tutte le news</span>${G.frecciaDx}</span></a></div>
   </section>
 </main>
 ${piede(r, true)}

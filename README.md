@@ -13,10 +13,11 @@ Lo stile viene da **Lusion** (lusion.co), lo studio inglese di siti in 3D premia
 - Tutta la home resta del blu notte dell'apertura, fino al fondo.
 - **Chi siamo**: al centro, la frase che si accende parola per parola.
 - **Servizi**: sul modello di Cuberto (cuberto.com, Agenzia dell'anno su Awwwards). Le cinque carte si accendono una dopo l'altra mentre si scorre: da spente e grigie diventano scure e vive, con titolo, descrizione, tag e «Scopri». Ognuna ha il suo disegno animato: la luce del banco che passa sulla trama e trova un fallo (controllo), due teli che si uniscono col calore (adesivazione), le sagome del cartamodello che si disegnano con le quote (modellistica), la testa di taglio che segue il percorso (taglio), le cuciture che corrono (confezione). Al passaggio del mouse il disegno accelera.
-- **Parco macchine**: la carta scura che si allarga, i numeri che contano, il nastro delle macchine che accelera con lo scroll.
-- **Dentro il laboratorio**: le foto sono montate su una bobina in 3D che gira scorrendo e si trascina col dito o col mouse; sotto, la didascalia della foto davanti.
+- **Parco macchine**: sul modello di «Rejouice at a Glance» (rejouice.com, premiato su Awwwards). La sezione si ferma e una fila di carte scorre di lato: carte coi numeri (7 cm, 200 cm, 1 m, 20 s) scure, chiare e blu che contano entrando, alternate alle foto delle macchine col nome (Crea Solution, Morgan Next 2, Oteman e Bkr, Intelli-di). Le carte entrano storte e si raddrizzano.
+- **Dentro il laboratorio**: sul modello della colonna di Obys (obys.agency, premiato su Awwwards). Le foto scorrono in colonna e passano dentro un mirino al centro: fuori sono piccole e in bianco e nero, dentro diventano grandi e a colori. A sinistra si accende il nome della foto, a destra il reparto.
 - **Per chi tagliamo**: righe bianche che diventano blu al passaggio, con la foto.
-- **Novità**, la **carta blu** con i fili della trama che si scostano sotto il mouse, il piede col marchio DEVID gigante.
+- **Ultime novità**: sul modello degli «Highlights» di Rejouice. Ogni notizia, e la brochure, è una grande immagine a tutto schermo col titolo al centro; scorrendo la successiva sale e copre la precedente, che si rimpicciolisce e si scurisce.
+- La **carta blu** con i fili della trama che si scostano sotto il mouse, il piede col logo gigante.
 - Fra una pagina e l'altra, il pannello blu col nome della pagina.
 - Senza WebGL al posto del tessuto si vede la foto. Chi ha attivato «riduci movimento» vede il tessuto fermo e niente spostamenti.
 

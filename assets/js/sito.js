@@ -474,6 +474,106 @@
     });
   }
 
+  /* ---------- parco macchine: le carte scorrono di lato ---------- */
+  function sguardo() {
+    var sez = document.querySelector('[data-sguardo]');
+    if (!sez) return;
+    var b = sez.querySelector('[data-sguardo-binario]');
+    var carte = tutti('.sguardo-carta', b);
+    if (ridotto) { sez.querySelector('.sguardo-palco').style.overflowX = 'auto'; return; }
+    var distanza = function () { return Math.max(0, b.scrollWidth - innerWidth); };
+    var corsa = gsap.to(b, {
+      x: function () { return -distanza(); }, ease: 'none',
+      scrollTrigger: { trigger: sez, start: 'top top', end: function () { return '+=' + Math.round(distanza() * 1.1); }, pin: true, scrub: 0.7, anticipatePin: 1, invalidateOnRefresh: true },
+    });
+    carte.forEach(function (c, i) {
+      gsap.fromTo(c, { yPercent: i % 2 ? 14 : -10, rotation: i % 2 ? 3 : -3, scale: 0.9 }, {
+        yPercent: 0, rotation: 0, scale: 1, ease: 'none',
+        scrollTrigger: { trigger: c, containerAnimation: corsa, start: 'left right', end: 'left 55%', scrub: true },
+      });
+      var im = c.querySelector('img');
+      if (im) gsap.fromTo(im, { xPercent: 7 }, { xPercent: -7, ease: 'none', scrollTrigger: { trigger: c, containerAnimation: corsa, start: 'left right', end: 'right left', scrub: true } });
+      var n = c.querySelector('[data-conta-lato]');
+      if (n) {
+        var fine = parseFloat(n.getAttribute('data-conta-lato')), o = { v: 0 };
+        n.textContent = '0';
+        gsap.to(o, { v: fine, duration: 1.6, ease: 'morbida', onUpdate: function () { n.textContent = String(Math.round(o.v)); }, scrollTrigger: { trigger: c, containerAnimation: corsa, start: 'left 80%' } });
+      }
+    });
+  }
+
+  /* ---------- dentro il laboratorio: le foto passano nel mirino ---------- */
+  function mirino() {
+    var sez = document.querySelector('[data-mirino]');
+    if (!sez) return;
+    var col = sez.querySelector('[data-mirino-colonna]');
+    var cornice = sez.querySelector('.mirino-cornice');
+    var foto = tutti('[data-mirino-foto]', sez);
+    var nomi = tutti('[data-mirino-nome]', sez);
+    var reparti = tutti('[data-mirino-reparto]', sez);
+    var n = foto.length;
+    var fw, fh, sw, sh, passo, extra, obiettivo = 0, ora = 0, attivo = -1, vista = false, tel = false;
+    var misura = function () {
+      var w = innerWidth, h = innerHeight; tel = w < 760;
+      fw = Math.min(w * (tel ? 0.78 : 0.32), h * (tel ? 0.36 : 0.46) * 4 / 3);
+      fh = fw * 0.75;
+      sw = fw * (tel ? 0.34 : 0.36); sh = sw * 0.75;
+      passo = sh + 14;
+      extra = (fh - sh) / 2 + 14;
+      col.style.width = sw + 'px'; col.style.marginLeft = (-sw / 2) + 'px';
+      foto.forEach(function (f) { f.style.top = (-sh / 2) + 'px'; });
+      cornice.style.setProperty('--mc-w', fw + 'px'); cornice.style.setProperty('--mc-h', fh + 'px');
+    };
+    misura(); addEventListener('resize', misura);
+    var segna = function (k) {
+      if (k === attivo) return;
+      attivo = k;
+      nomi.forEach(function (x, i) { x.classList.toggle('attiva', i === k); });
+      reparti.forEach(function (x, i) { gsap.to(x, { opacity: i === k ? 1 : 0, y: i === k ? 0 : (i < k ? -10 : 10), duration: 0.4, overwrite: true }); });
+    };
+    var disegna = function () {
+      ora += (obiettivo - ora) * (ridotto ? 1 : 0.12);
+      var off = ora * (n - 1) * passo;
+      for (var i = 0; i < n; i++) {
+        var rel = i * passo - off, d = Math.abs(rel);
+        var f = Math.max(0, 1 - d / passo); f = f * f * (3 - 2 * f);
+        var y = rel + (rel < 0 ? -1 : 1) * extra * Math.min(1, d / passo);
+        var sc = 1 + (fw / sw - 1) * f;
+        foto[i].style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0) scale(' + sc.toFixed(3) + ')';
+        foto[i].style.filter = 'grayscale(' + (1 - f).toFixed(2) + ') brightness(' + (0.5 + 0.5 * f).toFixed(2) + ')';
+        foto[i].style.zIndex = f > 0.5 ? 2 : 1;
+        foto[i].style.opacity = Math.max(0, 1 - Math.max(0, d - passo) / (passo * (tel ? 1.4 : 3.2))).toFixed(2);
+      }
+      segna(Math.round(off / passo));
+    };
+    new IntersectionObserver(function (v) { vista = v[0].isIntersecting; }).observe(sez);
+    disegna();
+    if (ridotto) return;
+    ScrollTrigger.create({
+      trigger: sez, start: 'top top', end: function () { return '+=' + Math.round(innerHeight * n * 0.42); },
+      pin: true, anticipatePin: 1, onUpdate: function (st) { obiettivo = st.progress; },
+    });
+    gsap.from(cornice.querySelectorAll('i'), { scale: 0, opacity: 0, duration: 1, ease: 'back.out(2)', stagger: 0.06, scrollTrigger: { trigger: sez, start: 'top 60%' } });
+    gsap.ticker.add(function () { if (vista) disegna(); });
+  }
+
+  /* ---------- ultime novità: le vetrine si coprono una con l'altra ---------- */
+  function vetrine() {
+    var v = tutti('[data-vetrina]');
+    if (!v.length || ridotto) return;
+    v.forEach(function (el, i) {
+      var carta = el.querySelector('.vetrina-carta');
+      var im = el.querySelector('.vetrina-foto img');
+      var titolo = el.querySelector('.vetrina-titolo');
+      gsap.fromTo(im, { scale: 1.25 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: el, start: 'top bottom', end: 'top top', scrub: true } });
+      SplitText.create(titolo, { type: 'words', mask: 'words', autoSplit: true, onSplit: function (self) {
+        return gsap.from(self.words, { yPercent: 110, duration: 1.2, ease: 'uscita', stagger: 0.06, scrollTrigger: { trigger: el, start: 'top 45%' } });
+      } });
+      var dopo = v[i + 1];
+      if (dopo) gsap.to(carta, { scale: 0.88, opacity: 0.35, borderRadius: 48, ease: 'none', scrollTrigger: { trigger: dopo, start: 'top bottom', end: 'top top', scrub: true } });
+    });
+  }
+
   /* ---------- la bobina del laboratorio ---------- */
   function bobina() {
     var sez = document.querySelector('[data-bobina]');
@@ -624,7 +724,7 @@
     var home = corpo.classList.contains('pagina-home');
     var entra = home ? eroe() : null;
     var intro = home ? null : apertura();
-    accesi(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
+    accesi(); sguardo(); mirino(); vetrine(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
     ScrollTrigger.sort(); ScrollTrigger.refresh();
     tutti('[data-su]').forEach(function (b) { b.addEventListener('click', function () { if (lenis) lenis.scrollTo(0, { duration: 2 }); else scrollTo(0, 0); }); });
 
