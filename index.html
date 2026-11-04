@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="assets/css/sito.css">
 <script>(function(h){h.classList.add('js');try{if(sessionStorage.getItem('devid-tenda'))h.classList.add('arrivo');if(sessionStorage.getItem('devid-visto'))h.classList.add('visto-carica')}catch(e){}setTimeout(function(){if(!window.devidPronto)h.classList.remove('js','arrivo')},4000)})(document.documentElement)</script>
 </head>
-<body class="pagina-home">
+<body class="pagina-home tema-notte">
 <div class="carica" data-carica aria-hidden="true">
   <div class="carica-barra"><i></i></div>
   <p class="carica-conta"><span data-conta-carica>0</span></p>
@@ -75,56 +75,93 @@
   </section>
 
   <section class="dichiarazione" aria-labelledby="dich-t">
-    <p class="etichetta" data-sale>Chi siamo</p>
+    <p class="etichetta etichetta-chiara" data-sale>Chi siamo</p>
     <h2 id="dich-t" class="dichiarazione-testo" data-accende>L’esperienza dell’artigianato italiano, unita alla ricerca e alle macchine più moderne. <em>Generazioni di lavoro sartoriale</em> e un aggiornamento continuo, per un tagliato preciso e capi che escono come devono.</h2>
     <div class="dichiarazione-sotto">
-      <a class="bottone bottone-scuro" href="azienda/" data-tenda="Azienda" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>L’azienda</span><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a>
-      <a class="bottone bottone-linea" href="assets/devid-srl-brochure.pdf" target="_blank" rel="noopener" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Brochure</span><svg class="g g-freccia" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5.5 3.5h7v7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a>
+      <a class="bottone bottone-bianco" href="azienda/" data-tenda="Azienda" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>L’azienda</span><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a>
+      <a class="bottone bottone-linea-chiara" href="assets/devid-srl-brochure.pdf" target="_blank" rel="noopener" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Brochure</span><svg class="g g-freccia" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5.5 3.5h7v7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a>
     </div>
   </section>
 
-  <section class="servizi" aria-labelledby="servizi-t">
-    <div class="sezione-testa">
-      <h2 id="servizi-t" class="sezione-titolo" data-righe>Cinque lavorazioni,<br>un solo stabilimento</h2>
-      <a class="bottone bottone-linea" href="servizi/" data-tenda="Servizi" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Tutti i servizi</span><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a>
-    </div>
-    <div class="servizi-griglia">
-      <a class="servizio-carta " href="servizi/controllo-tessuti/" data-tenda="Controllo tessuti" data-carta-servizio>
-  <div class="servizio-foto" data-cursore="Apri"><img src="assets/img/stesura-800.webp" srcset="assets/img/stesura-800.webp 800w, assets/img/stesura-1400.webp 1400w" sizes="(max-width: 760px) 92vw, 46vw" alt="Un tavolo di stesura con il tessuto disteso nel reparto di Devid" loading="lazy" decoding="async"></div>
-  <div class="servizio-testo">
-    <h3 class="servizio-nome">Controllo tessuti</h3>
-    <p class="servizio-breve">Ogni pezza verificata alla specula, misurata senza tensione e segnalata fallo per fallo.</p>
-    <ul class="servizio-tag"><li>Specula</li><li>Spettrofotometro</li><li>Prova vapore</li></ul>
-  </div>
-</a><a class="servizio-carta carta-giu" href="servizi/adesivazione-tessuto/" data-tenda="Adesivazione" data-carta-servizio>
-  <div class="servizio-foto" data-cursore="Apri"><img src="assets/img/adesivazione-800.webp" srcset="assets/img/adesivazione-800.webp 800w, assets/img/adesivazione-1400.webp 1400w" sizes="(max-width: 760px) 92vw, 46vw" alt="La macchina per l’adesivazione dei tessuti di Devid" loading="lazy" decoding="async"></div>
-  <div class="servizio-testo">
-    <h3 class="servizio-nome">Adesivazione</h3>
-    <p class="servizio-breve">Adesivazione, accoppiatura e decatizzo con la strumentazione nuova del reparto.</p>
-    <ul class="servizio-tag"><li>Adesivazione</li><li>Accoppiatura</li><li>Decatizzo</li></ul>
-  </div>
-</a><a class="servizio-carta " href="servizi/modellistica-cad-cam/" data-tenda="Modellistica CAD-CAM" data-carta-servizio>
-  <div class="servizio-foto" data-cursore="Apri"><img src="assets/img/sagome-800.webp" srcset="assets/img/sagome-800.webp 800w, assets/img/sagome-1400.webp 1400w" sizes="(max-width: 760px) 92vw, 46vw" alt="Sagome di un piazzamento stampate sul piano di lavoro" loading="lazy" decoding="async"></div>
-  <div class="servizio-testo">
-    <h3 class="servizio-nome">Modellistica CAD-CAM</h3>
-    <p class="servizio-breve">Sviluppo taglie, digitalizzazione dei cartamodelli e piazzamento automatico.</p>
-    <ul class="servizio-tag"><li>Sviluppo taglie</li><li>Intelli-di</li><li>Piazzamento</li></ul>
-  </div>
-</a><a class="servizio-carta carta-giu" href="servizi/taglio-tessuti/" data-tenda="Taglio computerizzato" data-carta-servizio>
-  <div class="servizio-foto" data-cursore="Apri"><img src="assets/img/zund-sala-800.webp" srcset="assets/img/zund-sala-800.webp 800w, assets/img/zund-sala-1400.webp 1400w, assets/img/zund-sala-2400.webp 2400w" sizes="(max-width: 760px) 92vw, 46vw" alt="La sala taglio con il tavolo di taglio automatico e il portale di scansione" loading="lazy" decoding="async"></div>
-  <div class="servizio-testo">
-    <h3 class="servizio-nome">Taglio computerizzato</h3>
-    <p class="servizio-breve">Dai tessuti leggeri agli spalmati, fino a 7 cm di materasso, anche con l’intelligenza artificiale.</p>
-    <ul class="servizio-tag"><li>Intelligenza artificiale</li><li>Fino a 7 cm</li><li>Conveyor</li></ul>
-  </div>
-</a><a class="servizio-carta " href="servizi/confezione-campioni/" data-tenda="Confezione campioni" data-carta-servizio>
-  <div class="servizio-foto" data-cursore="Apri"><img src="assets/img/camice-800.webp" srcset="assets/img/camice-800.webp 800w, assets/img/camice-1400.webp 1400w" sizes="(max-width: 760px) 92vw, 46vw" alt="Un camice in poliestere confezionato da Devid, disteso sul tavolo" loading="lazy" decoding="async"></div>
-  <div class="servizio-testo">
-    <h3 class="servizio-nome">Confezione campioni</h3>
-    <p class="servizio-breve">Capi campionario e di produzione, cuciti da operatrici con esperienza decennale.</p>
-    <ul class="servizio-tag"><li>Campionario</li><li>Produzione</li><li>In casa</li></ul>
-  </div>
-</a>
+  <section class="mazzetta" data-mazzetta aria-labelledby="mazzetta-t">
+    <div class="mazzetta-palco">
+      <div class="mazzetta-testa">
+        <p class="etichetta etichetta-chiara">Il campionario</p>
+        <h2 id="mazzetta-t" class="mazzetta-titolo" data-righe>Cinque lavorazioni,<br>un solo stabilimento</h2>
+      </div>
+      <div class="mazzetta-libro" data-libro>
+        <div class="mazzetta-dorso" aria-hidden="true"><i></i><i></i></div>
+        <a class="campione" href="servizi/controllo-tessuti/" data-tenda="Controllo tessuti" data-campione style="z-index:5">
+          <span class="campione-stoffa"><img src="assets/img/stesura-800.webp" srcset="assets/img/stesura-800.webp 800w, assets/img/stesura-1400.webp 1400w" sizes="(max-width: 760px) 80vw, 34vw" alt="Un tavolo di stesura con il tessuto disteso nel reparto di Devid" loading="lazy" decoding="async"></span>
+          <span class="campione-ombra" aria-hidden="true"></span>
+          <span class="campione-occhiello" aria-hidden="true"></span>
+          <span class="cartellino">
+            <span class="cartellino-riga"><b>Devid srl</b><b>Vezzano s/C</b></span>
+            <span class="cartellino-nome">Controllo tessuti</span>
+            <span class="cartellino-riga"><i>Specula</i><i>Spettrofotometro</i><i>Prova vapore</i></span>
+          </span>
+        </a><a class="campione" href="servizi/adesivazione-tessuto/" data-tenda="Adesivazione" data-campione style="z-index:4">
+          <span class="campione-stoffa"><img src="assets/img/adesivazione-800.webp" srcset="assets/img/adesivazione-800.webp 800w, assets/img/adesivazione-1400.webp 1400w" sizes="(max-width: 760px) 80vw, 34vw" alt="La macchina per l’adesivazione dei tessuti di Devid" loading="lazy" decoding="async"></span>
+          <span class="campione-ombra" aria-hidden="true"></span>
+          <span class="campione-occhiello" aria-hidden="true"></span>
+          <span class="cartellino">
+            <span class="cartellino-riga"><b>Devid srl</b><b>Vezzano s/C</b></span>
+            <span class="cartellino-nome">Adesivazione</span>
+            <span class="cartellino-riga"><i>Adesivazione</i><i>Accoppiatura</i><i>Decatizzo</i></span>
+          </span>
+        </a><a class="campione" href="servizi/modellistica-cad-cam/" data-tenda="Modellistica CAD-CAM" data-campione style="z-index:3">
+          <span class="campione-stoffa"><img src="assets/img/sagome-800.webp" srcset="assets/img/sagome-800.webp 800w, assets/img/sagome-1400.webp 1400w" sizes="(max-width: 760px) 80vw, 34vw" alt="Sagome di un piazzamento stampate sul piano di lavoro" loading="lazy" decoding="async"></span>
+          <span class="campione-ombra" aria-hidden="true"></span>
+          <span class="campione-occhiello" aria-hidden="true"></span>
+          <span class="cartellino">
+            <span class="cartellino-riga"><b>Devid srl</b><b>Vezzano s/C</b></span>
+            <span class="cartellino-nome">Modellistica CAD-CAM</span>
+            <span class="cartellino-riga"><i>Sviluppo taglie</i><i>Intelli-di</i><i>Piazzamento</i></span>
+          </span>
+        </a><a class="campione" href="servizi/taglio-tessuti/" data-tenda="Taglio computerizzato" data-campione style="z-index:2">
+          <span class="campione-stoffa"><img src="assets/img/zund-sala-800.webp" srcset="assets/img/zund-sala-800.webp 800w, assets/img/zund-sala-1400.webp 1400w, assets/img/zund-sala-2400.webp 2400w" sizes="(max-width: 760px) 80vw, 34vw" alt="La sala taglio con il tavolo di taglio automatico e il portale di scansione" loading="lazy" decoding="async"></span>
+          <span class="campione-ombra" aria-hidden="true"></span>
+          <span class="campione-occhiello" aria-hidden="true"></span>
+          <span class="cartellino">
+            <span class="cartellino-riga"><b>Devid srl</b><b>Vezzano s/C</b></span>
+            <span class="cartellino-nome">Taglio computerizzato</span>
+            <span class="cartellino-riga"><i>Intelligenza artificiale</i><i>Fino a 7 cm</i><i>Conveyor</i></span>
+          </span>
+        </a><a class="campione" href="servizi/confezione-campioni/" data-tenda="Confezione campioni" data-campione style="z-index:1">
+          <span class="campione-stoffa"><img src="assets/img/camice-800.webp" srcset="assets/img/camice-800.webp 800w, assets/img/camice-1400.webp 1400w" sizes="(max-width: 760px) 80vw, 34vw" alt="Un camice in poliestere confezionato da Devid, disteso sul tavolo" loading="lazy" decoding="async"></span>
+          <span class="campione-ombra" aria-hidden="true"></span>
+          <span class="campione-occhiello" aria-hidden="true"></span>
+          <span class="cartellino">
+            <span class="cartellino-riga"><b>Devid srl</b><b>Vezzano s/C</b></span>
+            <span class="cartellino-nome">Confezione campioni</span>
+            <span class="cartellino-riga"><i>Campionario</i><i>Produzione</i><i>In casa</i></span>
+          </span>
+        </a>
+      </div>
+      <div class="mazzetta-voci" aria-live="polite">
+        <div class="mazzetta-voce" data-voce>
+          <p class="mazzetta-nome">Controllo tessuti</p>
+          <p class="mazzetta-breve">Ogni pezza verificata alla specula, misurata senza tensione e segnalata fallo per fallo.</p>
+          <a class="bottone bottone-bianco" href="servizi/controllo-tessuti/" data-tenda="Controllo tessuti" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Scopri il servizio</span><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a>
+        </div><div class="mazzetta-voce" data-voce aria-hidden="true">
+          <p class="mazzetta-nome">Adesivazione</p>
+          <p class="mazzetta-breve">Adesivazione, accoppiatura e decatizzo con la strumentazione nuova del reparto.</p>
+          <a class="bottone bottone-bianco" href="servizi/adesivazione-tessuto/" data-tenda="Adesivazione" data-magnete tabindex="-1"><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Scopri il servizio</span><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a>
+        </div><div class="mazzetta-voce" data-voce aria-hidden="true">
+          <p class="mazzetta-nome">Modellistica CAD-CAM</p>
+          <p class="mazzetta-breve">Sviluppo taglie, digitalizzazione dei cartamodelli e piazzamento automatico.</p>
+          <a class="bottone bottone-bianco" href="servizi/modellistica-cad-cam/" data-tenda="Modellistica CAD-CAM" data-magnete tabindex="-1"><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Scopri il servizio</span><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a>
+        </div><div class="mazzetta-voce" data-voce aria-hidden="true">
+          <p class="mazzetta-nome">Taglio computerizzato</p>
+          <p class="mazzetta-breve">Dai tessuti leggeri agli spalmati, fino a 7 cm di materasso, anche con l’intelligenza artificiale.</p>
+          <a class="bottone bottone-bianco" href="servizi/taglio-tessuti/" data-tenda="Taglio computerizzato" data-magnete tabindex="-1"><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Scopri il servizio</span><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a>
+        </div><div class="mazzetta-voce" data-voce aria-hidden="true">
+          <p class="mazzetta-nome">Confezione campioni</p>
+          <p class="mazzetta-breve">Capi campionario e di produzione, cuciti da operatrici con esperienza decennale.</p>
+          <a class="bottone bottone-bianco" href="servizi/confezione-campioni/" data-tenda="Confezione campioni" data-magnete tabindex="-1"><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Scopri il servizio</span><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a>
+        </div>
+      </div>
+      <div class="mazzetta-indice" aria-hidden="true"><span data-tacca>Controllo tessuti</span><span data-tacca>Adesivazione</span><span data-tacca>Modellistica CAD-CAM</span><span data-tacca>Taglio computerizzato</span><span data-tacca>Confezione campioni</span></div>
     </div>
   </section>
 
@@ -145,14 +182,21 @@
     </div>
   </section>
 
-  <section class="laboratorio" aria-labelledby="lab-t">
-    <div class="sezione-testa">
-      <h2 id="lab-t" class="sezione-titolo" data-righe>Dentro il laboratorio</h2>
-      <p class="sezione-nota">Vezzano sul Crostolo, Reggio Emilia. Le foto sono del nostro reparto.</p>
-    </div>
-    <div class="galleria" data-galleria>
-      <div class="galleria-binario" data-galleria-binario>
-        <figure class="galleria-foto"><img src="assets/img/zund-operatrice-800.webp" srcset="assets/img/zund-operatrice-800.webp 800w, assets/img/zund-operatrice-1400.webp 1400w, assets/img/zund-operatrice-2400.webp 2400w" sizes="(max-width: 760px) 70vw, 30vw" alt="Il taglio automatico guidato dallo schermo" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/taglio-testa-800.webp" srcset="assets/img/taglio-testa-800.webp 800w, assets/img/taglio-testa-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="La testa di taglio, da vicino" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/sagome-800.webp" srcset="assets/img/sagome-800.webp 800w, assets/img/sagome-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="Le sagome di un piazzamento" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/proiettore-800.webp" srcset="assets/img/proiettore-800.webp 800w, assets/img/proiettore-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="Il proiettore sopra il tavolo" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/zund-portale-800.webp" srcset="assets/img/zund-portale-800.webp 800w, assets/img/zund-portale-1400.webp 1400w, assets/img/zund-portale-2400.webp 2400w" sizes="(max-width: 760px) 70vw, 30vw" alt="Il portale di scansione" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/cartamodello-800.webp" srcset="assets/img/cartamodello-800.webp 800w, assets/img/cartamodello-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="Cartamodelli sul tavolo" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/pannello-800.webp" srcset="assets/img/pannello-800.webp 800w, assets/img/pannello-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="Il pannello comandi" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/metro-800.webp" srcset="assets/img/metro-800.webp 800w, assets/img/metro-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="Metro e forbici sulla macchina" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/adesivazione-800.webp" srcset="assets/img/adesivazione-800.webp 800w, assets/img/adesivazione-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="La macchina per l’adesivazione" loading="lazy" decoding="async"></figure><figure class="galleria-foto"><img src="assets/img/zund-piano-800.webp" srcset="assets/img/zund-piano-800.webp 800w, assets/img/zund-piano-1400.webp 1400w, assets/img/zund-piano-2400.webp 2400w" sizes="(max-width: 760px) 70vw, 30vw" alt="Il piano di taglio" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/zund-operatrice-800.webp" srcset="assets/img/zund-operatrice-800.webp 800w, assets/img/zund-operatrice-1400.webp 1400w, assets/img/zund-operatrice-2400.webp 2400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/taglio-testa-800.webp" srcset="assets/img/taglio-testa-800.webp 800w, assets/img/taglio-testa-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/sagome-800.webp" srcset="assets/img/sagome-800.webp 800w, assets/img/sagome-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/proiettore-800.webp" srcset="assets/img/proiettore-800.webp 800w, assets/img/proiettore-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/zund-portale-800.webp" srcset="assets/img/zund-portale-800.webp 800w, assets/img/zund-portale-1400.webp 1400w, assets/img/zund-portale-2400.webp 2400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/cartamodello-800.webp" srcset="assets/img/cartamodello-800.webp 800w, assets/img/cartamodello-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/pannello-800.webp" srcset="assets/img/pannello-800.webp 800w, assets/img/pannello-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/metro-800.webp" srcset="assets/img/metro-800.webp 800w, assets/img/metro-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/adesivazione-800.webp" srcset="assets/img/adesivazione-800.webp 800w, assets/img/adesivazione-1400.webp 1400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure><figure class="galleria-foto" aria-hidden="true"><img src="assets/img/zund-piano-800.webp" srcset="assets/img/zund-piano-800.webp 800w, assets/img/zund-piano-1400.webp 1400w, assets/img/zund-piano-2400.webp 2400w" sizes="(max-width: 760px) 70vw, 30vw" alt="" loading="lazy" decoding="async"></figure>
+  <section class="bobina" data-bobina aria-labelledby="lab-t">
+    <div class="bobina-palco">
+      <div class="bobina-testa">
+        <p class="etichetta etichetta-chiara">Vezzano sul Crostolo, Reggio Emilia</p>
+        <h2 id="lab-t" class="bobina-titolo" data-righe>Dentro il laboratorio</h2>
+      </div>
+      <div class="bobina-scena" data-bobina-scena>
+        <div class="bobina-rullo" data-rullo>
+          <figure class="bobina-foto" data-pannello><img src="assets/img/zund-operatrice-800.webp" srcset="assets/img/zund-operatrice-800.webp 800w, assets/img/zund-operatrice-1400.webp 1400w, assets/img/zund-operatrice-2400.webp 2400w" sizes="(max-width: 760px) 60vw, 26vw" alt="Il taglio automatico guidato dallo schermo" loading="lazy" decoding="async"><figcaption>Il taglio automatico guidato dallo schermo</figcaption></figure><figure class="bobina-foto" data-pannello><img src="assets/img/taglio-testa-800.webp" srcset="assets/img/taglio-testa-800.webp 800w, assets/img/taglio-testa-1400.webp 1400w" sizes="(max-width: 760px) 60vw, 26vw" alt="La testa di taglio, da vicino" loading="lazy" decoding="async"><figcaption>La testa di taglio, da vicino</figcaption></figure><figure class="bobina-foto" data-pannello><img src="assets/img/sagome-800.webp" srcset="assets/img/sagome-800.webp 800w, assets/img/sagome-1400.webp 1400w" sizes="(max-width: 760px) 60vw, 26vw" alt="Le sagome di un piazzamento" loading="lazy" decoding="async"><figcaption>Le sagome di un piazzamento</figcaption></figure><figure class="bobina-foto" data-pannello><img src="assets/img/proiettore-800.webp" srcset="assets/img/proiettore-800.webp 800w, assets/img/proiettore-1400.webp 1400w" sizes="(max-width: 760px) 60vw, 26vw" alt="Il proiettore sopra il tavolo" loading="lazy" decoding="async"><figcaption>Il proiettore sopra il tavolo</figcaption></figure><figure class="bobina-foto" data-pannello><img src="assets/img/zund-portale-800.webp" srcset="assets/img/zund-portale-800.webp 800w, assets/img/zund-portale-1400.webp 1400w, assets/img/zund-portale-2400.webp 2400w" sizes="(max-width: 760px) 60vw, 26vw" alt="Il portale di scansione" loading="lazy" decoding="async"><figcaption>Il portale di scansione</figcaption></figure><figure class="bobina-foto" data-pannello><img src="assets/img/cartamodello-800.webp" srcset="assets/img/cartamodello-800.webp 800w, assets/img/cartamodello-1400.webp 1400w" sizes="(max-width: 760px) 60vw, 26vw" alt="Cartamodelli sul tavolo" loading="lazy" decoding="async"><figcaption>Cartamodelli sul tavolo</figcaption></figure><figure class="bobina-foto" data-pannello><img src="assets/img/pannello-800.webp" srcset="assets/img/pannello-800.webp 800w, assets/img/pannello-1400.webp 1400w" sizes="(max-width: 760px) 60vw, 26vw" alt="Il pannello comandi" loading="lazy" decoding="async"><figcaption>Il pannello comandi</figcaption></figure><figure class="bobina-foto" data-pannello><img src="assets/img/metro-800.webp" srcset="assets/img/metro-800.webp 800w, assets/img/metro-1400.webp 1400w" sizes="(max-width: 760px) 60vw, 26vw" alt="Metro e forbici sulla macchina" loading="lazy" decoding="async"><figcaption>Metro e forbici sulla macchina</figcaption></figure><figure class="bobina-foto" data-pannello><img src="assets/img/adesivazione-800.webp" srcset="assets/img/adesivazione-800.webp 800w, assets/img/adesivazione-1400.webp 1400w" sizes="(max-width: 760px) 60vw, 26vw" alt="La macchina per l’adesivazione" loading="lazy" decoding="async"><figcaption>La macchina per l’adesivazione</figcaption></figure><figure class="bobina-foto" data-pannello><img src="assets/img/zund-piano-800.webp" srcset="assets/img/zund-piano-800.webp 800w, assets/img/zund-piano-1400.webp 1400w, assets/img/zund-piano-2400.webp 2400w" sizes="(max-width: 760px) 60vw, 26vw" alt="Il piano di taglio" loading="lazy" decoding="async"><figcaption>Il piano di taglio</figcaption></figure>
+        </div>
+        <div class="bobina-asse" aria-hidden="true"></div>
+      </div>
+      <div class="bobina-basso">
+        <p class="bobina-dida" data-dida aria-hidden="true"></p>
+        <p class="bobina-aiuto etichetta etichetta-chiara">Scorrete o trascinate</p>
       </div>
     </div>
   </section>

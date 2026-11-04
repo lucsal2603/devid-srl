@@ -321,12 +321,11 @@ function avvia() {
     const z = ((SX.pos[a0 + 2] + DX.pos[b0 + 2]) / 2) * (1 - f) + ((SX.pos[a1 + 2] + DX.pos[b1 + 2]) / 2) * f;
     const forza = attivo ? 1 : 0;
     punto.material.opacity += (forza * (0.85 + Math.random() * 0.15) - punto.material.opacity) * 0.25;
-    raggio.material.opacity += (forza * 0.55 - raggio.material.opacity) * 0.2;
+    raggio.material.opacity += (forza * 0.35 - raggio.material.opacity) * 0.2;
     luceLaser.intensity += (forza * 3.2 - luceLaser.intensity) * 0.2;
     punto.position.set(x, y, z + 0.03);
     luceLaser.position.set(x, y, z + 0.25);
-    raggio.position.set(x, y, z + 3);
-    raggio.rotation.x = Math.PI / 2;
+    raggio.position.set(x, y + 3, z + 0.02);
     if (attivo && Math.abs(stato.velocita || 0) > 0.0005) for (let i = 0; i < 4; i++) scintilla(x, y, z);
     else if (attivo && Math.random() < 0.3) scintilla(x, y, z);
     for (let i = 0; i < NS; i++) {

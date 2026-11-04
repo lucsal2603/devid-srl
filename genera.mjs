@@ -184,7 +184,7 @@ function home() {
   ];
   const macchine = ['Morgan Next 2', 'Investronica Diamond', 'Stenditori Oteman e Bkr', 'Algotex Stream 180', 'Intelli-di', 'Datacolor 3890', 'Crea Solution'];
   return `${testa({ r, titolo: 'Devid srl, taglio tessuti e modellistica a Reggio Emilia', descrizione: 'Controllo tessuti, adesivazione, modellistica CAD-CAM, taglio computerizzato e confezione campioni a Vezzano sul Crostolo, Reggio Emilia. Dagli anni Cinquanta.', url: '/' })}
-<body class="pagina-home">
+<body class="pagina-home tema-notte">
 <div class="carica" data-carica aria-hidden="true">
   <div class="carica-barra"><i></i></div>
   <p class="carica-conta"><span data-conta-carica>0</span></p>
@@ -215,21 +215,41 @@ ${intestazione(r, '')}
   </section>
 
   <section class="dichiarazione" aria-labelledby="dich-t">
-    <p class="etichetta" data-sale>Chi siamo</p>
+    <p class="etichetta etichetta-chiara" data-sale>Chi siamo</p>
     <h2 id="dich-t" class="dichiarazione-testo" data-accende>L’esperienza dell’artigianato italiano, unita alla ricerca e alle macchine più moderne. <em>Generazioni di lavoro sartoriale</em> e un aggiornamento continuo, per un tagliato preciso e capi che escono come devono.</h2>
     <div class="dichiarazione-sotto">
-      <a class="bottone bottone-scuro" href="azienda/" data-tenda="Azienda" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>L’azienda</span>${G.frecciaDx}</span></a>
-      <a class="bottone bottone-linea" href="assets/devid-srl-brochure.pdf" target="_blank" rel="noopener" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Brochure</span>${G.freccia}</span></a>
+      <a class="bottone bottone-bianco" href="azienda/" data-tenda="Azienda" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>L’azienda</span>${G.frecciaDx}</span></a>
+      <a class="bottone bottone-linea-chiara" href="assets/devid-srl-brochure.pdf" target="_blank" rel="noopener" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Brochure</span>${G.freccia}</span></a>
     </div>
   </section>
 
-  <section class="servizi" aria-labelledby="servizi-t">
-    <div class="sezione-testa">
-      <h2 id="servizi-t" class="sezione-titolo" data-righe>Cinque lavorazioni,<br>un solo stabilimento</h2>
-      <a class="bottone bottone-linea" href="servizi/" data-tenda="Servizi" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Tutti i servizi</span>${G.frecciaDx}</span></a>
-    </div>
-    <div class="servizi-griglia">
-      ${SERVIZI.map((s, i) => carta(r, s, i)).join('')}
+  <section class="mazzetta" data-mazzetta aria-labelledby="mazzetta-t">
+    <div class="mazzetta-palco">
+      <div class="mazzetta-testa">
+        <p class="etichetta etichetta-chiara">Il campionario</p>
+        <h2 id="mazzetta-t" class="mazzetta-titolo" data-righe>Cinque lavorazioni,<br>un solo stabilimento</h2>
+      </div>
+      <div class="mazzetta-libro" data-libro>
+        <div class="mazzetta-dorso" aria-hidden="true"><i></i><i></i></div>
+        ${SERVIZI.map((s, i) => `<a class="campione" href="servizi/${s.slug}/" data-tenda="${s.nome}" data-campione style="z-index:${SERVIZI.length - i}">
+          <span class="campione-stoffa">${img(r, s.foto, s.alt, { sizes: '(max-width: 760px) 80vw, 34vw', larghe: !!s.larghe })}</span>
+          <span class="campione-ombra" aria-hidden="true"></span>
+          <span class="campione-occhiello" aria-hidden="true"></span>
+          <span class="cartellino">
+            <span class="cartellino-riga"><b>Devid srl</b><b>Vezzano s/C</b></span>
+            <span class="cartellino-nome">${s.nome}</span>
+            <span class="cartellino-riga">${(TAG[s.slug] || []).map((t) => `<i>${t}</i>`).join('')}</span>
+          </span>
+        </a>`).join('')}
+      </div>
+      <div class="mazzetta-voci" aria-live="polite">
+        ${SERVIZI.map((s, i) => `<div class="mazzetta-voce" data-voce${i ? ' aria-hidden="true"' : ''}>
+          <p class="mazzetta-nome">${s.nome}</p>
+          <p class="mazzetta-breve">${s.breve}</p>
+          <a class="bottone bottone-bianco" href="servizi/${s.slug}/" data-tenda="${s.nome}" data-magnete${i ? ' tabindex="-1"' : ''}><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Scopri il servizio</span>${G.frecciaDx}</span></a>
+        </div>`).join('')}
+      </div>
+      <div class="mazzetta-indice" aria-hidden="true">${SERVIZI.map((s) => `<span data-tacca>${s.nome}</span>`).join('')}</div>
     </div>
   </section>
 
@@ -255,14 +275,21 @@ ${intestazione(r, '')}
     </div>
   </section>
 
-  <section class="laboratorio" aria-labelledby="lab-t">
-    <div class="sezione-testa">
-      <h2 id="lab-t" class="sezione-titolo" data-righe>Dentro il laboratorio</h2>
-      <p class="sezione-nota">Vezzano sul Crostolo, Reggio Emilia. Le foto sono del nostro reparto.</p>
-    </div>
-    <div class="galleria" data-galleria>
-      <div class="galleria-binario" data-galleria-binario>
-        ${[0, 1].map((k) => foto.map(([f, a]) => `<figure class="galleria-foto"${k ? ' aria-hidden="true"' : ''}>${img(r, f, k ? '' : a, { sizes: '(max-width: 760px) 70vw, 30vw', larghe: f.startsWith('zund') })}</figure>`).join('')).join('')}
+  <section class="bobina" data-bobina aria-labelledby="lab-t">
+    <div class="bobina-palco">
+      <div class="bobina-testa">
+        <p class="etichetta etichetta-chiara">Vezzano sul Crostolo, Reggio Emilia</p>
+        <h2 id="lab-t" class="bobina-titolo" data-righe>Dentro il laboratorio</h2>
+      </div>
+      <div class="bobina-scena" data-bobina-scena>
+        <div class="bobina-rullo" data-rullo>
+          ${foto.map(([f, a]) => `<figure class="bobina-foto" data-pannello>${img(r, f, a, { sizes: '(max-width: 760px) 60vw, 26vw', larghe: f.startsWith('zund') })}<figcaption>${a}</figcaption></figure>`).join('')}
+        </div>
+        <div class="bobina-asse" aria-hidden="true"></div>
+      </div>
+      <div class="bobina-basso">
+        <p class="bobina-dida" data-dida aria-hidden="true"></p>
+        <p class="bobina-aiuto etichetta etichetta-chiara">Scorrete o trascinate</p>
       </div>
     </div>
   </section>

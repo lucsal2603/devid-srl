@@ -10,10 +10,11 @@ Lo stile viene da **Lusion** (lusion.co), lo studio inglese di siti in 3D premia
 
 - **Caricamento** (solo alla prima visita): il contatore da 0 a 100 e la barra, poi il nero che sale e scopre la pagina.
 - **Apertura**: un vero tessuto in 3D (simulazione fisica, trama disegnata, luce radente), appeso alla barra, che scende ondeggiando. Il mouse lo spinge come una mano. Scorrendo, il laser lo taglia dall'alto in basso con le scintille, poi le due metà si aprono come un sipario e appare «Il taglio del futuro è già presente».
-- **Chi siamo**: la frase che si accende parola per parola.
-- **Servizi**: cinque carte grandi con la foto che si apre, la bolla «Apri» che segue il cursore, i tag.
+- Tutta la home resta del blu notte dell'apertura, fino al fondo.
+- **Chi siamo**: al centro, la frase che si accende parola per parola.
+- **Il campionario**: i cinque servizi sono una mazzetta di campioni di tessuto, coi bordi della forbice dentellata, l'occhiello, l'anello e il cartellino. Scorrendo, ogni campione si gira verso l'alto e scopre il successivo; accanto cambiano nome, descrizione e link.
 - **Parco macchine**: la carta scura che si allarga, i numeri che contano, il nastro delle macchine che accelera con lo scroll.
-- **Dentro il laboratorio**: le foto scorrono da sole, si trascinano col dito o col mouse e si inclinano con la velocità.
+- **Dentro il laboratorio**: le foto sono montate su una bobina in 3D che gira scorrendo e si trascina col dito o col mouse; sotto, la didascalia della foto davanti.
 - **Per chi tagliamo**: righe bianche che diventano blu al passaggio, con la foto.
 - **Novità**, la **carta blu** con i fili della trama che si scostano sotto il mouse, il piede col marchio DEVID gigante.
 - Fra una pagina e l'altra, il pannello blu col nome della pagina.

@@ -145,10 +145,11 @@
     tutti('[data-accende]').forEach(function (el) {
       SplitText.create(el, { type: 'words', wordsClass: 'parola' });
       var parole = tutti('.parola', el);
+      var notte = corpo.classList.contains('tema-notte');
       var tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 80%', end: 'bottom 45%', scrub: 0.5 } });
       parole.forEach(function (p, i) {
         var blu = p.closest('em');
-        tl.to(p, { color: blu ? '#1f35df' : '#0b0c14', duration: 1, ease: 'none' }, i * 0.18);
+        tl.to(p, { color: notte ? (blu ? '#8e9bff' : '#ffffff') : (blu ? '#1f35df' : '#0b0c14'), duration: 1, ease: 'none' }, i * 0.18);
       });
     });
 
@@ -330,6 +331,126 @@
     gsap.ticker.add(function () { if (!vista) return; t += 0.012; disegna(); });
   }
 
+  /* ---------- il campionario che si sfoglia ---------- */
+  function dentella(el) {
+    /* il bordo tagliato con la forbice dentellata */
+    var w = el.offsetWidth, h = el.offsetHeight;
+    if (!w || !h) return;
+    var d = 7, passo = 14, p = [];
+    var nx = Math.max(4, Math.round(w / passo)), ny = Math.max(4, Math.round(h / passo));
+    var sx = w / nx, sy = h / ny, i;
+    for (i = 0; i <= nx; i++) p.push((i * sx).toFixed(1) + 'px ' + (i % 2 ? d : 0) + 'px');
+    for (i = 0; i <= ny; i++) p.push((w - (i % 2 ? d : 0)).toFixed(1) + 'px ' + (i * sy).toFixed(1) + 'px');
+    for (i = nx; i >= 0; i--) p.push((i * sx).toFixed(1) + 'px ' + (h - (i % 2 ? d : 0)).toFixed(1) + 'px');
+    for (i = ny; i >= 0; i--) p.push((i % 2 ? d : 0) + 'px ' + (i * sy).toFixed(1) + 'px');
+    el.style.clipPath = 'polygon(' + p.join(',') + ')';
+  }
+  function mazzetta() {
+    var sez = document.querySelector('[data-mazzetta]');
+    if (!sez) return;
+    var campioni = tutti('[data-campione]', sez);
+    var voci = tutti('[data-voce]', sez);
+    var tacche = tutti('[data-tacca]', sez);
+    var n = campioni.length;
+    var taglia = function () { campioni.forEach(dentella); };
+    taglia(); addEventListener('resize', taglia);
+    var posto = function (k) { return { y: k * 12, scale: 1 - k * 0.04, rotation: k === 0 ? 0 : (k % 2 ? 2.2 : -1.8), x: k === 0 ? 0 : (k % 2 ? 6 : -6) }; };
+    campioni.forEach(function (c, i) {
+      gsap.set(c, Object.assign({ transformPerspective: 1600 }, posto(i)));
+      gsap.set(c.querySelector('.campione-ombra'), { opacity: Math.min(0.55, i * 0.16) });
+    });
+    var segna = function (k) {
+      tacche.forEach(function (t, i) { t.classList.toggle('attiva', i === k); });
+      voci.forEach(function (v, i) {
+        v.setAttribute('aria-hidden', i === k ? 'false' : 'true');
+        var a = v.querySelector('a'); if (a) a.tabIndex = i === k ? 0 : -1;
+      });
+    };
+    segna(0);
+    if (ridotto) return;
+    gsap.set(voci.slice(1), { autoAlpha: 0, y: 40 });
+    var ultimo = 0;
+    var tl = gsap.timeline({
+      defaults: { ease: 'power2.inOut' },
+      scrollTrigger: {
+        trigger: sez, start: 'top top', end: function () { return '+=' + Math.round(innerHeight * (n - 1) * 0.85); },
+        pin: true, scrub: 0.7, anticipatePin: 1, invalidateOnRefresh: true,
+        onUpdate: function (st) {
+          var k = Math.min(n - 1, Math.round(st.progress * (n - 1) + 0.0001));
+          if (k !== ultimo) { ultimo = k; segna(k); }
+        },
+      },
+    });
+    for (var i = 0; i < n - 1; i++) {
+      var c = campioni[i];
+      tl.to(c, { rotationX: 172, y: -30, duration: 1, ease: 'power2.in' }, i)
+        .to(c.querySelector('.campione-ombra'), { opacity: 0.75, duration: 1, ease: 'power1.in' }, i)
+        .set(c, { autoAlpha: 0 }, i + 1);
+      for (var k = i + 1; k < n; k++) {
+        tl.to(campioni[k], Object.assign({ duration: 0.8, ease: 'back.out(1.4)' }, posto(k - i - 1)), i + 0.25)
+          .to(campioni[k].querySelector('.campione-ombra'), { opacity: Math.min(0.55, (k - i - 1) * 0.16), duration: 0.8 }, i + 0.25);
+      }
+      tl.to(voci[i], { autoAlpha: 0, y: -40, duration: 0.4, ease: 'power2.in' }, i + 0.1)
+        .to(voci[i + 1], { autoAlpha: 1, y: 0, duration: 0.55, ease: 'power3.out' }, i + 0.5);
+    }
+    tl.to({}, { duration: 0.35 });
+  }
+
+  /* ---------- la bobina del laboratorio ---------- */
+  function bobina() {
+    var sez = document.querySelector('[data-bobina]');
+    if (!sez) return;
+    var scena = sez.querySelector('[data-bobina-scena]');
+    var rullo = sez.querySelector('[data-rullo]');
+    var pannelli = tutti('[data-pannello]', sez);
+    var dida = sez.querySelector('[data-dida]');
+    var n = pannelli.length, passo = 360 / n;
+    var raggio = 0, giro = 0, trascina = 0, spinta = 0, preso = false, ultimoX = 0, davanti = -1, vista = false, scroll = 0;
+    var misura = function () {
+      var w = scena.clientWidth, h = scena.clientHeight;
+      var largo = Math.min(w * (w < 760 ? 0.52 : 0.27), h * 0.74);
+      sez.style.setProperty('--pannello', largo + 'px');
+      raggio = (largo * 1.12) / (2 * Math.tan(Math.PI / n));
+      pannelli.forEach(function (p, i) { p.style.transform = 'rotateY(' + i * passo + 'deg) translateZ(' + raggio + 'px)'; });
+    };
+    misura(); addEventListener('resize', misura);
+    new IntersectionObserver(function (v) { vista = v[0].isIntersecting; }).observe(sez);
+    scena.addEventListener('pointerdown', function (e) { preso = true; ultimoX = e.clientX; spinta = 0; scena.setPointerCapture(e.pointerId); });
+    scena.addEventListener('pointermove', function (e) { if (!preso) return; var d = e.clientX - ultimoX; ultimoX = e.clientX; spinta = d * 0.18; trascina += spinta; });
+    var lascia = function () { preso = false; };
+    scena.addEventListener('pointerup', lascia); scena.addEventListener('pointercancel', lascia);
+    if (!ridotto) {
+      ScrollTrigger.create({
+        trigger: sez, start: 'top top', end: function () { return '+=' + Math.round(innerHeight * 2.2); },
+        pin: true, scrub: true, anticipatePin: 1,
+        onUpdate: function (st) { scroll = -st.progress * 324; },
+      });
+      gsap.from(scena, { autoAlpha: 0, scale: 0.85, duration: 1.6, ease: 'uscita', scrollTrigger: { trigger: sez, start: 'top 70%' } });
+    }
+    var disegna = function () {
+      if (!preso) { spinta *= 0.94; trascina += spinta; }
+      var obiettivo = scroll + trascina;
+      giro += (obiettivo - giro) * (ridotto ? 1 : 0.09);
+      var inclina = gsap.utils.clamp(-10, 10, spinta * 1.5);
+      rullo.style.transform = 'translateZ(' + (-raggio) + 'px) rotateX(-7deg) rotateY(' + giro + 'deg) rotateZ(' + (inclina * 0.15) + 'deg)';
+      var migliore = 0, mc = -2;
+      for (var i = 0; i < n; i++) {
+        var a = ((i * passo + giro) % 360) * Math.PI / 180;
+        var c = Math.cos(a);
+        pannelli[i].style.setProperty('--buio', (0.82 - Math.max(0, c) * 0.82).toFixed(3));
+        if (c > mc) { mc = c; migliore = i; }
+      }
+      if (migliore !== davanti) {
+        davanti = migliore;
+        var t = pannelli[migliore].querySelector('figcaption').textContent;
+        if (ridotto) dida.textContent = t;
+        else gsap.timeline().to(dida, { autoAlpha: 0, y: -8, duration: 0.18 }).add(function () { dida.textContent = t; }).to(dida, { autoAlpha: 1, y: 0, duration: 0.35, ease: 'power3.out' });
+      }
+    };
+    disegna();
+    gsap.ticker.add(function () { if (vista) disegna(); });
+  }
+
   /* ---------- l'eroe col tessuto ---------- */
   function eroe() {
     var sez = document.querySelector('[data-eroe]');
@@ -423,7 +544,8 @@
     var home = corpo.classList.contains('pagina-home');
     var entra = home ? eroe() : null;
     var intro = home ? null : apertura();
-    comparse(); nastro(); galleria(); cursore(); magneti(); trama();
+    mazzetta(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
+    ScrollTrigger.sort(); ScrollTrigger.refresh();
     tutti('[data-su]').forEach(function (b) { b.addEventListener('click', function () { if (lenis) lenis.scrollTo(0, { duration: 2 }); else scrollTo(0, 0); }); });
 
     var parti = function () { if (entra) entra(); if (intro) intro.play(); riparti(); };
