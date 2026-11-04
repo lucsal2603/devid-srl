@@ -9,10 +9,10 @@ Lo stile viene da **Lusion** (lusion.co), lo studio inglese di siti in 3D premia
 ## Le parti
 
 - **Caricamento** (solo alla prima visita): il contatore da 0 a 100 e la barra, poi il nero che sale e scopre la pagina.
-- **Apertura**: un vero tessuto in 3D (simulazione fisica, trama disegnata, luce radente), appeso alla barra, che scende ondeggiando. Il mouse lo spinge come una mano. Scorrendo, il laser lo taglia dall'alto in basso con le scintille, poi le due metà si aprono come un sipario e appare «Il taglio del futuro è già presente».
+- **Apertura**: un vero tessuto in 3D (simulazione fisica, saia, cimosa con la scritta Devid, orli cuciti), appeso a una barra in metallo con gli anelli. Ha la memoria della forma: quando nessuno lo tocca torna sempre a pendere dritto e non resta mai attorcigliato. Arriva che scende ondeggiando. Il mouse lo spinge come una mano. Scorrendo, il laser lo taglia dall'alto in basso con le scintille e il bordo che resta acceso, poi le due metà si aprono come un sipario e appare «Il taglio del futuro è già presente».
 - Tutta la home resta del blu notte dell'apertura, fino al fondo.
 - **Chi siamo**: al centro, la frase che si accende parola per parola.
-- **Il campionario**: i cinque servizi sono una mazzetta di campioni di tessuto, coi bordi della forbice dentellata, l'occhiello, l'anello e il cartellino. Scorrendo, ogni campione si gira verso l'alto e scopre il successivo; accanto cambiano nome, descrizione e link.
+- **Servizi**: la sezione resta ferma mentre si scorre. A sinistra i cinque servizi, con la linea che si riempie su quello in corso, la descrizione, tre dati tecnici veri e il bottone; a destra le foto grandi che entrano una sull'altra, coi tag in vetro. Sul telefono la foto sta sopra, le linee sotto.
 - **Parco macchine**: la carta scura che si allarga, i numeri che contano, il nastro delle macchine che accelera con lo scroll.
 - **Dentro il laboratorio**: le foto sono montate su una bobina in 3D che gira scorrendo e si trascina col dito o col mouse; sotto, la didascalia della foto davanti.
 - **Per chi tagliamo**: righe bianche che diventano blu al passaggio, con la foto.

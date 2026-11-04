@@ -39,6 +39,14 @@ const TAG = {
   'confezione-campioni': ['Campionario', 'Produzione', 'In casa'],
 };
 
+const SPEC = {
+  'controllo-tessuti': [['Macchina', 'Banco universale a tappeto aspirato'], ['Rotoli', 'Fino a 1 m di diametro'], ['Colore', 'Spettrofotometro Datacolor 3890']],
+  'adesivazione-tessuto': [['Lavorazioni', 'Adesivazione, accoppiatura, decatizzo'], ['Strumentazione', 'Nuova, dal 2020'], ['Dove', 'Nello stesso stabilimento del taglio']],
+  'modellistica-cad-cam': [['Digitalizzazione', 'Intelli-di, da fotografia'], ['Plotter', 'Algotex Stream 180, 200 cm utili'], ['File', 'DXF in entrata, HPGL e ISO in uscita']],
+  'taglio-tessuti': [['Taglio', 'Morgan Next 2 e Investronica Diamond'], ['Materasso', 'Fino a 7 cm'], ['Con l’AI', 'Crea Solution, partner di Devid']],
+  'confezione-campioni': [['Capi', 'Campionario e produzione'], ['Operatrici', 'Esperienza decennale'], ['Cicli', 'Ridotti, tutto in casa']],
+};
+
 /* ---------- pezzi comuni ---------- */
 const testa = ({ r, titolo, descrizione, url }) => `<!doctype html>
 <html lang="it">
@@ -223,33 +231,32 @@ ${intestazione(r, '')}
     </div>
   </section>
 
-  <section class="mazzetta" data-mazzetta aria-labelledby="mazzetta-t">
-    <div class="mazzetta-palco">
-      <div class="mazzetta-testa">
-        <p class="etichetta etichetta-chiara">Il campionario</p>
-        <h2 id="mazzetta-t" class="mazzetta-titolo" data-righe>Cinque lavorazioni,<br>un solo stabilimento</h2>
+  <section class="lavori" data-lavori aria-labelledby="lavori-t">
+    <div class="lavori-palco">
+      <div class="lavori-sx">
+        <div class="lavori-testa">
+          <p class="etichetta etichetta-chiara">Servizi</p>
+          <h2 id="lavori-t" class="lavori-titolo" data-righe>Cinque lavorazioni,<br>un solo stabilimento</h2>
+        </div>
+        <ol class="lavori-elenco">
+          ${SERVIZI.map((s) => `<li class="lavori-nome" data-lavoro-nome><a href="servizi/${s.slug}/" data-tenda="${s.nome}"><span>${s.nome}</span><i class="lavori-linea"><b data-lavoro-barra></b></i></a></li>`).join('')}
+        </ol>
+        <div class="lavori-dettagli">
+          ${SERVIZI.map((s, i) => `<div class="lavori-dettaglio" data-lavoro-dettaglio${i ? ' aria-hidden="true"' : ''}>
+            <p class="lavori-breve">${s.breve}</p>
+            <dl class="lavori-dati">${(SPEC[s.slug] || []).map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>
+            <a class="bottone bottone-bianco" href="servizi/${s.slug}/" data-tenda="${s.nome}" data-magnete${i ? ' tabindex="-1"' : ''}><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Scopri il servizio</span>${G.frecciaDx}</span></a>
+          </div>`).join('')}
+        </div>
       </div>
-      <div class="mazzetta-libro" data-libro>
-        <div class="mazzetta-dorso" aria-hidden="true"><i></i><i></i></div>
-        ${SERVIZI.map((s, i) => `<a class="campione" href="servizi/${s.slug}/" data-tenda="${s.nome}" data-campione style="z-index:${SERVIZI.length - i}">
-          <span class="campione-stoffa">${img(r, s.foto, s.alt, { sizes: '(max-width: 760px) 80vw, 34vw', larghe: !!s.larghe })}</span>
-          <span class="campione-ombra" aria-hidden="true"></span>
-          <span class="campione-occhiello" aria-hidden="true"></span>
-          <span class="cartellino">
-            <span class="cartellino-riga"><b>Devid srl</b><b>Vezzano s/C</b></span>
-            <span class="cartellino-nome">${s.nome}</span>
-            <span class="cartellino-riga">${(TAG[s.slug] || []).map((t) => `<i>${t}</i>`).join('')}</span>
-          </span>
+      <div class="lavori-quadro">
+        ${SERVIZI.map((s, i) => `<a class="lavori-foto" href="servizi/${s.slug}/" data-tenda="${s.nome}" data-lavoro-foto tabindex="-1" aria-hidden="true">
+          ${img(r, s.foto, s.alt, { sizes: '(max-width: 760px) 92vw, 52vw', larghe: !!s.larghe })}
+          <span class="lavori-velo"></span>
+          <span class="lavori-chip">${(TAG[s.slug] || []).map((t) => `<i>${t}</i>`).join('')}</span>
+          <span class="lavori-mobile-nome">${s.nome}</span>
         </a>`).join('')}
       </div>
-      <div class="mazzetta-voci" aria-live="polite">
-        ${SERVIZI.map((s, i) => `<div class="mazzetta-voce" data-voce${i ? ' aria-hidden="true"' : ''}>
-          <p class="mazzetta-nome">${s.nome}</p>
-          <p class="mazzetta-breve">${s.breve}</p>
-          <a class="bottone bottone-bianco" href="servizi/${s.slug}/" data-tenda="${s.nome}" data-magnete${i ? ' tabindex="-1"' : ''}><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Scopri il servizio</span>${G.frecciaDx}</span></a>
-        </div>`).join('')}
-      </div>
-      <div class="mazzetta-indice" aria-hidden="true">${SERVIZI.map((s) => `<span data-tacca>${s.nome}</span>`).join('')}</div>
     </div>
   </section>
 

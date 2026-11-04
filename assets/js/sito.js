@@ -331,69 +331,59 @@
     gsap.ticker.add(function () { if (!vista) return; t += 0.012; disegna(); });
   }
 
-  /* ---------- il campionario che si sfoglia ---------- */
-  function dentella(el) {
-    /* il bordo tagliato con la forbice dentellata */
-    var w = el.offsetWidth, h = el.offsetHeight;
-    if (!w || !h) return;
-    var d = 7, passo = 14, p = [];
-    var nx = Math.max(4, Math.round(w / passo)), ny = Math.max(4, Math.round(h / passo));
-    var sx = w / nx, sy = h / ny, i;
-    for (i = 0; i <= nx; i++) p.push((i * sx).toFixed(1) + 'px ' + (i % 2 ? d : 0) + 'px');
-    for (i = 0; i <= ny; i++) p.push((w - (i % 2 ? d : 0)).toFixed(1) + 'px ' + (i * sy).toFixed(1) + 'px');
-    for (i = nx; i >= 0; i--) p.push((i * sx).toFixed(1) + 'px ' + (h - (i % 2 ? d : 0)).toFixed(1) + 'px');
-    for (i = ny; i >= 0; i--) p.push((i % 2 ? d : 0) + 'px ' + (i * sy).toFixed(1) + 'px');
-    el.style.clipPath = 'polygon(' + p.join(',') + ')';
-  }
-  function mazzetta() {
-    var sez = document.querySelector('[data-mazzetta]');
+  /* ---------- servizi: l'elenco guida le foto ---------- */
+  function lavori() {
+    var sez = document.querySelector('[data-lavori]');
     if (!sez) return;
-    var campioni = tutti('[data-campione]', sez);
-    var voci = tutti('[data-voce]', sez);
-    var tacche = tutti('[data-tacca]', sez);
-    var n = campioni.length;
-    var taglia = function () { campioni.forEach(dentella); };
-    taglia(); addEventListener('resize', taglia);
-    var posto = function (k) { return { y: k * 12, scale: 1 - k * 0.04, rotation: k === 0 ? 0 : (k % 2 ? 2.2 : -1.8), x: k === 0 ? 0 : (k % 2 ? 6 : -6) }; };
-    campioni.forEach(function (c, i) {
-      gsap.set(c, Object.assign({ transformPerspective: 1600 }, posto(i)));
-      gsap.set(c.querySelector('.campione-ombra'), { opacity: Math.min(0.55, i * 0.16) });
-    });
+    var nomi = tutti('[data-lavoro-nome]', sez);
+    var barre = tutti('[data-lavoro-barra]', sez);
+    var dettagli = tutti('[data-lavoro-dettaglio]', sez);
+    var foto = tutti('[data-lavoro-foto]', sez);
+    var n = foto.length, attivo = -1, st = null;
     var segna = function (k) {
-      tacche.forEach(function (t, i) { t.classList.toggle('attiva', i === k); });
-      voci.forEach(function (v, i) {
-        v.setAttribute('aria-hidden', i === k ? 'false' : 'true');
-        var a = v.querySelector('a'); if (a) a.tabIndex = i === k ? 0 : -1;
+      if (k === attivo) return;
+      attivo = k;
+      nomi.forEach(function (x, i) { x.classList.toggle('attiva', i === k); });
+      foto.forEach(function (f, i) { f.setAttribute('aria-hidden', i === k ? 'false' : 'true'); f.style.pointerEvents = i === k ? 'auto' : 'none'; });
+      dettagli.forEach(function (d, i) {
+        d.setAttribute('aria-hidden', i === k ? 'false' : 'true');
+        var l = d.querySelector('a'); if (l) l.tabIndex = i === k ? 0 : -1;
       });
     };
     segna(0);
-    if (ridotto) return;
-    gsap.set(voci.slice(1), { autoAlpha: 0, y: 40 });
-    var ultimo = 0;
+    if (ridotto) { barre.forEach(function (b) { b.style.transform = 'none'; }); return; }
+
+    gsap.set(foto.slice(1), { clipPath: 'inset(100% 0% 0% 0%)' });
+    gsap.set(foto.slice(1).map(function (f) { return f.querySelector('img'); }), { scale: 1.25, yPercent: 8 });
+    gsap.set(dettagli.slice(1), { autoAlpha: 0, y: 24 });
     var tl = gsap.timeline({
-      defaults: { ease: 'power2.inOut' },
+      defaults: { ease: 'none' },
       scrollTrigger: {
-        trigger: sez, start: 'top top', end: function () { return '+=' + Math.round(innerHeight * (n - 1) * 0.85); },
-        pin: true, scrub: 0.7, anticipatePin: 1, invalidateOnRefresh: true,
-        onUpdate: function (st) {
-          var k = Math.min(n - 1, Math.round(st.progress * (n - 1) + 0.0001));
-          if (k !== ultimo) { ultimo = k; segna(k); }
-        },
+        trigger: sez, start: 'top top', end: function () { return '+=' + Math.round(innerHeight * n * 0.8); },
+        pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true,
+        onUpdate: function (s) { segna(Math.min(n - 1, Math.floor(s.progress * n))); },
       },
     });
-    for (var i = 0; i < n - 1; i++) {
-      var c = campioni[i];
-      tl.to(c, { rotationX: 172, y: -30, duration: 1, ease: 'power2.in' }, i)
-        .to(c.querySelector('.campione-ombra'), { opacity: 0.75, duration: 1, ease: 'power1.in' }, i)
-        .set(c, { autoAlpha: 0 }, i + 1);
-      for (var k = i + 1; k < n; k++) {
-        tl.to(campioni[k], Object.assign({ duration: 0.8, ease: 'back.out(1.4)' }, posto(k - i - 1)), i + 0.25)
-          .to(campioni[k].querySelector('.campione-ombra'), { opacity: Math.min(0.55, (k - i - 1) * 0.16), duration: 0.8 }, i + 0.25);
-      }
-      tl.to(voci[i], { autoAlpha: 0, y: -40, duration: 0.4, ease: 'power2.in' }, i + 0.1)
-        .to(voci[i + 1], { autoAlpha: 1, y: 0, duration: 0.55, ease: 'power3.out' }, i + 0.5);
+    st = tl.scrollTrigger;
+    for (var i = 0; i < n; i++) {
+      tl.fromTo(barre[i], { scaleX: 0 }, { scaleX: 1, duration: 1 }, i);
+      if (i === n - 1) break;
+      var f = foto[i + 1], im = f.querySelector('img'), prima = foto[i].querySelector('img');
+      tl.to(f, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.55, ease: 'power3.inOut' }, i + 0.45)
+        .to(im, { scale: 1, yPercent: 0, duration: 0.7, ease: 'power3.out' }, i + 0.45)
+        .to(prima, { scale: 1.1, yPercent: -6, duration: 0.6, ease: 'power2.in' }, i + 0.4)
+        .to(dettagli[i], { autoAlpha: 0, y: -20, duration: 0.2, ease: 'power2.in' }, i + 0.42)
+        .to(dettagli[i + 1], { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power3.out' }, i + 0.66);
     }
-    tl.to({}, { duration: 0.35 });
+    /* un clic su un nome porta a quel servizio nello scorrimento; sull'attivo apre la pagina */
+    nomi.forEach(function (x, i) {
+      x.querySelector('a').addEventListener('click', function (e) {
+        if (i === attivo || !st) return;
+        e.preventDefault(); e.stopPropagation();
+        var y = st.start + (st.end - st.start) * ((i + 0.5) / n);
+        if (lenis) lenis.scrollTo(y, { duration: 1.2 }); else scrollTo(0, y);
+      }, true);
+    });
   }
 
   /* ---------- la bobina del laboratorio ---------- */
@@ -544,7 +534,7 @@
     var home = corpo.classList.contains('pagina-home');
     var entra = home ? eroe() : null;
     var intro = home ? null : apertura();
-    mazzetta(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
+    lavori(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
     ScrollTrigger.sort(); ScrollTrigger.refresh();
     tutti('[data-su]').forEach(function (b) { b.addEventListener('click', function () { if (lenis) lenis.scrollTo(0, { duration: 2 }); else scrollTo(0, 0); }); });
 

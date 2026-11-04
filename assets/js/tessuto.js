@@ -71,8 +71,57 @@ function avvia() {
     return t;
   }
 
+  /* ---- il colore della pezza: saia, cimosa stampata, orli cuciti ---- */
+  function colore() {
+    const cw = 2048, ch = Math.round(2048 * (H / W));
+    const c = document.createElement('canvas');
+    c.width = cw; c.height = ch;
+    const g = c.getContext('2d');
+    g.fillStyle = '#2236d6'; g.fillRect(0, 0, cw, ch);
+    /* la saia: diagonali fitte, chiare e scure */
+    g.lineWidth = 1.4;
+    for (let x = -ch; x < cw; x += 5) {
+      g.strokeStyle = (x / 5) % 2 ? 'rgba(10,16,90,.10)' : 'rgba(150,165,255,.06)';
+      g.beginPath(); g.moveTo(x, ch); g.lineTo(x + ch * 0.9, 0); g.stroke();
+    }
+    /* le irregolarità della trama */
+    for (let i = 0; i < 90; i++) {
+      const y = Math.random() * ch, a = Math.random() * 0.022;
+      g.fillStyle = Math.random() < 0.5 ? 'rgba(255,255,255,' + a + ')' : 'rgba(0,0,40,' + a + ')';
+      g.fillRect(0, y, cw, 1);
+    }
+    /* la cimosa sui due bordi esterni, coi fori della rameuse e la scritta */
+    const cim = Math.round(cw * 0.022);
+    [0, cw - cim].forEach((x0, lato) => {
+      g.fillStyle = '#2d42e4'; g.fillRect(x0, 0, cim, ch);
+      g.fillStyle = 'rgba(255,255,255,.18)'; g.fillRect(lato ? x0 : x0 + cim - 2, 0, 2, ch);
+      g.fillStyle = 'rgba(6,8,30,.55)';
+      for (let y = 10; y < ch; y += 22) { g.beginPath(); g.arc(x0 + cim * (lato ? 0.72 : 0.28), y, 2.2, 0, Math.PI * 2); g.fill(); }
+      g.save();
+      g.translate(x0 + cim * 0.55, ch * 0.5); g.rotate(-Math.PI / 2);
+      g.fillStyle = 'rgba(235,238,255,.6)'; g.font = '500 15px ui-monospace, Menlo, monospace'; g.textAlign = 'center';
+      const scritta = 'DEVID SRL      TAGLIO TESSUTI E MODELLISTICA      VEZZANO SUL CROSTOLO      ';
+      for (let k = -2; k <= 2; k++) g.fillText(scritta, k * g.measureText(scritta).width, 0);
+      g.restore();
+    });
+    /* l'orlo in alto, dove passano gli anelli, e quello in basso */
+    const orlo = (y0, h, cucitura) => {
+      g.fillStyle = 'rgba(8,12,70,.22)'; g.fillRect(0, y0, cw, h);
+      g.fillStyle = 'rgba(255,255,255,.08)'; g.fillRect(0, y0 + (cucitura > y0 ? 0 : h - 2), cw, 2);
+      g.strokeStyle = 'rgba(230,234,255,.55)'; g.lineWidth = 1.6; g.setLineDash([9, 6]);
+      g.beginPath(); g.moveTo(0, cucitura); g.lineTo(cw, cucitura); g.stroke(); g.setLineDash([]);
+    };
+    orlo(0, Math.round(ch * 0.05), Math.round(ch * 0.042));
+    orlo(ch - Math.round(ch * 0.03), Math.round(ch * 0.03), ch - Math.round(ch * 0.018));
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.anisotropy = 8;
+    return t;
+  }
+
   const materiale = new THREE.MeshPhysicalMaterial({
-    color: new THREE.Color('#2236d6'),
+    color: new THREE.Color('#ffffff'),
+    map: colore(),
     roughness: 0.78,
     sheen: 1,
     sheenColor: new THREE.Color('#aebbff'),
@@ -144,6 +193,32 @@ function avvia() {
   radente.position.set(-4, -0.5, 1.2);
   scena.add(radente);
 
+  /* ---- la barra in metallo e gli anelli ---- */
+  const metallo = new THREE.MeshPhysicalMaterial({ color: '#d7dbe8', metalness: 0.75, roughness: 0.26, clearcoat: 0.6, clearcoatRoughness: 0.2 });
+  const barra = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, W * 1.9, 24), metallo);
+  barra.rotation.z = Math.PI / 2;
+  barra.frustumCulled = false;
+  scena.add(barra);
+  const tappi = [-1, 1].map((l) => {
+    const t = new THREE.Mesh(new THREE.SphereGeometry(0.03, 20, 14), metallo);
+    t.position.x = l * W * 0.95; scena.add(t); return t;
+  });
+  const anelli = [];
+  const anello = new THREE.TorusGeometry(0.032, 0.0055, 10, 28);
+  for (const m of metà) for (let i = m.sinistra ? 0 : 2; i < m.cols; i += 3) {
+    const a = new THREE.Mesh(anello, metallo);
+    a.rotation.y = Math.PI / 2;
+    a.frustumCulled = false;
+    scena.add(a);
+    anelli.push({ m, i, a });
+  }
+  /* il bordo appena tagliato resta acceso e si raffredda */
+  const caldo = new Float32Array(NY);
+  const bordoPos = new Float32Array(NY * 2 * 3), bordoCol = new Float32Array(NY * 2 * 3);
+  const bordoGeo = new THREE.BufferGeometry();
+  bordoGeo.setAttribute('position', new THREE.BufferAttribute(bordoPos, 3));
+  bordoGeo.setAttribute('color', new THREE.BufferAttribute(bordoCol, 3));
+
   /* ---- il laser: una luce, un bagliore e le scintille ---- */
   const luceLaser = new THREE.PointLight('#c9d2ff', 0, 1.6, 1.6);
   scena.add(luceLaser);
@@ -174,6 +249,10 @@ function avvia() {
   scGeo.setAttribute('position', new THREE.BufferAttribute(scPos, 3));
   const scintille = new THREE.Points(scGeo, new THREE.PointsMaterial({ map: tex, size: 0.045, color: '#e8ecff', transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true }));
   scintille.frustumCulled = false;
+  const bordo = new THREE.Points(bordoGeo, new THREE.PointsMaterial({ map: tex, size: 0.05, vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+  bordo.frustumCulled = false;
+  scena.add(bordo);
+  let tagliatePrima = 0;
   scena.add(scintille);
   for (let i = 0; i < NS; i++) scPos[i * 3 + 1] = -99;
   let prossima = 0;
@@ -216,7 +295,8 @@ function avvia() {
     ray.ray.intersectPlane(piano, mano);
     manoForza = 1;
   }
-  carta.addEventListener('pointermove', (e) => muovi(e.clientX, e.clientY), { passive: true });
+  let ultimoGesto = 0;
+  carta.addEventListener('pointermove', (e) => { muovi(e.clientX, e.clientY); ultimoGesto = performance.now(); }, { passive: true });
   carta.addEventListener('pointerleave', () => { manoForza = 0; });
 
   /* ---- simulazione ---- */
@@ -261,7 +341,7 @@ function avvia() {
           const d = Math.hypot(dx, dy);
           if (d < R) {
             const f = (1 - d / R);
-            az -= f * f * (26 + mv * 30);
+            az -= f * f * (15 + mv * 16);
             ax += (dx / (d + 0.01)) * f * 4;
             ay += (dy / (d + 0.01)) * f * 4;
           }
@@ -271,6 +351,24 @@ function avvia() {
         p[k + 1] = y + (y - q[k + 1]) * smorza + ay * dt2;
         p[k + 2] = z + (z - q[k + 2]) * smorza + az * dt2;
         q[k] = x; q[k + 1] = y; q[k + 2] = z;
+      }
+    }
+    /* la memoria della forma: ogni punto torna a pendere dritto dal suo anello.
+       Da fermo la stoffa si lascia andare e qualsiasi attorcigliamento si scioglie. */
+    if (Math.abs(stato.velocita || 0) > 0.0004) ultimoGesto = performance.now();
+    const fermo = performance.now() - ultimoGesto > 1100;
+    const forza = (fermo ? 1.1 : 0.12) * dt;
+    for (const m of metà) {
+      const p = m.pos;
+      for (let i = 0; i < m.cols; i++) {
+        const t = bersaglioPerno(m, i, entra, apri);
+        for (let j = 1; j < NY; j++) {
+          const k = m.id(i, j) * 3;
+          p[k] += (t[0] - p[k]) * forza;
+          p[k + 1] += (t[1] - j * passoY - p[k + 1]) * forza * 0.5;
+          p[k + 2] += (t[2] - p[k + 2]) * forza * 0.25;
+          if (p[k + 2] > 0.9) p[k + 2] = 0.9; else if (p[k + 2] < -0.9) p[k + 2] = -0.9;
+        }
       }
     }
     for (let it = 0; it < ITER; it++) {
@@ -335,6 +433,29 @@ function avvia() {
       scPos[i * 3] += scVel[i * 3] * dt; scPos[i * 3 + 1] += scVel[i * 3 + 1] * dt; scPos[i * 3 + 2] += scVel[i * 3 + 2] * dt;
     }
     scGeo.attributes.position.needsUpdate = true;
+
+    /* barra e anelli seguono la pezza */
+    const yb = H / 2 + 0.035 + (1 - stato.entrata) * (H * 1.35);
+    barra.position.set(0, yb, 0); tappi.forEach((t) => { t.position.y = yb; });
+    for (const r of anelli) {
+      const k = r.m.id(r.i, 0) * 3;
+      r.a.position.set(r.m.pos[k], yb - 0.004, r.m.pos[k + 2]);
+    }
+    /* il bordo del taglio */
+    const tagliate = ridotto ? 0 : Math.floor(stato.taglio * NY + 0.0001);
+    for (let j = 0; j < NY; j++) {
+      if (j < tagliate && j >= tagliatePrima) caldo[j] = 1;
+      if (j >= tagliate) caldo[j] = 0;
+      caldo[j] = Math.max(0, caldo[j] - dt * 0.55);
+      const a = SX.id(SX.cols - 1, j) * 3, b = DX.id(0, j) * 3;
+      for (let q = 0; q < 3; q++) { bordoPos[j * 6 + q] = SX.pos[a + q]; bordoPos[j * 6 + 3 + q] = DX.pos[b + q]; }
+      bordoPos[j * 6 + 2] += 0.01; bordoPos[j * 6 + 5] += 0.01;
+      const h = caldo[j];
+      for (let q = 0; q < 2; q++) { bordoCol[j * 6 + q * 3] = h * 0.75; bordoCol[j * 6 + q * 3 + 1] = h * 0.8; bordoCol[j * 6 + q * 3 + 2] = h; }
+    }
+    tagliatePrima = tagliate;
+    bordoGeo.attributes.position.needsUpdate = true;
+    bordoGeo.attributes.color.needsUpdate = true;
   }
 
   /* ---- ciclo ---- */
