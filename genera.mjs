@@ -336,21 +336,27 @@ ${intestazione(r, '')}
     </ul>
   </section>
 
-  <section class="vetrine" aria-labelledby="news-t">
-    <h2 id="news-t" class="nascosto">Ultime novità</h2>
-    ${[
-      ...NEWS.map((n) => ({ href: `news/${n.slug}/`, foto: n.foto, alt: n.alt, titolo: n.titolo, sotto: n.dataIt, azione: 'Leggi la notizia', tenda: n.titolo })),
-      { href: 'assets/devid-srl-brochure.pdf', foto: 'zund-schermo', alt: 'La postazione del taglio automatico', titolo: 'La brochure di Devid', sotto: 'PDF', azione: 'Scarica', fuori: true },
-    ].map((v, i) => `<div class="vetrina" data-vetrina>
-      <a class="vetrina-carta" href="${v.href}"${v.fuori ? ' target="_blank" rel="noopener"' : ` data-tenda="${v.tenda}"`}>
-        <span class="vetrina-foto">${img(r, v.foto, v.alt, { sizes: '100vw', larghe: v.foto.startsWith('zund') })}</span>
-        <span class="vetrina-buio"></span>
-        <span class="vetrina-alto"><span class="etichetta etichetta-chiara">${i < NEWS.length ? 'Ultime novità' : 'Da scaricare'}</span><span class="etichetta etichetta-chiara">${v.sotto}</span></span>
-        <span class="vetrina-titolo">${v.titolo}</span>
-        <span class="vetrina-basso"><span class="vetrina-azione"><span data-gira>${v.azione}</span>${v.fuori ? G.freccia : G.frecciaDx}</span></span>
-      </a>
-    </div>`).join('')}
-    <div class="vetrine-tutte"><a class="bottone bottone-linea" href="news/" data-tenda="News" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Tutte le news</span>${G.frecciaDx}</span></a></div>
+  <section class="annunci" aria-labelledby="news-t">
+    <div class="annunci-testa">
+      <h2 id="news-t" class="annunci-titolo" data-righe>Ultime novità</h2>
+      <a class="bottone bottone-linea" href="news/" data-tenda="News" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Tutte le news</span>${G.frecciaDx}</span></a>
+    </div>
+    <ul class="annunci-elenco">
+      ${[
+        ...NEWS.map((n) => ({ href: `news/${n.slug}/`, foto: n.foto, alt: n.alt, titolo: n.titolo, sopra: n.dataIt, azione: 'Leggi', tenda: n.titolo })),
+        { href: 'assets/devid-srl-brochure.pdf', foto: 'zund-schermo', alt: 'La postazione del taglio automatico', titolo: 'La brochure di Devid', sopra: 'PDF da scaricare', azione: 'Scarica', fuori: true },
+      ].map((v) => {
+        const parole = v.titolo.split(' ');
+        const buco = `<span class="annuncio-buco" data-buco aria-hidden="true"><span class="annuncio-foto">${img(r, v.foto, '', { sizes: '320px', larghe: v.foto.startsWith('zund') })}</span></span>`;
+        return `<li class="annuncio" data-annuncio>
+        <a href="${v.href}"${v.fuori ? ' target="_blank" rel="noopener"' : ` data-tenda="${v.tenda}"`} aria-label="${v.titolo}, ${v.sopra}">
+          <span class="annuncio-data etichetta etichetta-chiara">${v.sopra}</span>
+          <span class="annuncio-nome" aria-hidden="true">${parole.map((w, i) => `<span class="annuncio-parola">${w}</span>${i < parole.length - 1 ? buco : ''}`).join('')}${parole.length === 1 ? buco : ''}</span>
+          <span class="annuncio-azione"><span data-gira>${v.azione}</span>${v.fuori ? G.freccia : G.frecciaDx}</span>
+        </a>
+      </li>`;
+      }).join('')}
+    </ul>
   </section>
 </main>
 ${piede(r, true)}

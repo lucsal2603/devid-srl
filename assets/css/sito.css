@@ -641,3 +641,28 @@ ul, ol { list-style: none; }
   .carosello-foto { height: min(42vh, 330px); }
   .carosello-frase { font-size: 34px; max-width: 9em; }
 }
+
+/* ---------- ultime novità: titoli che si aprono su una foto (sul modello di Locomotive, «Featured work») ---------- */
+.annunci { padding: var(--spazio) calc(var(--m) * 2) var(--spazio); }
+.annunci-testa { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: clamp(28px, 3.4vw, 56px); }
+.annunci-titolo { font-size: clamp(40px, 5.4vw, 104px); font-weight: 520; letter-spacing: -.06em; line-height: .92; color: #fff; }
+.annunci-elenco { border-bottom: 1px solid rgba(238, 240, 255, .16); }
+.annuncio { position: relative; border-top: 1px solid rgba(238, 240, 255, .16); }
+.annuncio > a { position: relative; display: flex; align-items: center; justify-content: center; min-height: clamp(110px, 11vw, 190px); padding: 12px clamp(110px, 12vw, 200px); color: #fff; }
+.annuncio-nome { display: inline-flex; align-items: center; flex-wrap: nowrap; white-space: nowrap; font-size: clamp(34px, 6.6vw, 128px); font-weight: 500; letter-spacing: -.055em; line-height: 1; }
+.annuncio-parola { display: inline-block; padding: 0 .12em; }
+.annuncio-buco { display: inline-block; width: 0; height: .8em; overflow: hidden; border-radius: .14em; transition: width .7s var(--uscita), margin .7s var(--uscita); }
+.annuncio-buco.aperto { width: 1.5em; margin: 0 .1em; }
+.annuncio-foto { display: block; width: 1.5em; height: .8em; }
+.annuncio-foto img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.4); transition: transform 1s var(--uscita); }
+.annuncio-buco.aperto img { transform: scale(1); }
+.annuncio-data { position: absolute; left: 0; top: 50%; transform: translateY(-50%); max-width: 9em; }
+.annuncio-azione { position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 520; color: var(--ghiaccio-2); transition: color .4s var(--uscita); }
+@media (hover: hover) { .annuncio > a:hover .annuncio-azione { color: #fff; } }
+@media (max-width: 1024px) { .annuncio > a { padding: 46px 0 46px; } .annuncio-data { top: 14px; transform: none; } .annuncio-azione { top: auto; bottom: 14px; transform: none; } }
+@media (max-width: 760px) {
+  .annunci { padding: var(--spazio) calc(var(--m) * 1.4); }
+  .annunci-testa { flex-direction: column; align-items: flex-start; }
+  .annuncio > a { min-height: 150px; }
+  .annuncio-nome { font-size: clamp(24px, 7.4vw, 40px); white-space: normal; flex-wrap: wrap; justify-content: center; }
+}

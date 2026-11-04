@@ -778,6 +778,35 @@
     });
   }
 
+  /* ---------- ultime novità: le parole si separano e in mezzo si apre la foto ---------- */
+  function annunci() {
+    var righe = tutti('[data-annuncio]');
+    if (!righe.length) return;
+    var apri = function (riga, buco) { tutti('[data-buco]', riga).forEach(function (b) { b.classList.toggle('aperto', b === buco); }); };
+    righe.forEach(function (riga) {
+      var buchi = tutti('[data-buco]', riga);
+      if (!tocco) {
+        riga.addEventListener('pointermove', function (e) {
+          var vicino = null, d = Infinity;
+          buchi.forEach(function (b) { var r = b.getBoundingClientRect(); var dd = Math.abs(e.clientX - (r.left + r.width / 2)); if (dd < d) { d = dd; vicino = b; } });
+          if (vicino && !vicino.classList.contains('aperto')) apri(riga, vicino);
+        });
+        riga.addEventListener('pointerleave', function () { apri(riga, null); });
+      }
+      if (!ridotto) {
+        gsap.from(riga.querySelectorAll('.annuncio-parola'), { yPercent: 110, autoAlpha: 0, duration: 1.2, ease: 'uscita', stagger: 0.06, scrollTrigger: { trigger: riga, start: 'top 88%' } });
+        gsap.from(riga.querySelectorAll('.annuncio-data, .annuncio-azione'), { autoAlpha: 0, y: 10, duration: 1, ease: 'uscita', scrollTrigger: { trigger: riga, start: 'top 88%' } });
+      }
+    });
+    /* senza mouse la foto si apre quando la riga arriva al centro dello schermo */
+    if (tocco) {
+      var oss = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { var b = e.target.querySelector('[data-buco]'); apri(e.target, e.isIntersecting ? b : null); });
+      }, { rootMargin: '-38% 0px -38% 0px' });
+      righe.forEach(function (r) { oss.observe(r); });
+    }
+  }
+
   /* ---------- la bobina del laboratorio ---------- */
   function bobina() {
     var sez = document.querySelector('[data-bobina]');
@@ -928,7 +957,7 @@
     var home = corpo.classList.contains('pagina-home');
     var entra = home ? eroe() : null;
     var intro = home ? null : apertura();
-    accesi(); sguardo(); caroselli(); vetrine(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
+    accesi(); sguardo(); caroselli(); annunci(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
     ScrollTrigger.sort(); ScrollTrigger.refresh();
     tutti('[data-su]').forEach(function (b) { b.addEventListener('click', function () { if (lenis) lenis.scrollTo(0, { duration: 2 }); else scrollTo(0, 0); }); });
 
