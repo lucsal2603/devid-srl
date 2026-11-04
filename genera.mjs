@@ -295,6 +295,7 @@ ${intestazione(r, '')}
         ['foto', 'sagome', 'Le sagome di un piazzamento'],
         ['frase', 'Sviluppiamo le taglie al CAD-CAM e piazziamo i pezzi per consumare meno tessuto'],
         ['foto', 'zund-portale', 'Il portale di scansione'],
+        ['frase', 'Piazzamenti automatici da file DXF di qualsiasi sistema CAD-CAM'],
       ] },
       { verso: 1, pezzi: [
         ['foto', 'adesivazione', 'La macchina per l’adesivazione'],
@@ -304,6 +305,7 @@ ${intestazione(r, '')}
         ['foto', 'cartamodello', 'I cartamodelli sul tavolo'],
         ['frase', 'Generazioni di lavoro sartoriale, dagli anni ’50 a Vezzano sul Crostolo'],
         ['foto', 'stesura', 'La pezza stesa sul tavolo'],
+        ['frase', 'Stenditori elettronici senza tensioni, perché il tessuto non cali dopo il taglio'],
       ] },
     ].map((riga) => `<div class="carosello" data-carosello="${riga.verso}">
       <div class="carosello-binario" data-carosello-binario>
