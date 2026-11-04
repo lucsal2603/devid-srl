@@ -232,32 +232,25 @@ ${intestazione(r, '')}
     </div>
   </section>
 
-  <section class="lavori" data-lavori aria-labelledby="lavori-t">
-    <div class="lavori-palco">
-      <div class="lavori-sx">
-        <div class="lavori-testa">
-          <p class="etichetta etichetta-chiara">Servizi</p>
-          <h2 id="lavori-t" class="lavori-titolo" data-righe>Cinque lavorazioni,<br>un solo stabilimento</h2>
-        </div>
-        <ol class="lavori-elenco">
-          ${SERVIZI.map((s) => `<li class="lavori-nome" data-lavoro-nome><a href="servizi/${s.slug}/" data-tenda="${s.nome}"><span>${s.nome}</span><i class="lavori-linea"><b data-lavoro-barra></b></i></a></li>`).join('')}
-        </ol>
-        <div class="lavori-dettagli">
-          ${SERVIZI.map((s, i) => `<div class="lavori-dettaglio" data-lavoro-dettaglio${i ? ' aria-hidden="true"' : ''}>
-            <p class="lavori-breve">${s.breve}</p>
-            <dl class="lavori-dati">${(SPEC[s.slug] || []).map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>
-            <a class="bottone bottone-bianco" href="servizi/${s.slug}/" data-tenda="${s.nome}" data-magnete${i ? ' tabindex="-1"' : ''}><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Scopri il servizio</span>${G.frecciaDx}</span></a>
-          </div>`).join('')}
-        </div>
+  <section class="accesi" aria-labelledby="accesi-t">
+    <div class="accesi-testa">
+      <p class="etichetta etichetta-chiara" data-sale>Servizi</p>
+      <div class="accesi-intro">
+        <h2 id="accesi-t" class="accesi-titolo" data-righe>Cinque lavorazioni,<br>un solo stabilimento.</h2>
+        <p class="accesi-frase" data-righe>Dalla pezza appena arrivata al campione cucito: controlliamo, adesiviamo, sviluppiamo il modello, tagliamo e confezioniamo a Vezzano sul Crostolo, senza viaggi fra un fornitore e l’altro.</p>
       </div>
-      <div class="lavori-quadro">
-        ${SERVIZI.map((s, i) => `<a class="lavori-foto" href="servizi/${s.slug}/" data-tenda="${s.nome}" data-lavoro-foto tabindex="-1" aria-hidden="true">
-          ${img(r, s.foto, s.alt, { sizes: '(max-width: 760px) 92vw, 52vw', larghe: !!s.larghe })}
-          <span class="lavori-velo"></span>
-          <span class="lavori-chip">${(TAG[s.slug] || []).map((t) => `<i>${t}</i>`).join('')}</span>
-          <span class="lavori-mobile-nome">${s.nome}</span>
-        </a>`).join('')}
-      </div>
+    </div>
+    <div class="accesi-elenco">
+      ${SERVIZI.map((s, i) => `<a class="acceso" href="servizi/${s.slug}/" data-tenda="${s.nome}" data-acceso>
+        <canvas class="acceso-arte" data-arte="${['controllo', 'adesivazione', 'modellistica', 'taglio', 'confezione'][i]}" aria-hidden="true"></canvas>
+        <span class="acceso-luce" aria-hidden="true"></span>
+        <span class="acceso-testo">
+          <h3 class="acceso-nome">${s.nome}</h3>
+          <span class="acceso-breve">${s.breve}</span>
+          <span class="acceso-scopri"><span class="acceso-scopri-cerchio">${G.frecciaDx}</span><span data-gira>Scopri</span></span>
+        </span>
+        <span class="acceso-tag">${(TAG[s.slug] || []).map((t) => `<i>${t}</i>`).join('')}</span>
+      </a>`).join('')}
     </div>
   </section>
 

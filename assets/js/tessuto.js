@@ -302,6 +302,7 @@ function avvia() {
   /* ---- simulazione ---- */
   const G = -5.2;
   let tempo = 0;
+  let apriLiscio = 0;
   function bersaglioPerno(m, i, entra, apri) {
     /* il perno i della riga in cima: scende entrando, si raccoglie verso il bordo aprendo */
     const k = i * 3;
@@ -320,7 +321,9 @@ function avvia() {
   function passoSim(dt) {
     tempo += dt;
     const entra = stato.entrata;
-    const apri = ridotto ? 0 : stato.apertura;
+    /* il sipario segue lo scroll ma senza strappi, anche se si scorre veloce */
+    apriLiscio += ((ridotto ? 0 : stato.apertura) - apriLiscio) * Math.min(1, dt * 2.2);
+    const apri = apriLiscio;
     const tagliate = ridotto ? 0 : Math.floor(stato.taglio * NY + 0.0001);
     const dt2 = dt * dt;
     const spinta = manoForza > 0 && !ridotto;
