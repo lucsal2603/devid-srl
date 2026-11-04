@@ -654,6 +654,87 @@
     gsap.ticker.add(function () { if (vista) disegna(); });
   }
 
+  /* ---------- dentro il laboratorio: la parola si apre sulla foto, poi il laser taglia ---------- */
+  function lente() {
+    var sez = document.querySelector('[data-lente]');
+    if (!sez) return;
+    var palco = sez.querySelector('.lente-palco');
+    var svg = sez.querySelector('[data-maschera]');
+    var parola = svg.querySelector('.lente-parola');
+    var pieno = svg.querySelector('.lente-pieno'), notte = svg.querySelector('.lente-notte');
+    var strati = tutti('[data-strato]', sez);
+    var laser = sez.querySelector('[data-laser]');
+    var velo = sez.querySelector('.lente-velo');
+    var nome = sez.querySelector('[data-lente-nome]'), reparto = sez.querySelector('[data-lente-reparto]');
+    var aiuto = sez.querySelector('[data-lente-aiuto]');
+    var W = 0, H = 0, attivo = -1, scala = 40;
+    var misura = function () {
+      W = palco.clientWidth; H = palco.clientHeight;
+      svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+      [pieno, notte].forEach(function (r) { r.setAttribute('width', W); r.setAttribute('height', H); });
+      parola.setAttribute('x', W / 2); parola.setAttribute('y', H * 0.5);
+      var fs = W * 0.15; parola.setAttribute('font-size', fs);
+      var l = parola.getComputedTextLength() || W;
+      fs = fs * (W * 0.92 / l); parola.setAttribute('font-size', fs);
+      var e = parola.getExtentOfChar(9);
+      var cx = e.x + e.width / 2, cy = e.y + e.height * 0.52;
+      svg.style.transformOrigin = cx + 'px ' + cy + 'px';
+      scala = Math.max(W, H) / Math.max(4, e.width * 0.22) * 1.8;
+    };
+    misura();
+    var mostra = function (k) {
+      if (k === attivo) return;
+      attivo = k;
+      var f = strati[k];
+      var cambia = function () { nome.textContent = f.getAttribute('data-nome'); reparto.textContent = f.getAttribute('data-reparto'); };
+      if (ridotto) { cambia(); return; }
+      gsap.timeline().to([nome, reparto], { y: -14, autoAlpha: 0, duration: 0.18, ease: 'power2.in' }).add(cambia).to([nome, reparto], { y: 0, autoAlpha: 1, duration: 0.5, ease: 'power3.out', stagger: 0.06 });
+    };
+    if (ridotto) {
+      gsap.set(svg, { autoAlpha: 0 }); gsap.set(velo, { opacity: 1 }); gsap.set(aiuto, { autoAlpha: 0 });
+      mostra(0); return;
+    }
+    gsap.set([nome, reparto], { autoAlpha: 0 });
+    var tl = gsap.timeline({
+      defaults: { ease: 'none' },
+      scrollTrigger: {
+        trigger: sez, start: 'top top', end: function () { return '+=' + Math.round(innerHeight * 3.6); },
+        pin: true, scrub: 0.7, anticipatePin: 1, invalidateOnRefresh: true,
+        onRefresh: misura,
+        onUpdate: function () {
+          var t = tl.time();
+          if (t < 1) { if (attivo !== -1) { attivo = -1; gsap.to([nome, reparto], { autoAlpha: 0, duration: 0.2 }); } return; }
+          mostra(t < 1.75 ? 0 : t < 2.95 ? 1 : 2);
+        },
+      },
+    });
+    tl.to(aiuto, { autoAlpha: 0, duration: 0.15 }, 0)
+      .fromTo(svg, { scale: 1 }, { scale: function () { return scala; }, duration: 1, ease: 'power3.in' }, 0)
+      .fromTo(strati[0].querySelector('img'), { scale: 1.4 }, { scale: 1.05, duration: 1.1, ease: 'power2.out' }, 0)
+      .to(svg, { autoAlpha: 0, duration: 0.18 }, 0.84)
+      .to(velo, { opacity: 1, duration: 0.25 }, 0.9);
+    for (var k = 1; k < strati.length; k++) {
+      (function (k) {
+        var at = 1.3 + (k - 1) * 1.2, o = { p: 0 }, s = strati[k], im = s.querySelector('img');
+        tl.set(laser, { opacity: 1 }, at)
+          .to(o, {
+            p: 1, duration: 0.9, ease: 'power1.inOut',
+            onUpdate: function () {
+              var x = (1 - o.p) * 100;
+              s.style.clipPath = 'inset(0% 0% 0% ' + x.toFixed(2) + '%)';
+              laser.style.transform = 'translate3d(' + (W * (1 - o.p)).toFixed(1) + 'px,0,0)';
+              laser.style.opacity = o.p > 0.98 ? 0 : 1;
+            },
+          }, at)
+          .fromTo(im, { scale: 1.25, xPercent: 6 }, { scale: 1.05, xPercent: 0, duration: 1.1, ease: 'power2.out' }, at)
+          .to(strati[k - 1].querySelector('img'), { scale: 1.12, xPercent: -4, duration: 0.9 }, at)
+          .set(laser, { opacity: 0 }, at + 0.92);
+      })(k);
+    }
+    tl.to({}, { duration: 0.4 });
+    addEventListener('resize', misura);
+  }
+
   /* ---------- la bobina del laboratorio ---------- */
   function bobina() {
     var sez = document.querySelector('[data-bobina]');
@@ -804,7 +885,7 @@
     var home = corpo.classList.contains('pagina-home');
     var entra = home ? eroe() : null;
     var intro = home ? null : apertura();
-    accesi(); sguardo(); ordito(); vetrine(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
+    accesi(); sguardo(); lente(); vetrine(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
     ScrollTrigger.sort(); ScrollTrigger.refresh();
     tutti('[data-su]').forEach(function (b) { b.addEventListener('click', function () { if (lenis) lenis.scrollTo(0, { duration: 2 }); else scrollTo(0, 0); }); });
 

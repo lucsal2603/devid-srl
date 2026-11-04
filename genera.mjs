@@ -282,19 +282,26 @@ ${intestazione(r, '')}
     </div>
   </section>
 
-  <section class="ordito" data-ordito aria-labelledby="ordito-t">
-    <div class="ordito-palco">
-      <div class="ordito-testa">
-        <h2 id="ordito-t" class="ordito-titolo" data-righe>Dentro il laboratorio</h2>
-        <p class="ordito-nota">Le foto sono del nostro reparto. Scorrete, passate sopra o trascinate.</p>
+  <section class="lente" data-lente aria-labelledby="lente-t">
+    <div class="lente-palco">
+      <div class="lente-foto" aria-hidden="false">
+        ${[
+          ['zund-sala', 'La sala taglio', 'Sala taglio, Vezzano sul Crostolo'],
+          ['sagome', 'Le sagome di un piazzamento', 'Modellistica CAD-CAM'],
+          ['zund-operatrice', 'Il taglio guidato dallo schermo', 'Taglio con l’intelligenza artificiale'],
+        ].map(([f, n, rep], i) => `<figure class="lente-strato" data-strato data-nome="${n}" data-reparto="${rep}">${img(r, f, n, { sizes: '100vw', larghe: f.startsWith('zund') })}</figure>`).join('')}
+        <span class="lente-laser" data-laser aria-hidden="true"></span>
+        <span class="lente-velo" aria-hidden="true"></span>
       </div>
-      <div class="ordito-metro" aria-hidden="true"><div class="ordito-tacche" data-tacche></div><i class="ordito-ago" data-ago></i></div>
-      <div class="ordito-scena" data-ordito-scena>
-        <div class="ordito-fila" data-ordito-fila>
-          ${foto.map(([f, a, rep]) => `<figure class="ordito-filo" data-filo data-nome="${a}" data-reparto="${rep}"><div class="ordito-filo-dentro">${img(r, f, a, { sizes: '(max-width: 760px) 70vw, 30vw', larghe: f.startsWith('zund') })}</div></figure>`).join('')}
-        </div>
+      <svg class="lente-maschera" data-maschera aria-hidden="true" preserveAspectRatio="none">
+        <defs><mask id="lente-buco" maskUnits="userSpaceOnUse"><rect class="lente-pieno" fill="#fff"/><text class="lente-parola" fill="#000" text-anchor="middle" dominant-baseline="central">LABORATORIO</text></mask></defs>
+        <rect class="lente-notte" fill="#080a16" mask="url(#lente-buco)"/>
+      </svg>
+      <div class="lente-testi">
+        <h2 id="lente-t" class="lente-titolo"><span class="etichetta etichetta-chiara">Dentro il laboratorio</span></h2>
+        <div class="lente-dida"><p class="lente-nome" data-lente-nome></p><p class="lente-reparto etichetta etichetta-chiara" data-lente-reparto></p></div>
+        <p class="lente-aiuto etichetta etichetta-chiara" data-lente-aiuto>Scorrete per entrare</p>
       </div>
-      <div class="ordito-dida" aria-live="polite"><p class="ordito-nome" data-ordito-nome></p><p class="ordito-reparto etichetta etichetta-chiara" data-ordito-reparto></p></div>
     </div>
   </section>
 
