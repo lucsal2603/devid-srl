@@ -623,3 +623,21 @@ ul, ol { list-style: none; }
   .colonne-rep { font-size: 16px; }
   .colonne-riga { font-size: 12.5px; }
 }
+
+/* ---------- dentro il laboratorio: due caroselli in direzioni opposte, foto e frasi ---------- */
+.caroselli { padding: var(--spazio) 0; overflow: hidden; }
+.caroselli-testa { padding: 0 calc(var(--m) * 2); margin-bottom: clamp(36px, 4.5vw, 72px); }
+.caroselli-titolo { font-size: clamp(40px, 5.4vw, 104px); font-weight: 520; letter-spacing: -.06em; line-height: .92; color: #fff; }
+.carosello { overflow: hidden; }
+.carosello + .carosello { margin-top: clamp(14px, 1.6vw, 24px); }
+.carosello-binario { display: flex; width: max-content; will-change: transform; }
+.carosello-giro { display: flex; align-items: center; gap: clamp(28px, 3.4vw, 64px); padding-right: clamp(28px, 3.4vw, 64px); }
+.carosello-foto { flex: none; height: clamp(200px, 30vh, 340px); aspect-ratio: 4 / 3; border-radius: var(--raggio); overflow: hidden; background: #12162f; }
+.carosello-foto img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--uscita); }
+@media (hover: hover) { .carosello-foto:hover img { transform: scale(1.06); } }
+.carosello-frase { flex: none; max-width: 15em; font-size: clamp(24px, 2.5vw, 46px); font-weight: 500; letter-spacing: -.045em; line-height: 1.08; color: #fff; }
+@media (max-width: 760px) {
+  .caroselli-testa { padding: 0 calc(var(--m) * 1.4); }
+  .carosello-foto { height: 190px; }
+  .carosello-frase { font-size: 22px; max-width: 11em; }
+}

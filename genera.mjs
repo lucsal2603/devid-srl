@@ -282,26 +282,36 @@ ${intestazione(r, '')}
     </div>
   </section>
 
-  <section class="colonne" data-colonne aria-labelledby="colonne-t">
-    <div class="colonne-testa">
-      <h2 id="colonne-t" class="colonne-titolo" data-righe>Dentro il laboratorio</h2>
-      <p class="colonne-frase" data-righe>Il reparto di Vezzano sul Crostolo, macchina per macchina. Le foto sono nostre.</p>
+  <section class="caroselli" aria-labelledby="caroselli-t">
+    <div class="caroselli-testa">
+      <h2 id="caroselli-t" class="caroselli-titolo" data-righe>Dentro il laboratorio</h2>
     </div>
-    <div class="colonne-griglia">
-      ${[0, 1].map((c) => `<div class="colonne-col" data-colonna="${c}">
-        ${[
-          [['zund-operatrice', 'Taglio con l’intelligenza artificiale', 'Il taglio guidato dallo schermo, sul tavolo di Crea Solution.', 'taglio-tessuti', 'alta'],
-           ['sagome', 'Modellistica CAD-CAM', 'Le sagome di un piazzamento, pronte per il taglio.', 'modellistica-cad-cam', 'larga'],
-           ['metro', 'Confezione campioni', 'Metro e forbici, accanto alla macchina.', 'confezione-campioni', 'alta']],
-          [['taglio-testa', 'Taglio computerizzato', 'La testa di taglio del Morgan Next 2, da vicino.', 'taglio-tessuti', 'alta'],
-           ['zund-portale', 'Scansione', 'Il portale che legge tutta la pezza prima del taglio.', 'taglio-tessuti', 'larga'],
-           ['adesivazione', 'Adesivazione', 'La macchina per adesivazione, accoppiatura e decatizzo.', 'adesivazione-tessuto', 'alta']],
-        ][c].map(([f, rep, dida, slug, forma]) => `<a class="colonne-carta" href="servizi/${slug}/" data-tenda="${rep}" data-colonne-carta>
-          <span class="colonne-foto colonne-${forma}" data-cursore="Apri"><span class="colonne-zoom">${img(r, f, dida, { sizes: '(max-width: 760px) 92vw, 44vw', larghe: f.startsWith('zund') })}</span></span>
-          <span class="colonne-dida"><span class="colonne-rep">${rep}</span><span class="colonne-riga">${dida}</span></span>
-        </a>`).join('')}
-      </div>`).join('')}
-    </div>
+    ${[
+      { verso: -1, pezzi: [
+        ['foto', 'zund-operatrice', 'Il taglio guidato dallo schermo'],
+        ['frase', 'Controlliamo ogni pezza alla specula, prima che entri in lavorazione'],
+        ['foto', 'taglio-testa', 'La testa di taglio'],
+        ['frase', 'Tagliamo fino a 7 cm di materasso, anche con l’intelligenza artificiale'],
+        ['foto', 'sagome', 'Le sagome di un piazzamento'],
+        ['frase', 'Sviluppiamo le taglie al CAD-CAM e piazziamo i pezzi per consumare meno tessuto'],
+        ['foto', 'zund-portale', 'Il portale di scansione'],
+      ] },
+      { verso: 1, pezzi: [
+        ['foto', 'adesivazione', 'La macchina per l’adesivazione'],
+        ['frase', 'Adesivazione, accoppiatura e decatizzo nello stesso stabilimento del taglio'],
+        ['foto', 'metro', 'Metro e forbici sulla macchina'],
+        ['frase', 'Campioni e produzione cuciti da operatrici con esperienza decennale'],
+        ['foto', 'cartamodello', 'I cartamodelli sul tavolo'],
+        ['frase', 'Generazioni di lavoro sartoriale, dagli anni ’50 a Vezzano sul Crostolo'],
+        ['foto', 'stesura', 'La pezza stesa sul tavolo'],
+      ] },
+    ].map((riga) => `<div class="carosello" data-carosello="${riga.verso}">
+      <div class="carosello-binario" data-carosello-binario>
+        ${[0, 1].map((k) => `<div class="carosello-giro"${k ? ' aria-hidden="true"' : ''}>${riga.pezzi.map((p) => p[0] === 'foto'
+          ? `<figure class="carosello-foto">${img(r, p[1], k ? '' : p[2], { sizes: '(max-width: 760px) 60vw, 30vw', larghe: p[1].startsWith('zund') })}</figure>`
+          : `<p class="carosello-frase">${p[1]}</p>`).join('')}</div>`).join('')}
+      </div>
+    </div>`).join('')}
   </section>
 
   <section class="settori" aria-labelledby="settori-t">
