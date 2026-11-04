@@ -574,6 +574,86 @@
     });
   }
 
+  /* ---------- dentro il laboratorio: le foto come i fili di un ordito ---------- */
+  function ordito() {
+    var sez = document.querySelector('[data-ordito]');
+    if (!sez) return;
+    var scena = sez.querySelector('[data-ordito-scena]');
+    var fila = sez.querySelector('[data-ordito-fila]');
+    var fili = tutti('[data-filo]', sez);
+    var nome = sez.querySelector('[data-ordito-nome]');
+    var reparto = sez.querySelector('[data-ordito-reparto]');
+    var tacche = sez.querySelector('[data-tacche]');
+    var ago = sez.querySelector('[data-ago]');
+    var n = fili.length;
+    for (var c = 0; c <= n; c++) { var sp = document.createElement('span'); sp.style.left = (c / n * 100) + '%'; sp.textContent = c * 10; tacche.appendChild(sp); }
+    var base, grande, gap, W, larghi = fili.map(function () { return 0; });
+    var fuoco = 0, fuocoScroll = 0, tira = 0, spinta = 0, sopra = -1, preso = false, ultimoX = 0, vel = 0, xPrima = 0, attivo = -1, vista = false;
+    var misura = function () {
+      W = innerWidth;
+      var tel = W < 760;
+      base = tel ? Math.max(14, W * 0.042) : Math.min(W * 0.034, 54);
+      grande = tel ? W * 0.62 : Math.min(W * 0.3, innerHeight * 0.46 * 1.3);
+      gap = tel ? 5 : 8;
+      sez.style.setProperty('--grande', grande + 'px');
+      sez.style.setProperty('--gap-filo', gap + 'px');
+    };
+    misura(); addEventListener('resize', misura);
+    var mostra = function (k) {
+      if (k === attivo) return;
+      attivo = k;
+      var f = fili[k];
+      var cambia = function () { nome.textContent = f.getAttribute('data-nome'); reparto.textContent = f.getAttribute('data-reparto'); };
+      if (ridotto) { cambia(); return; }
+      gsap.timeline().to([nome, reparto], { y: -10, autoAlpha: 0, duration: 0.16, ease: 'power2.in' }).add(cambia).to([nome, reparto], { y: 0, autoAlpha: 1, duration: 0.4, ease: 'power3.out', stagger: 0.05 });
+    };
+    fili.forEach(function (f, i) {
+      f.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse' && !preso) sopra = i; });
+      f.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse' && sopra === i) sopra = -1; });
+    });
+    scena.addEventListener('pointerdown', function (e) { preso = true; ultimoX = e.clientX; spinta = 0; sopra = -1; scena.setPointerCapture(e.pointerId); });
+    scena.addEventListener('pointermove', function (e) { if (!preso) return; var d = e.clientX - ultimoX; ultimoX = e.clientX; spinta = -d / (base + gap) * 0.9; tira += spinta; });
+    var lascia = function () { preso = false; };
+    scena.addEventListener('pointerup', lascia); scena.addEventListener('pointercancel', lascia);
+    new IntersectionObserver(function (v) { vista = v[0].isIntersecting; }).observe(sez);
+    var disegna = function () {
+      if (!preso) { spinta *= 0.92; tira += spinta; }
+      var obiettivo = gsap.utils.clamp(0, n - 1, fuocoScroll * (n - 1) + tira);
+      if (obiettivo !== fuocoScroll * (n - 1) + tira) tira = obiettivo - fuocoScroll * (n - 1);
+      fuoco += (obiettivo - fuoco) * (ridotto ? 1 : 0.1);
+      var centro = sopra >= 0 ? sopra : Math.round(fuoco);
+      var pos = 0, centri = [];
+      for (var i = 0; i < n; i++) {
+        var meta = sopra >= 0 ? (i === sopra ? 1 : 0) : Math.max(0, 1 - Math.abs(i - fuoco));
+        larghi[i] += ((base + (grande - base) * meta) - larghi[i]) * (ridotto ? 1 : 0.14);
+        centri.push(pos + larghi[i] / 2);
+        pos += larghi[i] + gap;
+      }
+      var a = Math.floor(fuoco), b = Math.min(n - 1, a + 1), t = fuoco - a;
+      var x = W / 2 - (centri[a] * (1 - t) + centri[b] * t);
+      vel += ((x - xPrima) - vel) * 0.2; xPrima = x;
+      var piega = gsap.utils.clamp(-28, 28, vel * 1.6);
+      fila.style.transform = 'translate3d(' + x.toFixed(1) + 'px,0,0)';
+      for (var j = 0; j < n; j++) {
+        var luce = Math.min(1, Math.max(0, (larghi[j] - base) / (grande - base)));
+        fili[j].style.width = larghi[j].toFixed(1) + 'px';
+        fili[j].style.filter = 'grayscale(' + (1 - luce).toFixed(2) + ') brightness(' + (0.5 + 0.5 * luce).toFixed(2) + ')';
+        fili[j].style.setProperty('--ombra', (1 - luce).toFixed(2));
+        fili[j].style.transform = 'rotateY(' + (piega * (1 - luce)).toFixed(2) + 'deg)';
+      }
+      ago.style.transform = 'translate3d(' + (fuoco / (n - 1) * (tacche.clientWidth - 2)).toFixed(1) + 'px,0,0)';
+      mostra(centro);
+    };
+    disegna();
+    if (ridotto) return;
+    ScrollTrigger.create({
+      trigger: sez, start: 'top top', end: function () { return '+=' + Math.round(innerHeight * n * 0.32); },
+      pin: true, anticipatePin: 1, onUpdate: function (st) { fuocoScroll = st.progress; },
+    });
+    gsap.fromTo(fila, { clipPath: 'inset(50% 0% 50% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.4, ease: 'tenda', scrollTrigger: { trigger: sez, start: 'top 65%' } });
+    gsap.ticker.add(function () { if (vista) disegna(); });
+  }
+
   /* ---------- la bobina del laboratorio ---------- */
   function bobina() {
     var sez = document.querySelector('[data-bobina]');
@@ -724,7 +804,7 @@
     var home = corpo.classList.contains('pagina-home');
     var entra = home ? eroe() : null;
     var intro = home ? null : apertura();
-    accesi(); sguardo(); mirino(); vetrine(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
+    accesi(); sguardo(); ordito(); vetrine(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
     ScrollTrigger.sort(); ScrollTrigger.refresh();
     tutti('[data-su]').forEach(function (b) { b.addEventListener('click', function () { if (lenis) lenis.scrollTo(0, { duration: 2 }); else scrollTo(0, 0); }); });
 

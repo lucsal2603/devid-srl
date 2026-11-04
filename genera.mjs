@@ -190,6 +190,10 @@ function home() {
     ['metro', 'Metro e forbici', 'Confezione'],
     ['adesivazione', 'La macchina per l’adesivazione', 'Adesivazione'],
     ['zund-piano', 'Il piano di taglio', 'Sala taglio'],
+    ['zund-sala', 'La sala taglio', 'Sala taglio'],
+    ['stesura', 'La pezza stesa sul tavolo', 'Stesura'],
+    ['zund-schermo', 'La postazione del taglio', 'Taglio con l’AI'],
+    ['pressa', 'La pressa', 'Adesivazione'],
   ];
   const macchine = ['Morgan Next 2', 'Investronica Diamond', 'Stenditori Oteman e Bkr', 'Algotex Stream 180', 'Intelli-di', 'Datacolor 3890', 'Crea Solution'];
   return `${testa({ r, titolo: 'Devid srl, taglio tessuti e modellistica a Reggio Emilia', descrizione: 'Controllo tessuti, adesivazione, modellistica CAD-CAM, taglio computerizzato e confezione campioni a Vezzano sul Crostolo, Reggio Emilia. Dagli anni Cinquanta.', url: '/' })}
@@ -278,20 +282,19 @@ ${intestazione(r, '')}
     </div>
   </section>
 
-  <section class="mirino" data-mirino aria-labelledby="mirino-t">
-    <div class="mirino-palco">
-      <div class="mirino-sx">
-        <p class="etichetta etichetta-chiara">Vezzano sul Crostolo</p>
-        <h2 id="mirino-t" class="mirino-titolo" data-righe>Dentro il<br>laboratorio</h2>
-        <ol class="mirino-elenco" aria-hidden="true">${foto.map(([f, a, rep]) => `<li data-mirino-nome>${a}</li>`).join('')}</ol>
+  <section class="ordito" data-ordito aria-labelledby="ordito-t">
+    <div class="ordito-palco">
+      <div class="ordito-testa">
+        <h2 id="ordito-t" class="ordito-titolo" data-righe>Dentro il laboratorio</h2>
+        <p class="ordito-nota">Le foto sono del nostro reparto. Scorrete, passate sopra o trascinate.</p>
       </div>
-      <div class="mirino-colonna" data-mirino-colonna>
-        ${foto.map(([f, a]) => `<figure class="mirino-foto" data-mirino-foto>${img(r, f, a, { sizes: '(max-width: 760px) 60vw, 30vw', larghe: f.startsWith('zund') })}</figure>`).join('')}
+      <div class="ordito-metro" aria-hidden="true"><div class="ordito-tacche" data-tacche></div><i class="ordito-ago" data-ago></i></div>
+      <div class="ordito-scena" data-ordito-scena>
+        <div class="ordito-fila" data-ordito-fila>
+          ${foto.map(([f, a, rep]) => `<figure class="ordito-filo" data-filo data-nome="${a}" data-reparto="${rep}"><div class="ordito-filo-dentro">${img(r, f, a, { sizes: '(max-width: 760px) 70vw, 30vw', larghe: f.startsWith('zund') })}</div></figure>`).join('')}
+        </div>
       </div>
-      <div class="mirino-cornice" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-      <div class="mirino-dx" aria-hidden="true">
-        ${foto.map(([f, a, rep]) => `<p class="mirino-reparto" data-mirino-reparto>${rep}</p>`).join('')}
-      </div>
+      <div class="ordito-dida" aria-live="polite"><p class="ordito-nome" data-ordito-nome></p><p class="ordito-reparto etichetta etichetta-chiara" data-ordito-reparto></p></div>
     </div>
   </section>
 
