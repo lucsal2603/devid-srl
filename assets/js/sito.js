@@ -40,10 +40,60 @@
   /* ---------- testo che gira al passaggio ---------- */
   tutti('[data-gira]').forEach(function (el) {
     var t = el.textContent;
+    /* nei bottoni e nel menu le lettere girano una dopo l'altra */
+    if (el.closest('.bottone, .menu-voce')) {
+      el.textContent = '';
+      el.removeAttribute('data-gira');
+      el.className = 'lettere';
+      el.setAttribute('aria-label', t);
+      t.split('').forEach(function (c, i) {
+        var l = document.createElement('span'); l.className = 'lettera'; l.style.setProperty('--i', i); l.setAttribute('aria-hidden', 'true');
+        var a = document.createElement('i'), b = document.createElement('i');
+        a.textContent = b.textContent = c === ' ' ? String.fromCharCode(160) : c;
+        l.appendChild(a); l.appendChild(b); el.appendChild(l);
+      });
+      return;
+    }
     el.textContent = '';
     var a = document.createElement('span'); a.className = 'gira-a'; a.textContent = t;
     var b = document.createElement('span'); b.className = 'gira-b'; b.textContent = t; b.setAttribute('aria-hidden', 'true');
     el.appendChild(a); el.appendChild(b);
+  });
+
+  /* ---------- bottoni: il colore entra dal punto del mouse, la freccia esce e rientra ---------- */
+  tutti('.bottone .bottone-testo > svg.g').forEach(function (g) {
+    var box = document.createElement('span'); box.className = 'bottone-freccia';
+    g.parentNode.insertBefore(box, g); box.appendChild(g); box.appendChild(g.cloneNode(true));
+  });
+  if (!tocco) {
+    tutti('.bottone').forEach(function (b) {
+      var punto = function (e) {
+        var r = b.getBoundingClientRect();
+        b.style.setProperty('--bx', (e.clientX - r.left) + 'px');
+        b.style.setProperty('--by', (e.clientY - r.top) + 'px');
+        b.style.setProperty('--bd', (Math.max(r.width, r.height) * 2.4) + 'px');
+      };
+      b.addEventListener('pointerenter', function (e) { punto(e); requestAnimationFrame(function () { b.classList.add('dentro'); }); });
+      b.addEventListener('pointerleave', function (e) { punto(e); b.classList.remove('dentro'); });
+    });
+  }
+
+  /* ---------- menu: la pillola scivola sotto la voce ---------- */
+  tutti('.menu').forEach(function (m) {
+    var voci = tutti('.menu-voce', m);
+    var p = document.createElement('span'); p.className = 'menu-pillola'; m.insertBefore(p, m.firstChild);
+    var corrente = m.querySelector('[aria-current]');
+    var vai = function (v, subito) {
+      voci.forEach(function (x) { x.classList.toggle('sotto', x === v); });
+      if (!v) { gsap.to(p, { opacity: 0, duration: 0.3 }); return; }
+      gsap.to(p, { x: v.offsetLeft, width: v.offsetWidth, opacity: 1, duration: subito || ridotto ? 0 : 0.6, ease: 'back.out(1.7)', overwrite: true });
+    };
+    var aspetta = function () { if (corrente) vai(corrente, true); };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(aspetta); else aspetta();
+    addEventListener('resize', aspetta);
+    if (tocco) return;
+    voci.forEach(function (v) { v.addEventListener('pointerenter', function () { vai(v); }); });
+    m.addEventListener('pointerleave', function () { vai(corrente || null); });
   });
 
   /* ---------- testata ---------- */
