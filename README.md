@@ -23,7 +23,7 @@ Lo stile viene da **Lusion** (lusion.co), lo studio inglese di siti in 3D premia
 
 ## Le pagine interne
 
-Servizi, i cinque servizi, Azienda, News, gli articoli, Privacy e 404 sono sul blu notte come la home, con gli stessi pezzi: le carte dei servizi che si accendono (pagina Servizi), il disegno animato di ogni servizio dietro il titolo e le schede scure che si illuminano sotto il mouse (pagine dei servizi), il parco macchine che scorre di lato (Azienda), l'elenco delle novità con la foto che si apre fra le parole (News), i testi grandi che si accendono parola per parola. Contatti resta chiara, come piace a Luca.
+Servizi, i cinque servizi, Azienda, News, gli articoli, Privacy e 404 sono sul blu notte come la home, con gli stessi pezzi: le carte dei servizi chiuse che si aprono sotto il mouse col disegno in grande e la descrizione a sinistra, e sul telefono quella al centro dello schermo (pagina Servizi), il disegno animato di ogni servizio dietro il titolo e le schede scure che si illuminano sotto il mouse (pagine dei servizi), il parco macchine che scorre di lato e le due foto del cartamodello e del metro intrecciate al testo, che arrivano storte e si raddrizzano (Azienda), l'elenco delle novità con la foto che si apre fra le parole (News), i testi grandi che si accendono parola per parola. Contatti resta chiara, come piace a Luca.
 
 ## Le pagine
 

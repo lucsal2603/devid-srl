@@ -712,3 +712,48 @@ ul, ol { list-style: none; }
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 35%, #000 80%, transparent), linear-gradient(180deg, transparent, #000 25%, #000 75%, transparent);
   -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent, #000 35%, #000 80%, transparent), linear-gradient(180deg, transparent, #000 25%, #000 75%, transparent); mask-composite: intersect; opacity: .9; }
 @media (max-width: 760px) { .apertura-arte { width: 100%; opacity: .28 !important; } }
+
+/* ---------- pagina Servizi: le carte chiuse che si aprono sotto il mouse ---------- */
+.accesi-apri .accesi-elenco { gap: 10px; }
+.accesi-apri .acceso { min-height: 0; height: clamp(96px, 8.5vw, 132px); transition: height .9s var(--uscita), box-shadow .5s var(--uscita); }
+.accesi-apri .acceso.aperto { height: clamp(380px, 58vh, 560px); box-shadow: inset 0 0 0 1px rgba(150, 165, 255, .3); }
+.accesi-apri .acceso-testo { height: 100%; justify-content: flex-start; max-width: 30em; }
+.accesi-apri .acceso-nome { color: rgba(238, 240, 255, .55); transition: color .5s var(--uscita), font-size .9s var(--uscita); }
+.accesi-apri .acceso.aperto .acceso-nome { color: #fff; }
+.accesi-apri .acceso-breve, .accesi-apri .acceso-scopri { opacity: 0; transform: translateY(16px); transition: opacity .5s var(--uscita), transform .7s var(--uscita); }
+.accesi-apri .acceso.aperto .acceso-breve { opacity: 1; transform: none; transition-delay: .2s; font-size: clamp(16px, 1.25vw, 20px); color: var(--ghiaccio); }
+.accesi-apri .acceso.aperto .acceso-scopri { opacity: 1; transform: none; transition-delay: .3s; margin-top: auto; }
+.accesi-apri .acceso-tag { opacity: 1; }
+.accesi-apri .acceso-arte { width: 66%; opacity: .25; transition: opacity .7s var(--uscita); }
+.accesi-apri .acceso.aperto .acceso-arte { opacity: 1; }
+.accesi-apri .acceso-luce { opacity: .35; transition: opacity .7s var(--uscita); }
+.accesi-apri .acceso.aperto .acceso-luce { opacity: 1; }
+@media (max-width: 760px) {
+  .accesi-apri .acceso { height: 92px; display: block; }
+  .accesi-apri .acceso.aperto { height: 440px; }
+  .accesi-apri .acceso-arte { width: 100%; height: 100%; inset: 0; }
+  .accesi-apri .acceso-testo { justify-content: flex-start; padding-top: 30px; }
+  .accesi-apri .acceso-tag { display: none; }
+}
+
+/* ---------- azienda: le due foto intrecciate al testo ---------- */
+.intreccio { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(24px, 4vw, 80px); align-items: center; }
+.intreccio-testo { display: flex; flex-direction: column; gap: 22px; }
+.intreccio-frase { font-size: clamp(26px, 2.6vw, 48px); font-weight: 480; letter-spacing: -.045em; line-height: 1.08; color: #fff; }
+.intreccio-frase .parola { color: rgba(238, 240, 255, .14); }
+.intreccio-foto { position: relative; height: clamp(380px, 46vw, 640px); }
+.intreccio-foto figure { position: absolute; will-change: transform; }
+.intreccio-dentro { display: block; overflow: hidden; border-radius: var(--raggio); background: #12162f; box-shadow: 0 40px 80px -40px rgba(0, 0, 0, .8); }
+.intreccio-dentro img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--uscita); }
+.intreccio-foto figcaption { margin-top: 10px; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--ghiaccio-2); }
+.intreccio-a { left: 0; top: 0; width: 58%; }
+.intreccio-a .intreccio-dentro { aspect-ratio: 4 / 5; }
+.intreccio-b { right: 0; bottom: 0; width: 44%; z-index: 2; }
+.intreccio-b .intreccio-dentro { aspect-ratio: 1 / 1; }
+@media (hover: hover) { .intreccio-foto figure:hover .intreccio-dentro img { transform: scale(1.06); } }
+@media (max-width: 760px) {
+  .intreccio { grid-template-columns: 1fr; }
+  .intreccio-foto { height: 118vw; }
+  .intreccio-a { width: 68%; }
+  .intreccio-b { width: 54%; }
+}

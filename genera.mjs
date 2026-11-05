@@ -178,7 +178,7 @@ const carta = (r, s, i) => `<a class="servizio-carta ${i % 2 ? 'carta-giu' : ''}
 
 
 /* ---------- pezzi riusati fra home e pagine interne ---------- */
-const htmlAccesi = (r, testa = true) => `  <section class="accesi" aria-labelledby="accesi-t">
+const htmlAccesi = (r, testa = true) => `  <section class="accesi${testa ? '' : ' accesi-apri'}" aria-labelledby="accesi-t">
     ${testa ? `<div class="accesi-testa">
       <p class="etichetta etichetta-chiara" data-sale>Servizi</p>
       <div class="accesi-intro">
@@ -465,9 +465,15 @@ ${intestazione(r, 'azienda/')}
       ['Il taglio automatico', 'Unito al modello digitale, garantisce la massima precisione del tagliato.'],
       ['Il campione cucito', 'Operatrici con esperienza decennale e macchinari aggiornati, nello stesso stabilimento.'],
     ] })}
-    <section class="doppia">
-      <figure class="doppia-foto" data-foto>${img(r, 'cartamodello', 'Un modellista sistema i cartamodelli sul tavolo', { sizes: '(max-width: 760px) 92vw, 46vw' })}</figure>
-      <figure class="doppia-foto" data-foto>${img(r, 'metro', 'Metro e forbici sulla macchina', { sizes: '(max-width: 760px) 92vw, 46vw' })}</figure>
+    <section class="intreccio" data-intreccio>
+      <div class="intreccio-testo">
+        <p class="etichetta etichetta-chiara">Dalla mano al CAD</p>
+        <p class="intreccio-frase" data-accende>Il modello nasce sul tavolo, a mano, con il metro e il gesso. Poi diventa digitale al CAD, e torna sul tessuto preciso al millimetro.</p>
+      </div>
+      <div class="intreccio-foto">
+        <figure class="intreccio-a" data-intreccio-foto="a"><span class="intreccio-dentro">${img(r, 'cartamodello', 'Un modellista sistema i cartamodelli sul tavolo', { sizes: '(max-width: 760px) 70vw, 30vw' })}</span><figcaption>Il cartamodello</figcaption></figure>
+        <figure class="intreccio-b" data-intreccio-foto="b"><span class="intreccio-dentro">${img(r, 'metro', 'Metro e forbici sulla macchina', { sizes: '(max-width: 760px) 55vw, 22vw' })}</span><figcaption>Il metro</figcaption></figure>
+      </div>
     </section>
   </div>
   ${htmlSguardo(r)}

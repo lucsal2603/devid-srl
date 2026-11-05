@@ -500,6 +500,7 @@
       return v;
     });
     addEventListener('resize', function () { vive.forEach(function (v) { v.misura(); }); });
+    if (window.ResizeObserver) { var ro = new ResizeObserver(function (es) { es.forEach(function (e) { vive.forEach(function (v) { if (v.cv === e.target) v.misura(); }); }); }); vive.forEach(function (v) { ro.observe(v.cv); }); }
     var oss = new IntersectionObserver(function (es) {
       es.forEach(function (e) { vive.forEach(function (v) { if (v.c === e.target) v.vista = e.isIntersecting; }); });
     });
@@ -512,8 +513,25 @@
     if (ridotto) { vive.forEach(function (v) { disegna(v, 0); }); return; }
     gsap.ticker.add(function (t, dt) { vive.forEach(function (v) { if (v.vista) disegna(v, dt / 1000); }); });
 
+    /* pagina Servizi: le carte si aprono sotto il mouse (sul telefono quella al centro dello schermo) */
+    var apri = carte.filter(function (c) { return c.closest('.accesi-apri'); });
+    if (apri.length) {
+      var aperta = null;
+      var mostra = function (c) { apri.forEach(function (x) { x.classList.toggle('aperto', x === c); }); aperta = c; };
+      if (!tocco) {
+        apri.forEach(function (c) { c.addEventListener('pointerenter', function () { mostra(c); }); });
+        c0 = apri[0].parentElement;
+        c0.addEventListener('pointerleave', function () { mostra(null); });
+      } else {
+        var oc = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) mostra(e.target); }); }, { rootMargin: '-45% 0px -45% 0px' });
+        apri.forEach(function (c) { oc.observe(c); });
+      }
+      apri.forEach(function (c, i) { gsap.from(c, { y: 40, autoAlpha: 0, duration: 1, ease: 'uscita', delay: i * 0.06, scrollTrigger: { trigger: c, start: 'top 95%' } }); });
+    }
+    var c0;
+
     /* l'accensione: spenta e grigia, poi viva, legata allo scroll */
-    carte.forEach(function (c) {
+    carte.filter(function (c) { return !c.closest('.accesi-apri'); }).forEach(function (c) {
       var tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: c, start: 'top 92%', end: 'top 42%', scrub: 0.5 } });
       tl.fromTo(c, { scale: 0.94, backgroundColor: '#1a1d33' }, { scale: 1, backgroundColor: '#0b0e26', duration: 1 }, 0)
         .to(c.querySelector('.acceso-luce'), { opacity: 1, duration: 0.7 }, 0.3)
@@ -537,10 +555,11 @@
       scrollTrigger: { trigger: sez, start: 'top top', end: function () { return '+=' + Math.round(distanza() * 1.1); }, pin: true, scrub: 0.7, anticipatePin: 1, invalidateOnRefresh: true },
     });
     carte.forEach(function (c, i) {
-      gsap.fromTo(c, { yPercent: i % 2 ? 14 : -10, rotation: i % 2 ? 3 : -3, scale: 0.9 }, {
+      if (!c.classList.contains('sguardo-fine')) gsap.fromTo(c, { yPercent: i % 2 ? 14 : -10, rotation: i % 2 ? 3 : -3, scale: 0.9 }, {
         yPercent: 0, rotation: 0, scale: 1, ease: 'none',
-        scrollTrigger: { trigger: c, containerAnimation: corsa, start: 'left right', end: 'left 55%', scrub: true },
+        scrollTrigger: { trigger: c, containerAnimation: corsa, start: 'left right', end: 'left 78%', scrub: true },
       });
+      else gsap.from(c, { autoAlpha: 0, x: 60, duration: 1, ease: 'uscita', scrollTrigger: { trigger: c, containerAnimation: corsa, start: 'left 98%' } });
       var im = c.querySelector('img');
       if (im) gsap.fromTo(im, { xPercent: 7 }, { xPercent: -7, ease: 'none', scrollTrigger: { trigger: c, containerAnimation: corsa, start: 'left right', end: 'right left', scrub: true } });
       var n = c.querySelector('[data-conta-lato]');
@@ -881,6 +900,21 @@
     });
   }
 
+  /* ---------- azienda: le due foto arrivano storte e si raddrizzano ---------- */
+  function intreccio() {
+    var sez = document.querySelector('[data-intreccio]');
+    if (!sez || ridotto) return;
+    var a = sez.querySelector('[data-intreccio-foto="a"]'), b = sez.querySelector('[data-intreccio-foto="b"]');
+    var tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: sez, start: 'top 85%', end: 'bottom 30%', scrub: 0.6 } });
+    tl.fromTo(a, { rotation: -9, yPercent: 18, xPercent: -6 }, { rotation: -2, yPercent: -6, xPercent: 0 }, 0)
+      .fromTo(b, { rotation: 12, yPercent: 40, xPercent: 10 }, { rotation: 3, yPercent: -14, xPercent: 0 }, 0)
+      .fromTo(a.querySelector('img'), { scale: 1.3 }, { scale: 1 }, 0)
+      .fromTo(b.querySelector('img'), { scale: 1.4 }, { scale: 1 }, 0);
+    [a, b].forEach(function (f) {
+      gsap.fromTo(f.querySelector('.intreccio-dentro'), { clipPath: 'inset(100% 0% 0% 0% round 28px)' }, { clipPath: 'inset(0% 0% 0% 0% round 28px)', duration: 1.4, ease: 'tenda', scrollTrigger: { trigger: f, start: 'top 90%' } });
+    });
+  }
+
   /* ---------- la bobina del laboratorio ---------- */
   function bobina() {
     var sez = document.querySelector('[data-bobina]');
@@ -1031,7 +1065,7 @@
     var home = corpo.classList.contains('pagina-home');
     var entra = home ? eroe() : null;
     var intro = home ? null : apertura();
-    accesi(); sguardo(); caroselli(); annunci(); arteSola(); schedeLuce(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
+    accesi(); sguardo(); intreccio(); caroselli(); annunci(); arteSola(); schedeLuce(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
     ScrollTrigger.sort(); ScrollTrigger.refresh();
     tutti('[data-su]').forEach(function (b) { b.addEventListener('click', function () { if (lenis) lenis.scrollTo(0, { duration: 2 }); else scrollTo(0, 0); }); });
 
