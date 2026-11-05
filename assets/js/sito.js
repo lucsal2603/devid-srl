@@ -759,18 +759,14 @@
       var b = c.querySelector('[data-carosello-binario]');
       var giro = b.firstElementChild;
       if (ridotto) { c.style.overflowX = 'auto'; return; }
-      var x = 0, iniziato = false, vel = 1, sopra = false, vista = false, w = 0;
+      var x = 0, iniziato = false, vista = false, w = 0;
       new IntersectionObserver(function (v) { vista = v[0].isIntersecting; }).observe(c);
-      c.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') sopra = true; });
-      c.addEventListener('pointerleave', function () { sopra = false; });
       gsap.ticker.add(function (t, dt) {
         if (!vista) return;
         w = giro.offsetWidth; if (!w) return;
         if (!iniziato) { iniziato = true; if (verso > 0) x = -w; }
-        var extra = lenis ? Math.min(6, Math.abs(lenis.velocity) * 0.12) : 0;
-        var obiettivo = (sopra ? 0.25 : 1) + extra;
-        vel += (obiettivo - vel) * 0.06;
-        x += verso * vel * dt * 0.055;
+        /* velocità sempre uguale: non rallenta col mouse e non accelera con lo scroll */
+        x += verso * dt * 0.055;
         if (x <= -w) x += w;
         if (x > 0) x -= w;
         b.style.transform = 'translate3d(' + x.toFixed(2) + 'px,0,0)';
