@@ -853,6 +853,34 @@
     }
   }
 
+  /* ---------- pagine dei servizi: il disegno animato dietro il titolo ---------- */
+  function arteSola() {
+    tutti('[data-arte-sola]').forEach(function (cv) {
+      var arte = ARTE[cv.getAttribute('data-arte-sola')];
+      if (!arte) return;
+      var g = cv.getContext('2d'), dpr = Math.min(devicePixelRatio || 1, 2), w = 0, h = 0, t = 0, vista = true;
+      var misura = function () { w = cv.clientWidth; h = cv.clientHeight; cv.width = w * dpr; cv.height = h * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0); };
+      misura(); addEventListener('resize', misura);
+      new IntersectionObserver(function (v) { vista = v[0].isIntersecting; }).observe(cv);
+      var disegna = function (dt) { t += dt; g.clearRect(0, 0, w, h); arte(g, w, h, t); };
+      if (ridotto) { disegna(2); return; }
+      gsap.fromTo(cv, { opacity: 0 }, { opacity: 0.9, duration: 1.6, ease: 'uscita', delay: 0.4 });
+      gsap.ticker.add(function (tt, dt) { if (vista) disegna(dt / 1000); });
+    });
+  }
+
+  /* ---------- schede: la luce segue il mouse ---------- */
+  function schedeLuce() {
+    if (tocco) return;
+    tutti('.tema-notte .scheda').forEach(function (c) {
+      c.addEventListener('pointermove', function (e) {
+        var r = c.getBoundingClientRect();
+        c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+  }
+
   /* ---------- la bobina del laboratorio ---------- */
   function bobina() {
     var sez = document.querySelector('[data-bobina]');
@@ -1003,7 +1031,7 @@
     var home = corpo.classList.contains('pagina-home');
     var entra = home ? eroe() : null;
     var intro = home ? null : apertura();
-    accesi(); sguardo(); caroselli(); annunci(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
+    accesi(); sguardo(); caroselli(); annunci(); arteSola(); schedeLuce(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
     ScrollTrigger.sort(); ScrollTrigger.refresh();
     tutti('[data-su]').forEach(function (b) { b.addEventListener('click', function () { if (lenis) lenis.scrollTo(0, { duration: 2 }); else scrollTo(0, 0); }); });
 

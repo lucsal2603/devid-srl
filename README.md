@@ -21,6 +21,10 @@ Lo stile viene da **Lusion** (lusion.co), lo studio inglese di siti in 3D premia
 - Fra una pagina e l'altra, il pannello blu col nome della pagina.
 - Senza WebGL al posto del tessuto si vede la foto. Chi ha attivato «riduci movimento» vede il tessuto fermo e niente spostamenti.
 
+## Le pagine interne
+
+Servizi, i cinque servizi, Azienda, News, gli articoli, Privacy e 404 sono sul blu notte come la home, con gli stessi pezzi: le carte dei servizi che si accendono (pagina Servizi), il disegno animato di ogni servizio dietro il titolo e le schede scure che si illuminano sotto il mouse (pagine dei servizi), il parco macchine che scorre di lato (Azienda), l'elenco delle novità con la foto che si apre fra le parole (News), i testi grandi che si accendono parola per parola. Contatti resta chiara, come piace a Luca.
+
 ## Le pagine
 
 Home, Servizi (più una pagina per ognuno dei cinque), Azienda, Contatti con le indicazioni stradali e la mappa, News (due articoli), Privacy, pagina 404. Ci sono anche `sitemap.xml`, `robots.txt`, le icone e i dati per Google (LocalBusiness).

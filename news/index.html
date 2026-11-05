@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="../assets/css/sito.css">
 <script>(function(h){h.classList.add('js');try{if(sessionStorage.getItem('devid-tenda'))h.classList.add('arrivo');if(sessionStorage.getItem('devid-visto'))h.classList.add('visto-carica')}catch(e){}setTimeout(function(){if(!window.devidPronto)h.classList.remove('js','arrivo')},4000)})(document.documentElement)</script>
 </head>
-<body class="pagina-interna">
+<body class="pagina-interna tema-notte">
 <a class="salta" href="#contenuto">Vai al contenuto</a>
 <div class="tenda" aria-hidden="true"><div class="tenda-pannello"><p class="tenda-titolo"></p></div></div>
 <header class="testata" data-testata>
@@ -48,6 +48,7 @@
 </div>
 <main id="contenuto">
   <section class="apertura">
+    
     <div class="apertura-sopra">
       
       <p class="etichetta" data-sale>News</p>
@@ -55,18 +56,29 @@
     <h1 class="apertura-titolo"><span class="riga"><span class="riga-dentro">Ultime novità</span></span></h1>
     <p class="apertura-testo" data-righe>Macchine nuove, lavorazioni, produzione: quello che succede nel laboratorio.</p>
   </section>
-  <section class="novita novita-pagina">
-    <div class="novita-griglia">
-      <a class="novita-carta" href="adesivazione-tessuti/" data-tenda="Adesivazione tessuti">
-        <div class="novita-foto" data-cursore="Leggi"><img src="../assets/img/adesivazione-800.webp" srcset="../assets/img/adesivazione-800.webp 800w, ../assets/img/adesivazione-1400.webp 1400w" sizes="(max-width: 760px) 92vw, 46vw" alt="La nuova macchina per l’adesivazione" loading="lazy" decoding="async"></div>
-        <p class="etichetta"><time datetime="2020-09-03">3 settembre 2020</time></p>
-        <h2 class="novita-titolo">Adesivazione tessuti</h2>
-      </a><a class="novita-carta" href="tute-e-camici-in-poliestere/" data-tenda="Tute e camici in poliestere">
-        <div class="novita-foto" data-cursore="Leggi"><img src="../assets/img/tuta-800.webp" srcset="../assets/img/tuta-800.webp 800w" sizes="(max-width: 760px) 92vw, 46vw" alt="Una tuta protettiva in poliestere idrorepellente prodotta da Devid" loading="lazy" decoding="async"></div>
-        <p class="etichetta"><time datetime="2020-08-28">28 agosto 2020</time></p>
-        <h2 class="novita-titolo">Tute e camici in poliestere</h2>
-      </a>
-    </div>
+    <section class="annunci" aria-labelledby="news-t">
+    
+    <ul class="annunci-elenco">
+      <li class="annuncio" data-annuncio>
+        <a href="../news/adesivazione-tessuti/" data-tenda="Adesivazione tessuti" aria-label="Adesivazione tessuti, 3 settembre 2020">
+          <span class="annuncio-data etichetta etichetta-chiara">3 settembre 2020</span>
+          <span class="annuncio-nome" aria-hidden="true"><span class="annuncio-parola">Adesivazione</span><span class="annuncio-buco" data-buco aria-hidden="true"><span class="annuncio-foto"><img src="../assets/img/adesivazione-800.webp" srcset="../assets/img/adesivazione-800.webp 800w, ../assets/img/adesivazione-1400.webp 1400w" sizes="320px" alt="" loading="lazy" decoding="async"></span></span><span class="annuncio-parola">tessuti</span></span>
+          <span class="annuncio-azione"><span data-gira>Leggi</span><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        </a>
+      </li><li class="annuncio" data-annuncio>
+        <a href="../news/tute-e-camici-in-poliestere/" data-tenda="Tute e camici in poliestere" aria-label="Tute e camici in poliestere, 28 agosto 2020">
+          <span class="annuncio-data etichetta etichetta-chiara">28 agosto 2020</span>
+          <span class="annuncio-nome" aria-hidden="true"><span class="annuncio-parola">Tute</span><span class="annuncio-buco" data-buco aria-hidden="true"><span class="annuncio-foto"><img src="../assets/img/tuta-800.webp" srcset="../assets/img/tuta-800.webp 800w" sizes="320px" alt="" loading="lazy" decoding="async"></span></span><span class="annuncio-parola">e</span><span class="annuncio-buco" data-buco aria-hidden="true"><span class="annuncio-foto"><img src="../assets/img/tuta-800.webp" srcset="../assets/img/tuta-800.webp 800w" sizes="320px" alt="" loading="lazy" decoding="async"></span></span><span class="annuncio-parola">camici</span><span class="annuncio-buco" data-buco aria-hidden="true"><span class="annuncio-foto"><img src="../assets/img/tuta-800.webp" srcset="../assets/img/tuta-800.webp 800w" sizes="320px" alt="" loading="lazy" decoding="async"></span></span><span class="annuncio-parola">in</span><span class="annuncio-buco" data-buco aria-hidden="true"><span class="annuncio-foto"><img src="../assets/img/tuta-800.webp" srcset="../assets/img/tuta-800.webp 800w" sizes="320px" alt="" loading="lazy" decoding="async"></span></span><span class="annuncio-parola">poliestere</span></span>
+          <span class="annuncio-azione"><span data-gira>Leggi</span><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        </a>
+      </li><li class="annuncio" data-annuncio>
+        <a href="../assets/devid-srl-brochure.pdf" target="_blank" rel="noopener" aria-label="La brochure di Devid, PDF da scaricare">
+          <span class="annuncio-data etichetta etichetta-chiara">PDF da scaricare</span>
+          <span class="annuncio-nome" aria-hidden="true"><span class="annuncio-parola">La</span><span class="annuncio-buco" data-buco aria-hidden="true"><span class="annuncio-foto"><img src="../assets/img/zund-schermo-800.webp" srcset="../assets/img/zund-schermo-800.webp 800w, ../assets/img/zund-schermo-1400.webp 1400w, ../assets/img/zund-schermo-2400.webp 2400w" sizes="320px" alt="" loading="lazy" decoding="async"></span></span><span class="annuncio-parola">brochure</span><span class="annuncio-buco" data-buco aria-hidden="true"><span class="annuncio-foto"><img src="../assets/img/zund-schermo-800.webp" srcset="../assets/img/zund-schermo-800.webp 800w, ../assets/img/zund-schermo-1400.webp 1400w, ../assets/img/zund-schermo-2400.webp 2400w" sizes="320px" alt="" loading="lazy" decoding="async"></span></span><span class="annuncio-parola">di</span><span class="annuncio-buco" data-buco aria-hidden="true"><span class="annuncio-foto"><img src="../assets/img/zund-schermo-800.webp" srcset="../assets/img/zund-schermo-800.webp 800w, ../assets/img/zund-schermo-1400.webp 1400w, ../assets/img/zund-schermo-2400.webp 2400w" sizes="320px" alt="" loading="lazy" decoding="async"></span></span><span class="annuncio-parola">Devid</span></span>
+          <span class="annuncio-azione"><span data-gira>Scarica</span><svg class="g g-freccia" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5.5 3.5h7v7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        </a>
+      </li>
+    </ul>
   </section>
 </main>
 <section class="chiamata" aria-labelledby="chiamata-t">
@@ -106,7 +118,7 @@
       </ul>
     </div>
   </div>
-  <div class="piede-marchio" data-marchio-grande><img src="../assets/logo-devid.svg" alt="Devid srl" width="1513" height="476" loading="lazy"></div>
+  <div class="piede-marchio" data-marchio-grande><img src="../assets/logo-devid-bianco.svg" alt="Devid srl" width="1513" height="476" loading="lazy"></div>
   <div class="piede-fondo">
     <p>Devid srl · P. IVA 01704150356</p>
     <p><a href="../privacy/" data-tenda="Privacy"><span data-gira>Privacy</span></a></p>

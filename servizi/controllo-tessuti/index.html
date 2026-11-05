@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="../../assets/css/sito.css">
 <script>(function(h){h.classList.add('js');try{if(sessionStorage.getItem('devid-tenda'))h.classList.add('arrivo');if(sessionStorage.getItem('devid-visto'))h.classList.add('visto-carica')}catch(e){}setTimeout(function(){if(!window.devidPronto)h.classList.remove('js','arrivo')},4000)})(document.documentElement)</script>
 </head>
-<body class="pagina-interna">
+<body class="pagina-interna tema-notte">
 <a class="salta" href="#contenuto">Vai al contenuto</a>
 <div class="tenda" aria-hidden="true"><div class="tenda-pannello"><p class="tenda-titolo"></p></div></div>
 <header class="testata" data-testata>
@@ -47,7 +47,8 @@
   </div>
 </div>
 <main id="contenuto">
-  <section class="apertura">
+  <section class="apertura apertura-con-arte">
+    <canvas class="apertura-arte" data-arte-sola="controllo" aria-hidden="true"></canvas>
     <div class="apertura-sopra">
       <a class="indietro" href="../../servizi/" data-tenda="Tutti i servizi" data-indietro><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span data-gira>Tutti i servizi</span></a>
       <p class="etichetta" data-sale>Servizi</p>
@@ -59,7 +60,7 @@
   <figure class="foto-grande" data-foto-grande><div class="foto-grande-dentro"><img src="../../assets/img/stesura-800.webp" srcset="../../assets/img/stesura-800.webp 800w, ../../assets/img/stesura-1400.webp 1400w" sizes="100vw" alt="Un tavolo di stesura con il tessuto disteso nel reparto di Devid" loading="eager" decoding="async"></div></figure>
   <div class="blocchi"><section class="blocco">
       <h2 class="blocco-titolo etichetta" data-sale>Perché</h2>
-      <div class="blocco-corpo"><p class="testo-grande" data-righe>Sotto la pressante richiesta di garantire alti livelli qualitativi ai capi confezionati, la tecnica e gli strumenti per il rilevamento della difettosità si sono affinati insieme ai progressi tecnologici.</p><p class="testo-grande" data-righe>Servono banchi di verifica universali, capaci di far risaltare i difetti ricercati su qualsiasi tipo di tessuto.</p></div>
+      <div class="blocco-corpo"><p class="testo-grande" data-accende>Sotto la pressante richiesta di garantire alti livelli qualitativi ai capi confezionati, la tecnica e gli strumenti per il rilevamento della difettosità si sono affinati insieme ai progressi tecnologici.</p><p class="testo-grande" data-accende>Servono banchi di verifica universali, capaci di far risaltare i difetti ricercati su qualsiasi tipo di tessuto.</p></div>
     </section><section class="blocco">
       <h2 class="blocco-titolo etichetta" data-sale>Quattro posizioni di lettura</h2>
       <dl class="schede"><div class="scheda" data-scheda><dt>Verticale</dt><dd>Fa emergere i difetti di filato in ordito e in trama: filo grosso, filo teso, filo poco o troppo ritorto. È la posizione più importante per l’abbigliamento perché imita il capo indossato.</dd></div><div class="scheda" data-scheda><dt>Obliqua, 30°–40°</dt><dd>Rivela barrature, rigature e disuniformità di tintura.</dd></div><div class="scheda" data-scheda><dt>Effetto fodera</dt><dd>Sui tessuti leggeri e trasparenti si alternano sotto la pezza riscontri della stessa nuance, per vedere il tessuto come sarà sul capo.</dd></div><div class="scheda" data-scheda><dt>Campo lungo</dt><dd>Per quadri e stampati, un piano di riscontro lungo e quasi orizzontale.</dd></div></dl>
@@ -80,7 +81,7 @@
       <dl class="schede"><div class="scheda" data-scheda><dt>Manichetta di 20 cm</dt><dd>Da ogni pezza, per stabilire differenze di mano, colore e peso rispetto al tipo qualità. Segnaliamo i centri cimosa simmetrici e asimmetrici.</dd></div><div class="scheda" data-scheda><dt>Prova vapore</dt><dd>Con il metodo Hoffman: da 15 a 20 secondi a vapore libero.</dd></div><div class="scheda" data-scheda><dt>Spettrofotometro</dt><dd>Comparazione colori con Datacolor 3890, con metodologie e tolleranze riconosciute: centro cimosa, tipo campione contro lotti di produzione, lotti per nuance, solidità per degradazione e scarico.</dd></div><div class="scheda" data-scheda><dt>Collegamento audio-video</dt><dd>Per risolvere a distanza i problemi nati durante il controllo, senza far uscire un tecnico.</dd></div><div class="scheda" data-scheda><dt>Arrotolatura</dt><dd>Dopo il controllo le pezze tornano alla loro consistenza, fermate con nastro di carta o con due cordicelle quando l’adesivo rovinerebbe il tessuto. La macchina allinea anche un rotolo nato storto.</dd></div></dl>
     </section><section class="blocco">
       <h2 class="blocco-titolo etichetta" data-sale>Ricezione e spedizione</h2>
-      <div class="blocco-corpo"><p class="testo-grande" data-righe>Il tessuto si riceve nella nostra sede di via Grandi 12/A a Vezzano sul Crostolo in porto franco e, dopo il controllo, parte verso il destinatario in porto assegnato.</p><p class="testo-grande" data-righe>Alla ricezione controlliamo imballaggi e merce, la sistemiamo su bancali per evitare danni e pieghe e segnaliamo subito ogni anomalia. Bolla d’accompagnamento e packing list arrivano al cliente in giornata. Cartelle colori e tipi qualità, possibilmente prima della merce, ci permettono di codificare ogni pezza con precisione.</p></div>
+      <div class="blocco-corpo"><p class="testo-grande" data-accende>Il tessuto si riceve nella nostra sede di via Grandi 12/A a Vezzano sul Crostolo in porto franco e, dopo il controllo, parte verso il destinatario in porto assegnato.</p><p class="testo-grande" data-accende>Alla ricezione controlliamo imballaggi e merce, la sistemiamo su bancali per evitare danni e pieghe e segnaliamo subito ogni anomalia. Bolla d’accompagnamento e packing list arrivano al cliente in giornata. Cartelle colori e tipi qualità, possibilmente prima della merce, ci permettono di codificare ogni pezza con precisione.</p></div>
     </section></div>
   <section class="prossimo">
     <a class="prossimo-carta" href="../../servizi/adesivazione-tessuto/" data-tenda="Adesivazione">
@@ -130,7 +131,7 @@
       </ul>
     </div>
   </div>
-  <div class="piede-marchio" data-marchio-grande><img src="../../assets/logo-devid.svg" alt="Devid srl" width="1513" height="476" loading="lazy"></div>
+  <div class="piede-marchio" data-marchio-grande><img src="../../assets/logo-devid-bianco.svg" alt="Devid srl" width="1513" height="476" loading="lazy"></div>
   <div class="piede-fondo">
     <p>Devid srl · P. IVA 01704150356</p>
     <p><a href="../../privacy/" data-tenda="Privacy"><span data-gira>Privacy</span></a></p>

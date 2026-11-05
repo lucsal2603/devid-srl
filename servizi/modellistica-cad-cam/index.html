@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="../../assets/css/sito.css">
 <script>(function(h){h.classList.add('js');try{if(sessionStorage.getItem('devid-tenda'))h.classList.add('arrivo');if(sessionStorage.getItem('devid-visto'))h.classList.add('visto-carica')}catch(e){}setTimeout(function(){if(!window.devidPronto)h.classList.remove('js','arrivo')},4000)})(document.documentElement)</script>
 </head>
-<body class="pagina-interna">
+<body class="pagina-interna tema-notte">
 <a class="salta" href="#contenuto">Vai al contenuto</a>
 <div class="tenda" aria-hidden="true"><div class="tenda-pannello"><p class="tenda-titolo"></p></div></div>
 <header class="testata" data-testata>
@@ -47,7 +47,8 @@
   </div>
 </div>
 <main id="contenuto">
-  <section class="apertura">
+  <section class="apertura apertura-con-arte">
+    <canvas class="apertura-arte" data-arte-sola="modellistica" aria-hidden="true"></canvas>
     <div class="apertura-sopra">
       <a class="indietro" href="../../servizi/" data-tenda="Tutti i servizi" data-indietro><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span data-gira>Tutti i servizi</span></a>
       <p class="etichetta" data-sale>Servizi</p>
@@ -62,7 +63,7 @@
       <dl class="schede"><div class="scheda" data-scheda><dt>Intelli-di</dt><dd>Al posto del classico digitizer: da una fotografia ad alta definizione di un insieme di cartamodelli, un algoritmo rileva perimetri, tacche e caratteristiche di ogni pezzo in pochi secondi.</dd></div><div class="scheda" data-scheda><dt>Plotter Algotex Stream 180</dt><dd>Produzione alta e stampa pulita, su carta normale o termoadesiva, fino a 200 cm di altezza utile.</dd></div><div class="scheda" data-scheda><dt>Grafici di taglio</dt><dd>Stampati con gli incrementi e i decrementi in percentuale.</dd></div></dl>
     </section><section class="blocco">
       <h2 class="blocco-titolo etichetta" data-sale>Piazzamento automatico</h2>
-      <div class="blocco-corpo"><p class="testo-grande" data-righe>Eseguiamo piazzamenti automatici da file DXF provenienti da qualsiasi sistema CAD-CAM e inviamo per email i file HPGL per la stampa su plotter, con le miniature dei piazzamenti in PDF, e i file di taglio in formato ISO.</p></div>
+      <div class="blocco-corpo"><p class="testo-grande" data-accende>Eseguiamo piazzamenti automatici da file DXF provenienti da qualsiasi sistema CAD-CAM e inviamo per email i file HPGL per la stampa su plotter, con le miniature dei piazzamenti in PDF, e i file di taglio in formato ISO.</p></div>
     </section><section class="blocco">
       <h2 class="blocco-titolo etichetta" data-sale>Le variabili del piazzato</h2>
       <dl class="schede"><div class="scheda" data-scheda><dt>Tempo d’elaborazione</dt><dd>Quanto lasciar lavorare il calcolo per stringere i pezzi.</dd></div><div class="scheda" data-scheda><dt>Incroci</dt><dd>Se i pezzi possono incrociarsi.</dd></div><div class="scheda" data-scheda><dt>Margine</dt><dd>Lo spazio fra un pezzo e l’altro.</dd></div><div class="scheda" data-scheda><dt>Gradini</dt><dd>La distanza fra le taglie nei piazzamenti a gradini.</dd></div></dl>
@@ -115,7 +116,7 @@
       </ul>
     </div>
   </div>
-  <div class="piede-marchio" data-marchio-grande><img src="../../assets/logo-devid.svg" alt="Devid srl" width="1513" height="476" loading="lazy"></div>
+  <div class="piede-marchio" data-marchio-grande><img src="../../assets/logo-devid-bianco.svg" alt="Devid srl" width="1513" height="476" loading="lazy"></div>
   <div class="piede-fondo">
     <p>Devid srl · P. IVA 01704150356</p>
     <p><a href="../../privacy/" data-tenda="Privacy"><span data-gira>Privacy</span></a></p>

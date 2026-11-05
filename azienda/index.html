@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="../assets/css/sito.css">
 <script>(function(h){h.classList.add('js');try{if(sessionStorage.getItem('devid-tenda'))h.classList.add('arrivo');if(sessionStorage.getItem('devid-visto'))h.classList.add('visto-carica')}catch(e){}setTimeout(function(){if(!window.devidPronto)h.classList.remove('js','arrivo')},4000)})(document.documentElement)</script>
 </head>
-<body class="pagina-interna">
+<body class="pagina-interna tema-notte">
 <a class="salta" href="#contenuto">Vai al contenuto</a>
 <div class="tenda" aria-hidden="true"><div class="tenda-pannello"><p class="tenda-titolo"></p></div></div>
 <header class="testata" data-testata>
@@ -48,6 +48,7 @@
 </div>
 <main id="contenuto">
   <section class="apertura">
+    
     <div class="apertura-sopra">
       
       <p class="etichetta" data-sale>Chi siamo</p>
@@ -65,10 +66,24 @@
       <figure class="doppia-foto" data-foto><img src="../assets/img/cartamodello-800.webp" srcset="../assets/img/cartamodello-800.webp 800w, ../assets/img/cartamodello-1400.webp 1400w" sizes="(max-width: 760px) 92vw, 46vw" alt="Un modellista sistema i cartamodelli sul tavolo" loading="lazy" decoding="async"></figure>
       <figure class="doppia-foto" data-foto><img src="../assets/img/metro-800.webp" srcset="../assets/img/metro-800.webp 800w, ../assets/img/metro-1400.webp 1400w" sizes="(max-width: 760px) 92vw, 46vw" alt="Metro e forbici sulla macchina" loading="lazy" decoding="async"></figure>
     </section>
+  </div>
+    <section class="sguardo" data-sguardo aria-labelledby="sguardo-t">
+    <div class="sguardo-palco">
+      <div class="sguardo-testa">
+        <p class="etichetta etichetta-chiara">Il parco macchine</p>
+        <h2 id="sguardo-t" class="sguardo-titolo" data-righe>Macchine sempre aggiornate,<br>mani che sanno cosa fanno.</h2>
+      </div>
+      <div class="sguardo-binario" data-sguardo-binario>
+        <div class="sguardo-carta sguardo-dato sguardo-scuro"><p class="sguardo-cifra"><span data-conta-lato="7">7</span><small>cm</small></p><p class="sguardo-testo">di materasso tagliato in automatico dall’Investronica Diamond</p></div><figure class="sguardo-carta sguardo-foto"><div class="sguardo-foto-dentro"><img src="../assets/img/zund-portale-800.webp" srcset="../assets/img/zund-portale-800.webp 800w, ../assets/img/zund-portale-1400.webp 1400w, ../assets/img/zund-portale-2400.webp 2400w" sizes="(max-width: 760px) 80vw, 34vw" alt="Il taglio con l’intelligenza artificiale" loading="lazy" decoding="async"></div><figcaption><span class="sguardo-nome">Crea Solution</span><span class="sguardo-sotto">Il taglio con l’intelligenza artificiale</span></figcaption></figure><div class="sguardo-carta sguardo-dato sguardo-chiaro"><p class="sguardo-cifra"><span data-conta-lato="200">200</span><small>cm</small></p><p class="sguardo-testo">di altezza utile del plotter Algotex Stream 180</p></div><figure class="sguardo-carta sguardo-foto"><div class="sguardo-foto-dentro"><img src="../assets/img/taglio-testa-800.webp" srcset="../assets/img/taglio-testa-800.webp 800w, ../assets/img/taglio-testa-1400.webp 1400w" sizes="(max-width: 760px) 80vw, 34vw" alt="Taglio automatico fino a 5 cm" loading="lazy" decoding="async"></div><figcaption><span class="sguardo-nome">Morgan Next 2</span><span class="sguardo-sotto">Taglio automatico fino a 5 cm</span></figcaption></figure><div class="sguardo-carta sguardo-dato sguardo-blu"><p class="sguardo-cifra"><span data-conta-lato="1">1</span><small>m</small></p><p class="sguardo-testo">di diametro dei rotoli al banco di controllo</p></div><figure class="sguardo-carta sguardo-foto"><div class="sguardo-foto-dentro"><img src="../assets/img/stesura-800.webp" srcset="../assets/img/stesura-800.webp 800w, ../assets/img/stesura-1400.webp 1400w" sizes="(max-width: 760px) 80vw, 34vw" alt="Stenditori elettronici con conveyor" loading="lazy" decoding="async"></div><figcaption><span class="sguardo-nome">Oteman e Bkr</span><span class="sguardo-sotto">Stenditori elettronici con conveyor</span></figcaption></figure><div class="sguardo-carta sguardo-dato sguardo-scuro"><p class="sguardo-cifra"><span data-conta-lato="20">20</span><small>s</small></p><p class="sguardo-testo">al massimo di prova vapore, col metodo Hoffman</p></div><figure class="sguardo-carta sguardo-foto"><div class="sguardo-foto-dentro"><img src="../assets/img/sagome-800.webp" srcset="../assets/img/sagome-800.webp 800w, ../assets/img/sagome-1400.webp 1400w" sizes="(max-width: 760px) 80vw, 34vw" alt="Cartamodelli digitalizzati da una fotografia" loading="lazy" decoding="async"></div><figcaption><span class="sguardo-nome">Intelli-di</span><span class="sguardo-sotto">Cartamodelli digitalizzati da una fotografia</span></figcaption></figure>
+        <a class="sguardo-carta sguardo-fine" href="../servizi/taglio-tessuti/" data-tenda="Taglio computerizzato"><span>Tutte le macchine del taglio</span><span class="sguardo-fine-cerchio"><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a>
+      </div>
+    </div>
+  </section>
+  <div class="blocchi blocchi-dopo">
     <section class="blocco">
       <h2 class="blocco-titolo etichetta" data-sale>Nell’emergenza</h2>
       <div class="blocco-corpo">
-        <p class="testo-grande" data-righe>Durante la pandemia abbiamo messo la nostra esperienza nei tessuti al servizio dell’emergenza sanitaria, producendo mascherine, tute e camici in poliestere idrorepellente.</p>
+        <p class="testo-grande" data-accende>Durante la pandemia abbiamo messo la nostra esperienza nei tessuti al servizio dell’emergenza sanitaria, producendo mascherine, tute e camici in poliestere idrorepellente.</p>
         <a class="bottone bottone-linea" href="../news/tute-e-camici-in-poliestere/" data-tenda="Tute e camici" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Leggi la notizia</span><svg class="g g-dx" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 7h15M10.5 1.5 16 7l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span></a>
       </div>
     </section>
@@ -111,7 +126,7 @@
       </ul>
     </div>
   </div>
-  <div class="piede-marchio" data-marchio-grande><img src="../assets/logo-devid.svg" alt="Devid srl" width="1513" height="476" loading="lazy"></div>
+  <div class="piede-marchio" data-marchio-grande><img src="../assets/logo-devid-bianco.svg" alt="Devid srl" width="1513" height="476" loading="lazy"></div>
   <div class="piede-fondo">
     <p>Devid srl · P. IVA 01704150356</p>
     <p><a href="../privacy/" data-tenda="Privacy"><span data-gira>Privacy</span></a></p>

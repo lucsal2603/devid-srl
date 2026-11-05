@@ -176,6 +176,75 @@ const carta = (r, s, i) => `<a class="servizio-carta ${i % 2 ? 'carta-giu' : ''}
   </div>
 </a>`;
 
+
+/* ---------- pezzi riusati fra home e pagine interne ---------- */
+const htmlAccesi = (r, testa = true) => `  <section class="accesi" aria-labelledby="accesi-t">
+    ${testa ? `<div class="accesi-testa">
+      <p class="etichetta etichetta-chiara" data-sale>Servizi</p>
+      <div class="accesi-intro">
+        <h2 id="accesi-t" class="accesi-titolo" data-righe>Cinque lavorazioni,<br>un solo stabilimento.</h2>
+        <p class="accesi-frase" data-righe>Dalla pezza appena arrivata al campione cucito: controlliamo, adesiviamo, sviluppiamo il modello, tagliamo e confezioniamo a Vezzano sul Crostolo, senza viaggi fra un fornitore e l’altro.</p>
+      </div>
+    </div>` : ''}
+    <div class="accesi-elenco">
+      ${SERVIZI.map((s, i) => `<a class="acceso" href="${r}servizi/${s.slug}/" data-tenda="${s.nome}" data-acceso>
+        <canvas class="acceso-arte" data-arte="${['controllo', 'adesivazione', 'modellistica', 'taglio', 'confezione'][i]}" aria-hidden="true"></canvas>
+        <span class="acceso-luce" aria-hidden="true"></span>
+        <span class="acceso-testo">
+          <h3 class="acceso-nome">${s.nome}</h3>
+          <span class="acceso-breve">${s.breve}</span>
+          <span class="acceso-scopri"><span class="acceso-scopri-cerchio">${G.frecciaDx}</span><span data-gira>Scopri</span></span>
+        </span>
+        <span class="acceso-tag">${(TAG[s.slug] || []).map((t) => `<i>${t}</i>`).join('')}</span>
+      </a>`).join('')}
+    </div>
+  </section>`;
+const htmlSguardo = (r) => `  <section class="sguardo" data-sguardo aria-labelledby="sguardo-t">
+    <div class="sguardo-palco">
+      <div class="sguardo-testa">
+        <p class="etichetta etichetta-chiara">Il parco macchine</p>
+        <h2 id="sguardo-t" class="sguardo-titolo" data-righe>Macchine sempre aggiornate,<br>mani che sanno cosa fanno.</h2>
+      </div>
+      <div class="sguardo-binario" data-sguardo-binario>
+        ${[
+          ['dato', 'scuro', '7', 'cm', 'di materasso tagliato in automatico dall’Investronica Diamond'],
+          ['foto', 'zund-portale', 'Crea Solution', 'Il taglio con l’intelligenza artificiale'],
+          ['dato', 'chiaro', '200', 'cm', 'di altezza utile del plotter Algotex Stream 180'],
+          ['foto', 'taglio-testa', 'Morgan Next 2', 'Taglio automatico fino a 5 cm'],
+          ['dato', 'blu', '1', 'm', 'di diametro dei rotoli al banco di controllo'],
+          ['foto', 'stesura', 'Oteman e Bkr', 'Stenditori elettronici con conveyor'],
+          ['dato', 'scuro', '20', 's', 'al massimo di prova vapore, col metodo Hoffman'],
+          ['foto', 'sagome', 'Intelli-di', 'Cartamodelli digitalizzati da una fotografia'],
+        ].map((c) => c[0] === 'dato'
+          ? `<div class="sguardo-carta sguardo-dato sguardo-${c[1]}"><p class="sguardo-cifra"><span data-conta-lato="${c[2]}">${c[2]}</span><small>${c[3]}</small></p><p class="sguardo-testo">${c[4]}</p></div>`
+          : `<figure class="sguardo-carta sguardo-foto"><div class="sguardo-foto-dentro">${img(r, c[1], c[3], { sizes: '(max-width: 760px) 80vw, 34vw', larghe: c[1].startsWith('zund') })}</div><figcaption><span class="sguardo-nome">${c[2]}</span><span class="sguardo-sotto">${c[3]}</span></figcaption></figure>`).join('')}
+        <a class="sguardo-carta sguardo-fine" href="${r}servizi/taglio-tessuti/" data-tenda="Taglio computerizzato"><span>Tutte le macchine del taglio</span><span class="sguardo-fine-cerchio">${G.frecciaDx}</span></a>
+      </div>
+    </div>
+  </section>`;
+const htmlAnnunci = (r, testa = true) => `  <section class="annunci" aria-labelledby="news-t">
+    ${testa ? `<div class="annunci-testa">
+      <h2 id="news-t" class="annunci-titolo" data-righe>Ultime novità</h2>
+      <a class="bottone bottone-linea" href="${r}news/" data-tenda="News" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Tutte le news</span>${G.frecciaDx}</span></a>
+    </div>` : ''}
+    <ul class="annunci-elenco">
+      ${[
+        ...NEWS.map((n) => ({ href: `${r}news/${n.slug}/`, foto: n.foto, alt: n.alt, titolo: n.titolo, sopra: n.dataIt, azione: 'Leggi', tenda: n.titolo })),
+        { href: `${r}assets/devid-srl-brochure.pdf`, foto: 'zund-schermo', alt: 'La postazione del taglio automatico', titolo: 'La brochure di Devid', sopra: 'PDF da scaricare', azione: 'Scarica', fuori: true },
+      ].map((v) => {
+        const parole = v.titolo.split(' ');
+        const buco = `<span class="annuncio-buco" data-buco aria-hidden="true"><span class="annuncio-foto">${img(r, v.foto, '', { sizes: '320px', larghe: v.foto.startsWith('zund') })}</span></span>`;
+        return `<li class="annuncio" data-annuncio>
+        <a href="${v.href}"${v.fuori ? ' target="_blank" rel="noopener"' : ` data-tenda="${v.tenda}"`} aria-label="${v.titolo}, ${v.sopra}">
+          <span class="annuncio-data etichetta etichetta-chiara">${v.sopra}</span>
+          <span class="annuncio-nome" aria-hidden="true">${parole.map((w, i) => `<span class="annuncio-parola">${w}</span>${i < parole.length - 1 ? buco : ''}`).join('')}${parole.length === 1 ? buco : ''}</span>
+          <span class="annuncio-azione"><span data-gira>${v.azione}</span>${v.fuori ? G.freccia : G.frecciaDx}</span>
+        </a>
+      </li>`;
+      }).join('')}
+    </ul>
+  </section>`;
+
 /* ---------- home ---------- */
 function home() {
   const r = '';
@@ -236,51 +305,9 @@ ${intestazione(r, '')}
     </div>
   </section>
 
-  <section class="accesi" aria-labelledby="accesi-t">
-    <div class="accesi-testa">
-      <p class="etichetta etichetta-chiara" data-sale>Servizi</p>
-      <div class="accesi-intro">
-        <h2 id="accesi-t" class="accesi-titolo" data-righe>Cinque lavorazioni,<br>un solo stabilimento.</h2>
-        <p class="accesi-frase" data-righe>Dalla pezza appena arrivata al campione cucito: controlliamo, adesiviamo, sviluppiamo il modello, tagliamo e confezioniamo a Vezzano sul Crostolo, senza viaggi fra un fornitore e l’altro.</p>
-      </div>
-    </div>
-    <div class="accesi-elenco">
-      ${SERVIZI.map((s, i) => `<a class="acceso" href="servizi/${s.slug}/" data-tenda="${s.nome}" data-acceso>
-        <canvas class="acceso-arte" data-arte="${['controllo', 'adesivazione', 'modellistica', 'taglio', 'confezione'][i]}" aria-hidden="true"></canvas>
-        <span class="acceso-luce" aria-hidden="true"></span>
-        <span class="acceso-testo">
-          <h3 class="acceso-nome">${s.nome}</h3>
-          <span class="acceso-breve">${s.breve}</span>
-          <span class="acceso-scopri"><span class="acceso-scopri-cerchio">${G.frecciaDx}</span><span data-gira>Scopri</span></span>
-        </span>
-        <span class="acceso-tag">${(TAG[s.slug] || []).map((t) => `<i>${t}</i>`).join('')}</span>
-      </a>`).join('')}
-    </div>
-  </section>
+  ${htmlAccesi(r)}
 
-  <section class="sguardo" data-sguardo aria-labelledby="sguardo-t">
-    <div class="sguardo-palco">
-      <div class="sguardo-testa">
-        <p class="etichetta etichetta-chiara">Il parco macchine</p>
-        <h2 id="sguardo-t" class="sguardo-titolo" data-righe>Macchine sempre aggiornate,<br>mani che sanno cosa fanno.</h2>
-      </div>
-      <div class="sguardo-binario" data-sguardo-binario>
-        ${[
-          ['dato', 'scuro', '7', 'cm', 'di materasso tagliato in automatico dall’Investronica Diamond'],
-          ['foto', 'zund-portale', 'Crea Solution', 'Il taglio con l’intelligenza artificiale'],
-          ['dato', 'chiaro', '200', 'cm', 'di altezza utile del plotter Algotex Stream 180'],
-          ['foto', 'taglio-testa', 'Morgan Next 2', 'Taglio automatico fino a 5 cm'],
-          ['dato', 'blu', '1', 'm', 'di diametro dei rotoli al banco di controllo'],
-          ['foto', 'stesura', 'Oteman e Bkr', 'Stenditori elettronici con conveyor'],
-          ['dato', 'scuro', '20', 's', 'al massimo di prova vapore, col metodo Hoffman'],
-          ['foto', 'sagome', 'Intelli-di', 'Cartamodelli digitalizzati da una fotografia'],
-        ].map((c) => c[0] === 'dato'
-          ? `<div class="sguardo-carta sguardo-dato sguardo-${c[1]}"><p class="sguardo-cifra"><span data-conta-lato="${c[2]}">${c[2]}</span><small>${c[3]}</small></p><p class="sguardo-testo">${c[4]}</p></div>`
-          : `<figure class="sguardo-carta sguardo-foto"><div class="sguardo-foto-dentro">${img(r, c[1], c[3], { sizes: '(max-width: 760px) 80vw, 34vw', larghe: c[1].startsWith('zund') })}</div><figcaption><span class="sguardo-nome">${c[2]}</span><span class="sguardo-sotto">${c[3]}</span></figcaption></figure>`).join('')}
-        <a class="sguardo-carta sguardo-fine" href="servizi/taglio-tessuti/" data-tenda="Taglio computerizzato"><span>Tutte le macchine del taglio</span><span class="sguardo-fine-cerchio">${G.frecciaDx}</span></a>
-      </div>
-    </div>
-  </section>
+  ${htmlSguardo(r)}
 
   <section class="caroselli" aria-labelledby="caroselli-t">
     <div class="caroselli-testa">
@@ -336,28 +363,7 @@ ${intestazione(r, '')}
     </ul>
   </section>
 
-  <section class="annunci" aria-labelledby="news-t">
-    <div class="annunci-testa">
-      <h2 id="news-t" class="annunci-titolo" data-righe>Ultime novità</h2>
-      <a class="bottone bottone-linea" href="news/" data-tenda="News" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Tutte le news</span>${G.frecciaDx}</span></a>
-    </div>
-    <ul class="annunci-elenco">
-      ${[
-        ...NEWS.map((n) => ({ href: `news/${n.slug}/`, foto: n.foto, alt: n.alt, titolo: n.titolo, sopra: n.dataIt, azione: 'Leggi', tenda: n.titolo })),
-        { href: 'assets/devid-srl-brochure.pdf', foto: 'zund-schermo', alt: 'La postazione del taglio automatico', titolo: 'La brochure di Devid', sopra: 'PDF da scaricare', azione: 'Scarica', fuori: true },
-      ].map((v) => {
-        const parole = v.titolo.split(' ');
-        const buco = `<span class="annuncio-buco" data-buco aria-hidden="true"><span class="annuncio-foto">${img(r, v.foto, '', { sizes: '320px', larghe: v.foto.startsWith('zund') })}</span></span>`;
-        return `<li class="annuncio" data-annuncio>
-        <a href="${v.href}"${v.fuori ? ' target="_blank" rel="noopener"' : ` data-tenda="${v.tenda}"`} aria-label="${v.titolo}, ${v.sopra}">
-          <span class="annuncio-data etichetta etichetta-chiara">${v.sopra}</span>
-          <span class="annuncio-nome" aria-hidden="true">${parole.map((w, i) => `<span class="annuncio-parola">${w}</span>${i < parole.length - 1 ? buco : ''}`).join('')}${parole.length === 1 ? buco : ''}</span>
-          <span class="annuncio-azione"><span data-gira>${v.azione}</span>${v.fuori ? G.freccia : G.frecciaDx}</span>
-        </a>
-      </li>`;
-      }).join('')}
-    </ul>
-  </section>
+  ${htmlAnnunci(r)}
 </main>
 ${piede(r, true)}
 <div class="cursore" aria-hidden="true" data-cursore-bolla><span></span></div>
@@ -366,7 +372,8 @@ ${coda(r, true)}`;
 }
 
 /* ---------- pagine interne ---------- */
-const apertura = ({ r, sopra, titolo, testo, indietro }) => `<section class="apertura">
+const apertura = ({ r, sopra, titolo, testo, indietro, arte }) => `<section class="apertura${arte ? ' apertura-con-arte' : ''}">
+    ${arte ? `<canvas class="apertura-arte" data-arte-sola="${arte}" aria-hidden="true"></canvas>` : ''}
     <div class="apertura-sopra">
       ${indietro ? `<a class="indietro" href="${r}${indietro[1]}" data-tenda="${indietro[0]}" data-indietro>${G.frecciaDx}<span data-gira>${indietro[0]}</span></a>` : ''}
       <p class="etichetta" data-sale>${sopra}</p>
@@ -381,7 +388,7 @@ const blocco = (b) => {
   if (b.tipo === 'testo')
     return `<section class="blocco">
       <h2 class="blocco-titolo etichetta" data-sale>${b.titolo}</h2>
-      <div class="blocco-corpo">${b.testo.map((t) => `<p class="testo-grande" data-righe>${t}</p>`).join('')}</div>
+      <div class="blocco-corpo">${b.testo.map((t) => `<p class="testo-grande" data-accende>${t}</p>`).join('')}</div>
     </section>`;
   if (b.tipo === 'righe')
     return `<section class="blocco">
@@ -406,10 +413,10 @@ function servizio(s, i) {
   const r = '../../';
   const dopo = SERVIZI[(i + 1) % SERVIZI.length];
   return `${testa({ r, titolo: `${s.nome}, Devid srl`, descrizione: s.breve, url: `/servizi/${s.slug}/` })}
-<body class="pagina-interna">
+<body class="pagina-interna tema-notte">
 ${intestazione(r, 'servizi/')}
 <main id="contenuto">
-  ${apertura({ r, sopra: 'Servizi', titolo: s.titolo, testo: s.apertura, indietro: ['Tutti i servizi', 'servizi/'] })}
+  ${apertura({ r, sopra: 'Servizi', titolo: s.titolo, testo: s.apertura, indietro: ['Tutti i servizi', 'servizi/'], arte: ['controllo', 'adesivazione', 'modellistica', 'taglio', 'confezione'][i] })}
   <ul class="apertura-tag">${(TAG[s.slug] || []).map((t) => `<li>${t}</li>`).join('')}</ul>
   ${fotoGrande(r, s.foto, s.alt, !!s.larghe)}
   <div class="blocchi">${s.blocchi.map(blocco).join('')}</div>
@@ -424,7 +431,7 @@ ${intestazione(r, 'servizi/')}
     </a>
   </section>
 </main>
-${piede(r)}
+${piede(r, true)}
 <div class="cursore" aria-hidden="true" data-cursore-bolla><span></span></div>
 ${coda(r)}`;
 }
@@ -432,15 +439,13 @@ ${coda(r)}`;
 function elencoServizi() {
   const r = '../';
   return `${testa({ r, titolo: 'Servizi, Devid srl', descrizione: 'Controllo tessuti, adesivazione, modellistica CAD-CAM, taglio computerizzato e confezione campioni: tutte le lavorazioni sotto lo stesso tetto.', url: '/servizi/' })}
-<body class="pagina-interna">
+<body class="pagina-interna tema-notte">
 ${intestazione(r, 'servizi/')}
 <main id="contenuto">
   ${apertura({ r, sopra: 'Servizi', titolo: ['Dalla pezza', 'al campione'], testo: 'Le fasi che fanno un capo, dalla pezza appena arrivata al campione cucito. Si possono chiedere tutte insieme o una per volta.' })}
-  <section class="servizi servizi-pagina">
-    <div class="servizi-griglia">${SERVIZI.map((s, i) => carta(r, s, i)).join('')}</div>
-  </section>
+  ${htmlAccesi(r, false)}
 </main>
-${piede(r)}
+${piede(r, true)}
 <div class="cursore" aria-hidden="true" data-cursore-bolla><span></span></div>
 ${coda(r)}`;
 }
@@ -448,7 +453,7 @@ ${coda(r)}`;
 function azienda() {
   const r = '../';
   return `${testa({ r, titolo: 'Azienda, Devid srl', descrizione: 'Generazioni di lavoro sartoriale dagli anni Cinquanta e macchine sempre aggiornate: chi è Devid srl.', url: '/azienda/' })}
-<body class="pagina-interna">
+<body class="pagina-interna tema-notte">
 ${intestazione(r, 'azienda/')}
 <main id="contenuto">
   ${apertura({ r, sopra: 'Chi siamo', titolo: ['Dagli anni ’50,', 'con le mani e il CAD'], testo: 'L’esperienza accumulata in generazioni di lavoro sartoriale, insieme ai continui aggiornamenti tecnologici, ci permette di garantire alti standard qualitativi al prodotto finito.' })}
@@ -464,16 +469,19 @@ ${intestazione(r, 'azienda/')}
       <figure class="doppia-foto" data-foto>${img(r, 'cartamodello', 'Un modellista sistema i cartamodelli sul tavolo', { sizes: '(max-width: 760px) 92vw, 46vw' })}</figure>
       <figure class="doppia-foto" data-foto>${img(r, 'metro', 'Metro e forbici sulla macchina', { sizes: '(max-width: 760px) 92vw, 46vw' })}</figure>
     </section>
+  </div>
+  ${htmlSguardo(r)}
+  <div class="blocchi blocchi-dopo">
     <section class="blocco">
       <h2 class="blocco-titolo etichetta" data-sale>Nell’emergenza</h2>
       <div class="blocco-corpo">
-        <p class="testo-grande" data-righe>Durante la pandemia abbiamo messo la nostra esperienza nei tessuti al servizio dell’emergenza sanitaria, producendo mascherine, tute e camici in poliestere idrorepellente.</p>
+        <p class="testo-grande" data-accende>Durante la pandemia abbiamo messo la nostra esperienza nei tessuti al servizio dell’emergenza sanitaria, producendo mascherine, tute e camici in poliestere idrorepellente.</p>
         <a class="bottone bottone-linea" href="${r}news/tute-e-camici-in-poliestere/" data-tenda="Tute e camici" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Leggi la notizia</span>${G.frecciaDx}</span></a>
       </div>
     </section>
   </div>
 </main>
-${piede(r)}
+${piede(r, true)}
 ${coda(r)}`;
 }
 
@@ -508,21 +516,13 @@ ${coda(r)}`;
 function elencoNews() {
   const r = '../';
   return `${testa({ r, titolo: 'News, Devid srl', descrizione: 'Le novità di Devid srl: macchine nuove, lavorazioni, produzione.', url: '/news/' })}
-<body class="pagina-interna">
+<body class="pagina-interna tema-notte">
 ${intestazione(r, 'news/')}
 <main id="contenuto">
   ${apertura({ r, sopra: 'News', titolo: ['Ultime novità'], testo: 'Macchine nuove, lavorazioni, produzione: quello che succede nel laboratorio.' })}
-  <section class="novita novita-pagina">
-    <div class="novita-griglia">
-      ${NEWS.map((n) => `<a class="novita-carta" href="${n.slug}/" data-tenda="${n.titolo}">
-        <div class="novita-foto" data-cursore="Leggi">${img(r, n.foto, n.alt, { sizes: '(max-width: 760px) 92vw, 46vw' })}</div>
-        <p class="etichetta"><time datetime="${n.data}">${n.dataIt}</time></p>
-        <h2 class="novita-titolo">${n.titolo}</h2>
-      </a>`).join('')}
-    </div>
-  </section>
+  ${htmlAnnunci('../', false)}
 </main>
-${piede(r)}
+${piede(r, true)}
 <div class="cursore" aria-hidden="true" data-cursore-bolla><span></span></div>
 ${coda(r)}`;
 }
@@ -530,7 +530,7 @@ ${coda(r)}`;
 function articolo(n) {
   const r = '../../';
   return `${testa({ r, titolo: `${n.titolo}, Devid srl`, descrizione: n.testo[0].slice(0, 150), url: `/news/${n.slug}/` })}
-<body class="pagina-interna">
+<body class="pagina-interna tema-notte">
 ${intestazione(r, 'news/')}
 <main id="contenuto">
   <article>
@@ -539,12 +539,12 @@ ${intestazione(r, 'news/')}
     <div class="blocchi">
       <section class="blocco">
         <p class="blocco-titolo etichetta"><time datetime="${n.data}">${n.dataIt}</time></p>
-        <div class="blocco-corpo">${n.testo.map((t) => `<p class="testo-grande" data-righe>${t}</p>`).join('')}</div>
+        <div class="blocco-corpo">${n.testo.map((t) => `<p class="testo-grande" data-accende>${t}</p>`).join('')}</div>
       </section>
     </div>
   </article>
 </main>
-${piede(r)}
+${piede(r, true)}
 ${coda(r)}`;
 }
 
@@ -552,7 +552,7 @@ function privacy() {
   const r = '../';
   const voce = (t, x) => `<section class="blocco"><h2 class="blocco-titolo etichetta">${t}</h2><div class="blocco-corpo"><p class="testo">${x}</p></div></section>`;
   return `${testa({ r, titolo: 'Privacy, Devid srl', descrizione: 'Informativa sulla privacy del sito di Devid srl.', url: '/privacy/' })}
-<body class="pagina-interna">
+<body class="pagina-interna tema-notte">
 ${intestazione(r, '')}
 <main id="contenuto">
   ${apertura({ r, sopra: 'Informativa', titolo: ['Privacy'] })}
@@ -563,14 +563,14 @@ ${intestazione(r, '')}
     ${voce('Email e telefono', 'I dati che ci mandate scrivendoci o chiamandoci li usiamo solo per rispondere alla vostra richiesta. Potete chiederne in ogni momento la cancellazione all’indirizzo qui sopra.')}
   </div>
 </main>
-${piede(r)}
+${piede(r, true)}
 ${coda(r)}`;
 }
 
 function nonTrovata() {
   const r = '/';
   return `${testa({ r, titolo: 'Pagina non trovata, Devid srl', descrizione: 'La pagina cercata non esiste.', url: '/404' })}
-<body class="pagina-interna">
+<body class="pagina-interna tema-notte">
 ${intestazione(r, '')}
 <main id="contenuto">
   ${apertura({ r, sopra: 'Errore 404', titolo: ['Questo pezzo non', 'è nel piazzato'], testo: 'La pagina che cercate non c’è più o non c’è mai stata.' })}
