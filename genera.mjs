@@ -268,9 +268,15 @@ function home() {
   return `${testa({ r, titolo: 'Devid srl, taglio tessuti e modellistica a Reggio Emilia', descrizione: 'Controllo tessuti, adesivazione, modellistica CAD-CAM, taglio computerizzato e confezione campioni a Vezzano sul Crostolo, Reggio Emilia. Dagli anni Cinquanta.', url: '/' })}
 <body class="pagina-home tema-notte">
 <div class="carica" data-carica aria-hidden="true">
-  <div class="carica-barra"><i></i></div>
+  <div class="carica-scena">
+    <div class="carica-logo-box" data-carica-box>
+      <img class="carica-fantasma" src="assets/logo-devid-bianco.svg" alt="" width="1513" height="476">
+      <img class="carica-logo" src="assets/logo-devid-bianco.svg" alt="" width="1513" height="476" data-carica-logo>
+      <span class="carica-raggio" data-carica-raggio><i class="carica-testa" data-carica-testa></i></span>
+      <span class="carica-scintille" data-carica-scintille></span>
+    </div>
+  </div>
   <p class="carica-conta"><span data-conta-carica>0</span></p>
-  <img class="carica-logo" src="assets/logo-devid-bianco.svg" alt="" width="196" height="62">
 </div>
 ${intestazione(r, '')}
 <main id="contenuto">
@@ -288,7 +294,6 @@ ${intestazione(r, '')}
           <h1 class="eroe-titolo"><span class="riga"><span class="riga-dentro">Il tessuto,</span></span><span class="riga"><span class="riga-dentro">tagliato al millimetro.</span></span></h1>
           <div class="eroe-basso">
             <p class="eroe-testo">Taglio tessuti e modellistica dagli anni ’50: controllo, adesivazione, CAD-CAM, taglio automatico e confezione campioni.</p>
-            <p class="eroe-scorri"><span class="eroe-scorri-cerchio">${G.frecciaGiu}</span><span>Scorrete per tagliare</span></p>
           </div>
         </div>
         <div class="eroe-laser-dato etichetta etichetta-chiara" aria-hidden="true"><span>Taglio</span><span data-cut>0%</span></div>
@@ -510,8 +515,13 @@ ${intestazione(r, 'contatti/')}
       ['Il ritiro del tessuto', 'Nella nostra sede di via Grandi 12/A, in porto franco.'],
     ] })}
     <figure class="mappa" data-foto>
-      <iframe title="Mappa: Devid srl a Vezzano sul Crostolo" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=10.5150%2C44.5940%2C10.5560%2C44.6150&amp;layer=mapnik"></iframe>
-      <a class="bottone bottone-scuro mappa-bottone" href="${AZIENDA.mappa}" target="_blank" rel="noopener"><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Apri in Google Maps</span>${G.freccia}</span></a>
+      <iframe title="Mappa: Devid srl, via Achille Grandi 12, Vezzano sul Crostolo" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Devid+srl,+Via+Achille+Grandi+12,+42030+Vezzano+sul+Crostolo+RE&amp;z=16&amp;hl=it&amp;output=embed"></iframe>
+      <figcaption class="mappa-carta">
+        <img class="mappa-logo" src="${r}assets/logo-devid.svg" alt="Devid srl" width="120" height="38">
+        <p class="mappa-indirizzo">${AZIENDA.via}<br>${AZIENDA.cap} ${AZIENDA.citta} (${AZIENDA.prov})</p>
+        <p class="mappa-tel"><a href="tel:${AZIENDA.telLink}">${AZIENDA.telefono}</a></p>
+        <a class="bottone bottone-blu" href="https://www.google.com/maps/dir/?api=1&amp;destination=Via+Achille+Grandi+12+42030+Vezzano+sul+Crostolo+RE" target="_blank" rel="noopener" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Indicazioni stradali</span>${G.freccia}</span></a>
+      </figcaption>
     </figure>
   </div>
 </main>
@@ -564,8 +574,8 @@ ${intestazione(r, '')}
   ${apertura({ r, sopra: 'Informativa', titolo: ['Privacy'] })}
   <div class="blocchi">
     ${voce('Titolare', `${AZIENDA.nome}, ${AZIENDA.via}, ${AZIENDA.cap} ${AZIENDA.citta} (${AZIENDA.prov}), P. IVA ${AZIENDA.piva}. Per ogni richiesta: <a href="mailto:${AZIENDA.email}">${AZIENDA.email}</a>.`)}
-    ${voce('Cookie', 'Questo sito non usa cookie di profilazione né strumenti di statistica. Caratteri e script sono caricati dal sito stesso, senza servizi esterni. Ricorda soltanto, per la durata della visita, che l’animazione d’apertura è già stata vista.')}
-    ${voce('Mappa', 'Nella pagina Contatti la mappa è fornita da OpenStreetMap, che riceve l’indirizzo IP di chi la visualizza. Il collegamento a Google Maps si apre solo se lo si sceglie.')}
+    ${voce('Cookie', 'Questo sito non usa cookie di profilazione né strumenti di statistica. Caratteri e script sono caricati dal sito stesso. Ricorda soltanto, per la durata della visita, che l’animazione d’apertura è già stata vista. Fa eccezione la mappa di Google nella pagina Contatti (vedi sotto).')}
+    ${voce('Mappa', 'Nella pagina Contatti la mappa è fornita da Google Maps: quando la pagina la mostra, Google riceve l’indirizzo IP di chi la visualizza e può usare i propri cookie, secondo la sua informativa. Le altre pagine del sito non caricano servizi esterni.')}
     ${voce('Email e telefono', 'I dati che ci mandate scrivendoci o chiamandoci li usiamo solo per rispondere alla vostra richiesta. Potete chiederne in ogni momento la cancellazione all’indirizzo qui sopra.')}
   </div>
 </main>

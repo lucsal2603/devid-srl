@@ -1039,24 +1039,48 @@
     var c = document.querySelector('[data-carica]');
     if (!c || getComputedStyle(c).display === 'none' || ridotto) { if (c) c.style.display = 'none'; poi(); return; }
     memoria.scrivi('devid-visto', '1');
-    var barra = c.querySelector('.carica-barra i');
     var conta = c.querySelector('[data-conta-carica]');
-    var o = { v: 0 };
+    var box = c.querySelector('[data-carica-box]');
+    var logo = c.querySelector('[data-carica-logo]');
+    var raggio = c.querySelector('[data-carica-raggio]');
+    var testa = c.querySelector('[data-carica-testa]');
+    var scintille = c.querySelector('[data-carica-scintille]');
     var inizio = performance.now();
+    var o = { p: 0 }, t0 = 0;
+    var scintilla = function (x, y) {
+      var s = document.createElement('i');
+      s.style.left = x + 'px'; s.style.top = y + 'px';
+      scintille.appendChild(s);
+      var a = Math.random() * Math.PI * 2, v = 30 + Math.random() * 70;
+      gsap.to(s, { x: Math.cos(a) * v, y: Math.sin(a) * v * 0.6 + 40 + Math.random() * 40, opacity: 0, duration: 0.5 + Math.random() * 0.5, ease: 'power2.out', onComplete: function () { s.remove(); } });
+    };
+    var aggiorna = function () {
+      var w = box.clientWidth, h = box.clientHeight, x = o.p * w;
+      logo.style.clipPath = 'inset(0% ' + ((1 - o.p) * 100).toFixed(2) + '% 0% 0%)';
+      raggio.style.transform = 'translate3d(' + x.toFixed(1) + 'px,0,0)';
+      /* la testa del laser va su e giù sul logo, come un'incisione riga per riga */
+      t0 += 1;
+      var y = (Math.sin(t0 * 0.55) * 0.5 + 0.5) * h;
+      testa.style.top = 'calc(60vh + ' + y.toFixed(1) + 'px)';
+      if (o.p > 0 && o.p < 1 && Math.random() < 0.8) scintilla(x, y);
+      conta.textContent = String(Math.round(o.p * 100));
+    };
     var tl = gsap.timeline({ paused: true });
-    tl.to(o, { v: 100, duration: 2, ease: 'morbida', onUpdate: function () { conta.textContent = String(Math.round(o.v)); barra.style.transform = 'scaleX(' + o.v / 100 + ')'; } })
-      .to([conta, c.querySelector('.carica-logo')], { yPercent: -40, autoAlpha: 0, duration: 0.5, ease: 'power2.in' }, '+=0.1')
-      .to(c.querySelector('.carica-barra'), { scaleX: 0, autoAlpha: 0, duration: 0.5, ease: 'power2.in' }, '<')
-      .add(poi, '-=0.05')
-      .to(c, { clipPath: 'inset(0% 0% 100% 0% round 0px 0px 60px 60px)', duration: 1.1, ease: 'tenda' }, '-=0.1')
+    tl.fromTo(c.querySelector('.carica-fantasma'), { opacity: 0 }, { opacity: 0.07, duration: 0.5 }, 0)
+      .fromTo(raggio, { opacity: 0, scaleY: 0, transformOrigin: '50% 0%' }, { opacity: 1, scaleY: 1, duration: 0.45, ease: 'uscita' }, 0.2)
+      .to(o, { p: 1, duration: 2, ease: 'power1.inOut', onUpdate: aggiorna }, 0.55)
+      .to(raggio, { opacity: 0, duration: 0.3 }, 2.6)
+      .fromTo(logo, { filter: 'brightness(1)' }, { filter: 'brightness(1.8)', duration: 0.18, yoyo: true, repeat: 1 }, 2.55)
+      .to(box, { scale: 1.04, duration: 0.5, ease: 'power2.out' }, 2.6)
+      .to([box, conta], { yPercent: -30, autoAlpha: 0, duration: 0.5, ease: 'power2.in' }, 3.2)
+      .add(poi, 3.55)
+      .to(c, { clipPath: 'inset(0% 0% 100% 0% round 0px 0px 60px 60px)', duration: 1.1, ease: 'tenda' }, 3.5)
       .set(c, { display: 'none' });
-    var logo = c.querySelector('.carica-logo');
-    if (logo) tl.fromTo(logo, { clipPath: 'inset(0% 100% 0% 0%)', x: -10 }, { clipPath: 'inset(0% 0% 0% 0%)', x: 0, duration: 1.4, ease: 'uscita' }, 0);
     gsap.set(c, { clipPath: 'inset(0% 0% 0% 0% round 0px 0px 0px 0px)' });
     var parti = function () { tl.play(); };
-    /* aspetta il tessuto, ma mai più di tre secondi */
+    /* aspetta il logo e il tessuto, ma mai più di tre secondi */
     var attesa = setInterval(function () {
-      if (stato.pronto || performance.now() - inizio > 3000) { clearInterval(attesa); parti(); }
+      if ((stato.pronto && logo.complete) || performance.now() - inizio > 3000) { clearInterval(attesa); parti(); }
     }, 60);
   }
 

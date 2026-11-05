@@ -8,7 +8,7 @@ Lo stile viene da **Lusion** (lusion.co), lo studio inglese di siti in 3D premia
 
 ## Le parti
 
-- **Caricamento** (solo alla prima visita): il contatore da 0 a 100 e la barra, poi il nero che sale e scopre la pagina.
+- **Caricamento** (solo alla prima visita): sul nero compare appena la sagoma del logo; un raggio laser scende dall'alto e la attraversa da sinistra a destra, con la testa luminosa che va su e giù come un'incisione e le scintille, e dove passa compare il logo vero di Devid (il loro file, identico). Il contatore va da 0 a 100 col laser; alla fine un lampo e il nero sale e scopre la pagina.
 - **Apertura**: un vero tessuto in 3D (simulazione fisica, saia, cimosa con la scritta Devid, orli cuciti), appeso a una barra in metallo con gli anelli. Ha la memoria della forma: quando nessuno lo tocca torna sempre a pendere dritto e non resta mai attorcigliato. Arriva che scende ondeggiando. Il mouse lo spinge come una mano. Scorrendo, il laser lo taglia dall'alto in basso con le scintille e il bordo che resta acceso, poi le due metà si aprono come un sipario e appare «Il taglio del futuro è già presente».
 - Tutta la home resta del blu notte dell'apertura, fino al fondo.
 - **Chi siamo**: al centro, la frase che si accende parola per parola.
@@ -55,7 +55,7 @@ poi si apre http://localhost:8000.
 - **Crea Solution** come partner per il taglio con l'AI e i macchinari (Morgan Next 2, Investronica Diamond, stenditori Oteman e Bkr, plotter Algotex Stream 180, Datacolor 3890): presi dal sito attuale, da confermare che ci siano ancora tutti.
 - **Le foto** sono quelle del sito attuale, ritoccate per avere lo stesso colore. Con un servizio fotografico nuovo (soprattutto in verticale e in alta risoluzione) il sito farebbe ancora più effetto.
 - **Le news** sono le due del 2020: se ci sono novità recenti, si aggiungono in `NEWS` dentro `contenuti.mjs`.
-- La mappa è di OpenStreetMap, così il sito non mette cookie e non serve il banner.
+- La mappa nella pagina Contatti è di Google Maps, a colori, col punto sulla sede e una carta con indirizzo, telefono e «Indicazioni stradali». Google riceve l'IP di chi la guarda e può usare i suoi cookie: è scritto nella pagina Privacy. Se il commercialista o chi segue la privacy di Devid vuole il banner dei cookie, va aggiunto prima di andare online.
 
 ## Caratteri e librerie
 
