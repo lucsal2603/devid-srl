@@ -334,7 +334,9 @@ function avvia() {
     const entra = stato.entrata;
     /* il sipario segue lo scroll ma senza strappi, anche se si scorre veloce */
     apriLiscio += ((ridotto ? 0 : stato.apertura) - apriLiscio) * Math.min(1, dt * 2.2);
-    taglioLiscio += ((ridotto ? 0 : stato.taglio) - taglioLiscio) * Math.min(1, dt * 4);
+    taglioLiscio += ((ridotto ? 0 : stato.taglio) - taglioLiscio) * Math.min(1, dt * 9);
+    /* il sipario non si apre mai con un pezzo ancora cucito: appena si apre, il taglio è completo */
+    if (!ridotto && (stato.apertura > 0.001 || apriLiscio > 0.001)) taglioLiscio = 1;
     const apri = apriLiscio;
     const tagliate = ridotto ? 0 : Math.floor(taglioLiscio * NY + 0.0001);
     const dt2 = dt * dt;
