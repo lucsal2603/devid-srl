@@ -18,7 +18,7 @@ function avvia() {
     return;
   }
   const telefono = matchMedia('(max-width: 760px)').matches;
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, telefono ? 2 : 1.75));
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
@@ -32,7 +32,7 @@ function avvia() {
   const verticale = alt0 > larg0 * 1.05;
   const H = verticale ? 3.1 : 2.45;
   const W = verticale ? 2.3 : Math.min(4.3, Math.max(2.8, H * (larg0 / alt0) * 0.78));
-  const NX = (telefono ? 26 : 40) & ~1;
+  const NX = (telefono ? 32 : 52) & ~1;
   const NY = Math.max(16, Math.round(NX * (H / W)));
   const passo = W / NX;
   const passoY = H / (NY - 1);
@@ -116,6 +116,17 @@ function avvia() {
     const t = new THREE.CanvasTexture(c);
     t.colorSpace = THREE.SRGBColorSpace;
     t.anisotropy = 8;
+    /* il logo di Devid stampato al centro del tendone */
+    const logo = new Image();
+    logo.onload = () => {
+      const lw = cw * 0.5, lh = lw * (logo.naturalHeight / logo.naturalWidth || 476 / 1513);
+      g.save();
+      g.globalAlpha = 0.92;
+      g.drawImage(logo, (cw - lw) / 2, (ch - lh) / 2 - ch * 0.03, lw, lh);
+      g.restore();
+      t.needsUpdate = true;
+    };
+    logo.src = new URL('../logo-devid-bianco.svg', import.meta.url).href;
     return t;
   }
 
@@ -302,7 +313,7 @@ function avvia() {
   /* ---- simulazione ---- */
   const G = -5.2;
   let tempo = 0;
-  let apriLiscio = 0;
+  let apriLiscio = 0, taglioLiscio = 0;
   function bersaglioPerno(m, i, entra, apri) {
     /* il perno i della riga in cima: scende entrando, si raccoglie verso il bordo aprendo */
     const k = i * 3;
@@ -323,8 +334,9 @@ function avvia() {
     const entra = stato.entrata;
     /* il sipario segue lo scroll ma senza strappi, anche se si scorre veloce */
     apriLiscio += ((ridotto ? 0 : stato.apertura) - apriLiscio) * Math.min(1, dt * 2.2);
+    taglioLiscio += ((ridotto ? 0 : stato.taglio) - taglioLiscio) * Math.min(1, dt * 4);
     const apri = apriLiscio;
-    const tagliate = ridotto ? 0 : Math.floor(stato.taglio * NY + 0.0001);
+    const tagliate = ridotto ? 0 : Math.floor(taglioLiscio * NY + 0.0001);
     const dt2 = dt * dt;
     const spinta = manoForza > 0 && !ridotto;
     const R = 0.55;
@@ -350,9 +362,10 @@ function avvia() {
           }
         }
         const smorza = 0.985 - apri * 0.02;
-        p[k] = x + (x - q[k]) * smorza + ax * dt2;
-        p[k + 1] = y + (y - q[k + 1]) * smorza + ay * dt2;
-        p[k + 2] = z + (z - q[k + 2]) * smorza + az * dt2;
+        let vx = (x - q[k]) * smorza + ax * dt2, vy = (y - q[k + 1]) * smorza + ay * dt2, vz = (z - q[k + 2]) * smorza + az * dt2;
+        const vv = Math.sqrt(vx * vx + vy * vy + vz * vz), MAX = 0.045;
+        if (vv > MAX) { const f = MAX / vv; vx *= f; vy *= f; vz *= f; }
+        p[k] = x + vx; p[k + 1] = y + vy; p[k + 2] = z + vz;
         q[k] = x; q[k + 1] = y; q[k + 2] = z;
       }
     }
@@ -392,8 +405,10 @@ function avvia() {
         const a = SX.id(SX.cols - 1, j) * 3, b = DX.id(0, j) * 3;
         const ps = SX.pos, pd = DX.pos;
         const mx = (ps[a] + pd[b]) / 2, my = (ps[a + 1] + pd[b + 1]) / 2, mz = (ps[a + 2] + pd[b + 2]) / 2;
-        ps[a] = mx; ps[a + 1] = my; ps[a + 2] = mz;
-        pd[b] = mx; pd[b + 1] = my; pd[b + 2] = mz;
+        const lontano = Math.abs(ps[a] - pd[b]) + Math.abs(ps[a + 1] - pd[b + 1]) + Math.abs(ps[a + 2] - pd[b + 2]);
+        const k2 = lontano < 0.02 ? 1 : 0.18;
+        ps[a] += (mx - ps[a]) * k2; ps[a + 1] += (my - ps[a + 1]) * k2; ps[a + 2] += (mz - ps[a + 2]) * k2;
+        pd[b] += (mx - pd[b]) * k2; pd[b + 1] += (my - pd[b + 1]) * k2; pd[b + 2] += (mz - pd[b + 2]) * k2;
       }
       /* i perni della barra */
       for (const m of metà) {
@@ -411,7 +426,7 @@ function avvia() {
 
   /* ---- scintille e laser ---- */
   function laser(dt) {
-    const c = stato.taglio;
+    const c = taglioLiscio;
     const attivo = !ridotto && c > 0.002 && c < 0.995 && stato.apertura < 0.02;
     const j = Math.min(NY - 1, Math.max(0, c * NY));
     const j0 = Math.floor(j), j1 = Math.min(NY - 1, j0 + 1), f = j - j0;
@@ -445,7 +460,7 @@ function avvia() {
       r.a.position.set(r.m.pos[k], yb - 0.004, r.m.pos[k + 2]);
     }
     /* il bordo del taglio */
-    const tagliate = ridotto ? 0 : Math.floor(stato.taglio * NY + 0.0001);
+    const tagliate = ridotto ? 0 : Math.floor(taglioLiscio * NY + 0.0001);
     for (let j = 0; j < NY; j++) {
       if (j < tagliate && j >= tagliatePrima) caldo[j] = 1;
       if (j >= tagliate) caldo[j] = 0;
