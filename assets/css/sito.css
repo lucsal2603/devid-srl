@@ -782,3 +782,15 @@ ul, ol { list-style: none; }
 @media (max-width: 760px) { .mappa { height: auto; display: flex; flex-direction: column-reverse; } .mappa iframe { height: 60vh; } .mappa-carta { position: static; width: auto; margin: 0; border-radius: 0; box-shadow: none; } }
 .carica-logo-box .carica-logo, .carica-logo-box .carica-fantasma { left: 0; top: 0; transform: none; width: 100%; height: 100%; }
 .mappa-carta { left: 8px; top: 8px; min-height: 160px; }
+
+/* senza i titoletti: i blocchi tengono il testo nella colonna larga */
+.blocco > .blocco-corpo, .blocco > .schede { grid-column: 2; }
+.accesi-testa { grid-template-columns: 1fr; }
+.contatto { justify-content: flex-end; }
+.apertura-data { font-size: 15px; color: var(--ghiaccio-2); }
+.testo strong { color: inherit; font-weight: 600; }
+.tema-notte .testo strong { color: #fff; }
+@media (max-width: 760px) { .blocco > .blocco-corpo, .blocco > .schede { grid-column: 1; } }
+.blocco > .schede { grid-column: 1 / -1; grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 1024px) { .blocco > .schede { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 760px) { .blocco > .schede { grid-template-columns: 1fr; } }

@@ -99,7 +99,6 @@ const intestazione = (r, attiva) => `<a class="salta" href="#contenuto">Vai al c
 
 const piede = (r, notte = false) => `<section class="chiamata" aria-labelledby="chiamata-t">
   <div class="chiamata-carta" data-carta>
-    <p class="etichetta etichetta-chiara">Avete richieste?</p>
     <h2 id="chiamata-t" class="chiamata-titolo" data-righe>Parliamo del<br>vostro tessuto.</h2>
     <div class="chiamata-azioni">
       <a class="bottone bottone-bianco bottone-grande" href="${r}contatti/" data-tenda="Contatti" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Contattateci</span>${G.frecciaDx}</span></a>
@@ -114,18 +113,15 @@ const piede = (r, notte = false) => `<section class="chiamata" aria-labelledby="
       <p class="piede-frase">Controllo, adesivazione, modellistica, taglio e confezione. Tutto sotto lo stesso tetto, dagli anni ’50.</p>
     </div>
     <div class="piede-colonna">
-      <p class="etichetta">Menu</p>
       <ul>
         <li><a href="${r}" data-tenda="Devid srl"><span data-gira>Home</span></a></li>
         ${NAV.map(([n, h]) => `<li><a href="${r}${h}" data-tenda="${n}"><span data-gira>${n}</span></a></li>`).join('')}
       </ul>
     </div>
     <div class="piede-colonna">
-      <p class="etichetta">Servizi</p>
       <ul>${SERVIZI.map((s) => `<li><a href="${r}servizi/${s.slug}/" data-tenda="${s.nome}"><span data-gira>${s.nome}</span></a></li>`).join('')}</ul>
     </div>
     <div class="piede-colonna">
-      <p class="etichetta">Contatti</p>
       <ul>
         <li><a href="${AZIENDA.mappa}" target="_blank" rel="noopener">${AZIENDA.via}<br>${AZIENDA.cap} ${AZIENDA.citta} (${AZIENDA.prov})</a></li>
         <li><a href="tel:${AZIENDA.telLink}"><span data-gira>${AZIENDA.telefono}</span></a></li>
@@ -180,7 +176,6 @@ const carta = (r, s, i) => `<a class="servizio-carta ${i % 2 ? 'carta-giu' : ''}
 /* ---------- pezzi riusati fra home e pagine interne ---------- */
 const htmlAccesi = (r, testa = true) => `  <section class="accesi${testa ? '' : ' accesi-apri'}" aria-labelledby="accesi-t">
     ${testa ? `<div class="accesi-testa">
-      <p class="etichetta etichetta-chiara" data-sale>Servizi</p>
       <div class="accesi-intro">
         <h2 id="accesi-t" class="accesi-titolo" data-righe>Cinque lavorazioni,<br>un solo stabilimento.</h2>
         <p class="accesi-frase" data-righe>Dalla pezza appena arrivata al campione cucito: controlliamo, adesiviamo, sviluppiamo il modello, tagliamo e confezioniamo a Vezzano sul Crostolo, senza viaggi fra un fornitore e l’altro.</p>
@@ -202,7 +197,6 @@ const htmlAccesi = (r, testa = true) => `  <section class="accesi${testa ? '' : 
 const htmlSguardo = (r) => `  <section class="sguardo" data-sguardo aria-labelledby="sguardo-t">
     <div class="sguardo-palco">
       <div class="sguardo-testa">
-        <p class="etichetta etichetta-chiara">Il parco macchine</p>
         <h2 id="sguardo-t" class="sguardo-titolo" data-righe>Macchine sempre aggiornate,<br>mani che sanno cosa fanno.</h2>
       </div>
       <div class="sguardo-binario" data-sguardo-binario>
@@ -284,13 +278,11 @@ ${intestazione(r, '')}
     <div class="eroe-palco">
       <div class="eroe-carta" data-eroe-carta>
         <div class="eroe-dietro" aria-hidden="true">
-          <p class="etichetta etichetta-chiara">Taglio con l’intelligenza artificiale</p>
           <p class="eroe-dietro-titolo">Il taglio del futuro<br>è già presente.</p>
         </div>
         <canvas class="eroe-tela" data-tela aria-hidden="true"></canvas>
         <div class="eroe-velo" aria-hidden="true"></div>
         <div class="eroe-sopra">
-          <p class="etichetta etichetta-chiara eroe-luogo"><span>Vezzano sul Crostolo</span><span>Reggio Emilia</span></p>
           <h1 class="eroe-titolo"><span class="riga"><span class="riga-dentro">Il tessuto,</span></span><span class="riga"><span class="riga-dentro">tagliato al millimetro.</span></span></h1>
           <div class="eroe-basso">
             <p class="eroe-testo">Taglio tessuti e modellistica dagli anni ’50: controllo, adesivazione, CAD-CAM, taglio automatico e confezione campioni.</p>
@@ -302,7 +294,6 @@ ${intestazione(r, '')}
   </section>
 
   <section class="dichiarazione" aria-labelledby="dich-t">
-    <p class="etichetta etichetta-chiara" data-sale>Chi siamo</p>
     <h2 id="dich-t" class="dichiarazione-testo" data-accende>L’esperienza dell’artigianato italiano, unita alla ricerca e alle macchine più moderne. <em>Generazioni di lavoro sartoriale</em> e un aggiornamento continuo, per un tagliato preciso e capi che escono come devono.</h2>
     <div class="dichiarazione-sotto">
       <a class="bottone bottone-bianco" href="azienda/" data-tenda="Azienda" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>L’azienda</span>${G.frecciaDx}</span></a>
@@ -377,11 +368,11 @@ ${coda(r, true)}`;
 }
 
 /* ---------- pagine interne ---------- */
-const apertura = ({ r, sopra, titolo, testo, indietro, arte }) => `<section class="apertura${arte ? ' apertura-con-arte' : ''}">
+const apertura = ({ r, sopra, titolo, testo, indietro, arte, data }) => `<section class="apertura${arte ? ' apertura-con-arte' : ''}">
     ${arte ? `<canvas class="apertura-arte" data-arte-sola="${arte}" aria-hidden="true"></canvas>` : ''}
     <div class="apertura-sopra">
       ${indietro ? `<a class="indietro" href="${r}${indietro[1]}" data-tenda="${indietro[0]}" data-indietro>${G.frecciaDx}<span data-gira>${indietro[0]}</span></a>` : ''}
-      <p class="etichetta" data-sale>${sopra}</p>
+      ${data ? `<p class="apertura-data" data-sale>${data}</p>` : ''}
     </div>
     <h1 class="apertura-titolo">${titolo.map((t) => `<span class="riga"><span class="riga-dentro">${t}</span></span>`).join('')}</h1>
     ${testo ? `<p class="apertura-testo" data-righe>${testo}</p>` : ''}
@@ -392,17 +383,17 @@ const fotoGrande = (r, nome, alt, larghe) => `<figure class="foto-grande" data-f
 const blocco = (b) => {
   if (b.tipo === 'testo')
     return `<section class="blocco">
-      <h2 class="blocco-titolo etichetta" data-sale>${b.titolo}</h2>
+      <h2 class="nascosto">${b.titolo}</h2>
       <div class="blocco-corpo">${b.testo.map((t) => `<p class="testo-grande" data-accende>${t}</p>`).join('')}</div>
     </section>`;
   if (b.tipo === 'righe')
     return `<section class="blocco">
-      <h2 class="blocco-titolo etichetta" data-sale>${b.titolo}</h2>
+      <h2 class="nascosto">${b.titolo}</h2>
       <dl class="schede">${b.righe.map(([n, t]) => `<div class="scheda" data-scheda><dt>${n}</dt><dd>${t}</dd></div>`).join('')}</dl>
     </section>`;
   if (b.tipo === 'tabella')
     return `<section class="blocco">
-      <h2 class="blocco-titolo etichetta" data-sale>${b.titolo}</h2>
+      <h2 class="nascosto">${b.titolo}</h2>
       <div class="blocco-corpo">
         <p class="testo" data-righe>${b.testo}</p>
         <div class="tabella-carta" data-scheda><div class="tabella-scorre"><table class="tabella">
@@ -429,7 +420,6 @@ ${intestazione(r, 'servizi/')}
     <a class="prossimo-carta" href="${r}servizi/${dopo.slug}/" data-tenda="${dopo.nome}">
       <div class="prossimo-foto">${img(r, dopo.foto, '', { sizes: '100vw', larghe: !!dopo.larghe })}</div>
       <div class="prossimo-testo">
-        <p class="etichetta etichetta-chiara">Servizio successivo</p>
         <p class="prossimo-nome">${dopo.nome}</p>
         <span class="prossimo-cerchio">${G.frecciaDx}</span>
       </div>
@@ -472,7 +462,6 @@ ${intestazione(r, 'azienda/')}
     ] })}
     <section class="intreccio" data-intreccio>
       <div class="intreccio-testo">
-        <p class="etichetta etichetta-chiara">Dalla mano al CAD</p>
         <p class="intreccio-frase" data-accende>Il modello nasce sul tavolo, a mano, con il metro e il gesso. Poi diventa digitale al CAD, e torna sul tessuto preciso al millimetro.</p>
       </div>
       <div class="intreccio-foto">
@@ -484,7 +473,7 @@ ${intestazione(r, 'azienda/')}
   ${htmlSguardo(r)}
   <div class="blocchi blocchi-dopo">
     <section class="blocco">
-      <h2 class="blocco-titolo etichetta" data-sale>Nell’emergenza</h2>
+      <h2 class="nascosto">Nell’emergenza</h2>
       <div class="blocco-corpo">
         <p class="testo-grande" data-accende>Durante la pandemia abbiamo messo la nostra esperienza nei tessuti al servizio dell’emergenza sanitaria, producendo mascherine, tute e camici in poliestere idrorepellente.</p>
         <a class="bottone bottone-linea" href="${r}news/tute-e-camici-in-poliestere/" data-tenda="Tute e camici" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Leggi la notizia</span>${G.frecciaDx}</span></a>
@@ -504,9 +493,9 @@ ${intestazione(r, 'contatti/')}
 <main id="contenuto">
   ${apertura({ r, sopra: 'Contatti', titolo: ['Parliamo del', 'vostro tessuto'], testo: 'Per ogni richiesta tecnica o commerciale scriveteci o chiamateci: la nostra esperienza è a vostra disposizione.' })}
   <section class="contatti">
-    <a class="contatto" href="mailto:${AZIENDA.email}" data-scheda><span class="etichetta">Email</span><span class="contatto-valore">${AZIENDA.email}</span><span class="contatto-cerchio">${G.freccia}</span></a>
-    <a class="contatto" href="tel:${AZIENDA.telLink}" data-scheda><span class="etichetta">Telefono</span><span class="contatto-valore">${AZIENDA.telefono}</span><span class="contatto-cerchio">${G.freccia}</span></a>
-    <a class="contatto contatto-largo" href="${AZIENDA.mappa}" target="_blank" rel="noopener" data-scheda><span class="etichetta">Indirizzo</span><span class="contatto-valore">${AZIENDA.via}, ${AZIENDA.cap} ${AZIENDA.citta} (${AZIENDA.prov})</span><span class="contatto-cerchio">${G.freccia}</span></a>
+    <a class="contatto" href="mailto:${AZIENDA.email}" data-scheda><span class="contatto-valore">${AZIENDA.email}</span><span class="contatto-cerchio">${G.freccia}</span></a>
+    <a class="contatto" href="tel:${AZIENDA.telLink}" data-scheda><span class="contatto-valore">${AZIENDA.telefono}</span><span class="contatto-cerchio">${G.freccia}</span></a>
+    <a class="contatto contatto-largo" href="${AZIENDA.mappa}" target="_blank" rel="noopener" data-scheda><span class="contatto-valore">${AZIENDA.via}, ${AZIENDA.cap} ${AZIENDA.citta} (${AZIENDA.prov})</span><span class="contatto-cerchio">${G.freccia}</span></a>
   </section>
   <div class="blocchi">
     ${blocco({ tipo: 'righe', titolo: 'Dove siamo', righe: [
@@ -550,11 +539,10 @@ function articolo(n) {
 ${intestazione(r, 'news/')}
 <main id="contenuto">
   <article>
-    ${apertura({ r, sopra: n.dataIt, titolo: [n.titolo], indietro: ['Tutte le news', 'news/'] })}
+    ${apertura({ r, sopra: n.dataIt, data: n.dataIt, titolo: [n.titolo], indietro: ['Tutte le news', 'news/'] })}
     ${fotoGrande(r, n.foto, n.alt, false)}
     <div class="blocchi">
       <section class="blocco">
-        <p class="blocco-titolo etichetta"><time datetime="${n.data}">${n.dataIt}</time></p>
         <div class="blocco-corpo">${n.testo.map((t) => `<p class="testo-grande" data-accende>${t}</p>`).join('')}</div>
       </section>
     </div>
@@ -566,7 +554,7 @@ ${coda(r)}`;
 
 function privacy() {
   const r = '../';
-  const voce = (t, x) => `<section class="blocco"><h2 class="blocco-titolo etichetta">${t}</h2><div class="blocco-corpo"><p class="testo">${x}</p></div></section>`;
+  const voce = (t, x) => `<section class="blocco"><h2 class="nascosto">${t}</h2><div class="blocco-corpo"><p class="testo"><strong>${t}.</strong> ${x}</p></div></section>`;
   return `${testa({ r, titolo: 'Privacy, Devid srl', descrizione: 'Informativa sulla privacy del sito di Devid srl.', url: '/privacy/' })}
 <body class="pagina-interna tema-notte">
 ${intestazione(r, '')}
