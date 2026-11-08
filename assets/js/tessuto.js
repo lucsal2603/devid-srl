@@ -18,7 +18,7 @@ function avvia() {
     return;
   }
   const telefono = matchMedia('(max-width: 760px)').matches;
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, telefono ? 1.5 : 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
@@ -32,12 +32,12 @@ function avvia() {
   const verticale = alt0 > larg0 * 1.05;
   const H = verticale ? 3.1 : 2.45;
   const W = verticale ? 2.3 : Math.min(4.3, Math.max(2.8, H * (larg0 / alt0) * 0.78));
-  const NX = (telefono ? 32 : 52) & ~1;
+  const NX = (telefono ? 28 : 52) & ~1;
   const NY = Math.max(16, Math.round(NX * (H / W)));
   const passo = W / NX;
   const passoY = H / (NY - 1);
   const META = NX / 2;
-  const ITER = telefono ? 9 : 13;
+  const ITER = telefono ? 8 : 13;
 
   /* ---- la trama del tessuto: una mappa delle normali disegnata ---- */
   function trama() {

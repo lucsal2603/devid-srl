@@ -14,6 +14,7 @@
 
   var ridotto = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var tocco = matchMedia('(hover: none)').matches;
+  var piccolo = matchMedia('(max-width: 760px)').matches;
   if (ridotto) html.classList.add('ridotto');
   var stato = (window.devidEroe = window.devidEroe || { taglio: 0, apertura: 0, entrata: 0, pronto: false });
 
@@ -378,7 +379,8 @@
       }
     };
     if (ridotto) { disegna(); return; }
-    gsap.ticker.add(function () { if (!vista) return; t += 0.012; disegna(); });
+    var saltaT = 0;
+    gsap.ticker.add(function () { if (!vista) return; if (piccolo && (saltaT = 1 - saltaT)) return; t += piccolo ? 0.024 : 0.012; disegna(); });
   }
 
   /* ---------- servizi: le carte si accendono scorrendo, ognuna col suo disegno ---------- */
@@ -489,7 +491,7 @@
   function accesi() {
     var carte = tutti('[data-acceso]');
     if (!carte.length) return;
-    var dpr = Math.min(devicePixelRatio || 1, 2);
+    var dpr = Math.min(devicePixelRatio || 1, piccolo ? 1.25 : 2), salta = 0;
     var vive = carte.map(function (c) {
       var cv = c.querySelector('canvas'), g = cv.getContext('2d');
       var v = { c: c, cv: cv, g: g, arte: ARTE[cv.getAttribute('data-arte')], w: 0, h: 0, vista: false, veloce: 1, t: Math.random() * 10 };
@@ -511,7 +513,7 @@
       if (v.arte) v.arte(v.g, v.w, v.h, v.t);
     };
     if (ridotto) { vive.forEach(function (v) { disegna(v, 0); }); return; }
-    gsap.ticker.add(function (t, dt) { vive.forEach(function (v) { if (v.vista) disegna(v, dt / 1000); }); });
+    gsap.ticker.add(function (t, dt) { if (piccolo && (salta = 1 - salta)) return; vive.forEach(function (v) { if (v.vista) disegna(v, (piccolo ? 2 : 1) * dt / 1000); }); });
 
     /* pagina Servizi: le carte si aprono sotto il mouse (sul telefono quella al centro dello schermo) */
     var apri = carte.filter(function (c) { return c.closest('.accesi-apri'); });
@@ -877,14 +879,14 @@
     tutti('[data-arte-sola]').forEach(function (cv) {
       var arte = ARTE[cv.getAttribute('data-arte-sola')];
       if (!arte) return;
-      var g = cv.getContext('2d'), dpr = Math.min(devicePixelRatio || 1, 2), w = 0, h = 0, t = 0, vista = true;
+      var g = cv.getContext('2d'), dpr = Math.min(devicePixelRatio || 1, piccolo ? 1.25 : 2), w = 0, h = 0, t = 0, vista = true, salta = 0;
       var misura = function () { w = cv.clientWidth; h = cv.clientHeight; cv.width = w * dpr; cv.height = h * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0); };
       misura(); addEventListener('resize', misura);
       new IntersectionObserver(function (v) { vista = v[0].isIntersecting; }).observe(cv);
       var disegna = function (dt) { t += dt; g.clearRect(0, 0, w, h); arte(g, w, h, t); };
       if (ridotto) { disegna(2); return; }
       gsap.fromTo(cv, { opacity: 0 }, { opacity: 0.9, duration: 1.6, ease: 'uscita', delay: 0.4 });
-      gsap.ticker.add(function (tt, dt) { if (vista) disegna(dt / 1000); });
+      gsap.ticker.add(function (tt, dt) { if (piccolo && (salta = 1 - salta)) return; if (vista) disegna((piccolo ? 2 : 1) * dt / 1000); });
     });
   }
 
@@ -1008,7 +1010,7 @@
       .to(proxy, { taglio: 1, duration: 0.44 }, 0.1)
       .to(dato, { autoAlpha: 0, duration: 0.06 }, 0.56)
       .to(proxy, { apertura: 1, duration: 0.32, ease: 'power1.inOut' }, 0.58)
-      .to(dietro, { autoAlpha: 1, scale: 1, duration: 0.26, ease: 'power2.out' }, 0.66)
+      .to(dietro, { autoAlpha: 1, scale: 1, duration: piccolo ? 0.16 : 0.26, ease: 'power2.out' }, piccolo ? 0.8 : 0.66)
       .to('.eroe-velo', { opacity: 0.4, duration: 0.3 }, 0.6)
       .to({}, { duration: 0.08 }, 0.92);
 
