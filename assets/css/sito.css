@@ -819,3 +819,23 @@ html { overflow-x: clip; }
 .menu-telefono-carta, .menu-telefono-carta a { color: var(--inchiostro); }
 .menu-telefono-piede, .menu-telefono-piede a { color: var(--grigio); }
 .menu-telefono-carta nav a[aria-current], .menu-telefono-carta nav a:active { color: var(--blu); }
+
+/* ---------- dentro il laboratorio: la fila in cui la foto al centro cresce (sul modello di The First The Last) ---------- */
+.fila-palco { position: relative; height: 100vh; height: 100lvh; display: flex; flex-direction: column; padding: calc(84px + 2vh) 0 calc(var(--m) * 2); overflow: hidden; }
+.fila-titolo { padding: 0 calc(var(--m) * 2); font-size: clamp(38px, 5vw, 96px); font-weight: 520; letter-spacing: -.055em; line-height: .94; color: #fff; }
+.fila-scena { position: relative; flex: 1; min-height: 0; display: flex; align-items: center; }
+.fila-binario { display: flex; align-items: center; gap: var(--fila-gap, 14px); will-change: transform; }
+.fila-foto { flex: none; position: relative; overflow: hidden; border-radius: 10px; background: #12162f; will-change: width, height; }
+.fila-dentro { position: absolute; left: 50%; top: 50%; width: var(--fila-gw, 46vw); height: var(--fila-gh, 30vw); transform: translate(-50%, -50%); }
+.fila-dentro img { width: 100%; height: 100%; object-fit: cover; }
+.fila-foto::after { content: ''; position: absolute; inset: 0; background: #080a16; opacity: var(--fila-buio, .55); pointer-events: none; }
+.fila-dida { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; padding: 0 calc(var(--m) * 2); min-height: 2.4em; }
+.fila-nome { font-size: clamp(22px, 2.2vw, 40px); font-weight: 520; letter-spacing: -.045em; color: #fff; }
+.fila-reparto { font-size: 15px; color: var(--ghiaccio-2); }
+@media (max-width: 760px) {
+  .fila-palco { padding: 84px 0 calc(var(--m) * 1.6); }
+  .fila-titolo { padding: 0 calc(var(--m) * 1.4); }
+  .fila-dida { padding: 0 calc(var(--m) * 1.4); flex-direction: column; gap: 4px; }
+  .fila-nome { font-size: 22px; }
+}
+.piede-fondo { margin-top: clamp(48px, 6vw, 96px); }

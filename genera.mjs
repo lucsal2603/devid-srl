@@ -130,7 +130,6 @@ const piede = (r, notte = false) => `<section class="chiamata" aria-labelledby="
       </ul>
     </div>
   </div>
-  <div class="piede-marchio" data-marchio-grande><img src="${r}assets/logo-devid${notte ? '-bianco' : ''}.svg" alt="Devid srl" width="1513" height="476" loading="lazy"></div>
   <div class="piede-fondo">
     <p>${AZIENDA.nome} · P. IVA ${AZIENDA.piva}</p>
     <p><a href="${r}privacy/" data-tenda="Privacy"><span data-gira>Privacy</span></a></p>
@@ -305,38 +304,23 @@ ${intestazione(r, '')}
 
   ${htmlSguardo(r)}
 
-  <section class="caroselli" aria-labelledby="caroselli-t">
-    <div class="caroselli-testa">
-      <h2 id="caroselli-t" class="caroselli-titolo" data-righe>Dentro il laboratorio</h2>
-    </div>
-    ${[
-      { verso: -1, pezzi: [
-        ['foto', 'zund-operatrice', 'Il taglio guidato dallo schermo'],
-        ['frase', 'Controlliamo ogni pezza alla specula, prima che entri in lavorazione'],
-        ['foto', 'taglio-testa', 'La testa di taglio'],
-        ['frase', 'Tagliamo fino a 7 cm di materasso, anche con l’intelligenza artificiale'],
-        ['foto', 'sagome', 'Le sagome di un piazzamento'],
-        ['frase', 'Sviluppiamo le taglie al CAD-CAM e piazziamo i pezzi per consumare meno tessuto'],
-        ['foto', 'zund-portale', 'Il portale di scansione'],
-        ['frase', 'Piazzamenti automatici da file DXF di qualsiasi sistema CAD-CAM'],
-      ] },
-      { verso: 1, pezzi: [
-        ['foto', 'adesivazione', 'La macchina per l’adesivazione'],
-        ['frase', 'Adesivazione, accoppiatura e decatizzo nello stesso stabilimento del taglio'],
-        ['foto', 'metro', 'Metro e forbici sulla macchina'],
-        ['frase', 'Campioni e produzione cuciti da operatrici con esperienza decennale'],
-        ['foto', 'cartamodello', 'I cartamodelli sul tavolo'],
-        ['frase', 'Generazioni di lavoro sartoriale, dagli anni ’50 a Vezzano sul Crostolo'],
-        ['foto', 'stesura', 'La pezza stesa sul tavolo'],
-        ['frase', 'Stenditori elettronici senza tensioni, perché il tessuto non cali dopo il taglio'],
-      ] },
-    ].map((riga) => `<div class="carosello" data-carosello="${riga.verso}">
-      <div class="carosello-binario" data-carosello-binario>
-        ${[0, 1].map((k) => `<div class="carosello-giro"${k ? ' aria-hidden="true"' : ''}>${riga.pezzi.map((p) => p[0] === 'foto'
-          ? `<figure class="carosello-foto">${img(r, p[1], k ? '' : p[2], { sizes: '(max-width: 760px) 60vw, 30vw', larghe: p[1].startsWith('zund') })}</figure>`
-          : `<p class="carosello-frase">${p[1]}</p>`).join('')}</div>`).join('')}
+  <section class="fila" data-fila aria-labelledby="fila-t">
+    <div class="fila-palco">
+      <h2 id="fila-t" class="fila-titolo" data-righe>Dentro il laboratorio</h2>
+      <div class="fila-scena">
+        <div class="fila-binario" data-fila-binario>
+          ${[
+            ['zund-operatrice', 'Il taglio guidato dallo schermo', 'Taglio con l’intelligenza artificiale'],
+            ['taglio-testa', 'La testa del Morgan Next 2', 'Taglio computerizzato'],
+            ['sagome', 'Le sagome di un piazzamento', 'Modellistica CAD-CAM'],
+            ['zund-portale', 'Il portale che legge la pezza', 'Scansione'],
+            ['adesivazione', 'La macchina per l’adesivazione', 'Adesivazione'],
+            ['metro', 'Metro e forbici, accanto alla macchina', 'Confezione campioni'],
+          ].map(([f, n, rep]) => `<figure class="fila-foto" data-fila-foto data-nome="${n}" data-reparto="${rep}"><span class="fila-dentro">${img(r, f, n, { sizes: '(max-width: 760px) 80vw, 46vw', larghe: f.startsWith('zund') })}</span></figure>`).join('')}
+        </div>
       </div>
-    </div>`).join('')}
+      <div class="fila-dida" aria-live="polite"><p class="fila-nome" data-fila-nome></p><p class="fila-reparto" data-fila-reparto></p></div>
+    </div>
   </section>
 
   <section class="settori" aria-labelledby="settori-t">

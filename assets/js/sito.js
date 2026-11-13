@@ -917,6 +917,53 @@
     });
   }
 
+  /* ---------- dentro il laboratorio: la foto al centro cresce mentre la fila scorre ---------- */
+  function fila() {
+    var sez = document.querySelector('[data-fila]');
+    if (!sez) return;
+    var bin = sez.querySelector('[data-fila-binario]');
+    var foto = tutti('[data-fila-foto]', sez);
+    var nome = sez.querySelector('[data-fila-nome]'), reparto = sez.querySelector('[data-fila-reparto]');
+    var n = foto.length, W = 0, pw, ph, gw, gh, gap, fuoco = 0, obiettivo = 0, attivo = -1, vista = false;
+    var misura = function () {
+      W = innerWidth; var H = innerHeight, tel = W < 760;
+      gw = Math.min(W * (tel ? 0.8 : 0.46), H * (tel ? 0.46 : 0.58) * 1.5); gh = gw / 1.5;
+      pw = gw * (tel ? 0.3 : 0.28); ph = pw * 0.75; gap = tel ? 10 : 16;
+      sez.style.setProperty('--fila-gw', gw + 'px'); sez.style.setProperty('--fila-gh', gh + 'px'); sez.style.setProperty('--fila-gap', gap + 'px');
+    };
+    misura(); addEventListener('resize', misura);
+    var mostra = function (k) {
+      if (k === attivo) return; attivo = k;
+      var f = foto[k], cambia = function () { nome.textContent = f.getAttribute('data-nome'); reparto.textContent = f.getAttribute('data-reparto'); };
+      if (ridotto) { cambia(); return; }
+      gsap.timeline().to([nome, reparto], { y: -10, autoAlpha: 0, duration: 0.16, ease: 'power2.in' }).add(cambia).to([nome, reparto], { y: 0, autoAlpha: 1, duration: 0.45, ease: 'power3.out', stagger: 0.05 });
+    };
+    new IntersectionObserver(function (v) { vista = v[0].isIntersecting; }).observe(sez);
+    var disegna = function () {
+      fuoco += (obiettivo - fuoco) * (ridotto ? 1 : 0.11);
+      var pos = 0, centri = [];
+      for (var i = 0; i < n; i++) {
+        var d = Math.abs(i - fuoco), f = Math.max(0, 1 - d); f = f * f * (3 - 2 * f);
+        var w = pw + (gw - pw) * f, h = ph + (gh - ph) * f;
+        foto[i].style.width = w.toFixed(1) + 'px'; foto[i].style.height = h.toFixed(1) + 'px';
+        foto[i].style.setProperty('--fila-buio', (0.55 * (1 - f)).toFixed(3));
+        centri.push(pos + w / 2); pos += w + gap;
+      }
+      var a = Math.floor(fuoco), b = Math.min(n - 1, a + 1), t = fuoco - a;
+      var x = W / 2 - (centri[a] * (1 - t) + centri[b] * t);
+      bin.style.transform = 'translate3d(' + x.toFixed(1) + 'px,0,0)';
+      mostra(Math.round(fuoco));
+    };
+    disegna();
+    if (ridotto) return;
+    ScrollTrigger.create({
+      trigger: sez, start: 'top top', end: function () { return '+=' + Math.round(innerHeight * n * 0.5); },
+      pin: true, anticipatePin: 1, onUpdate: function (st) { obiettivo = st.progress * (n - 1); },
+    });
+    gsap.from(foto, { y: 60, autoAlpha: 0, duration: 1.2, ease: 'uscita', stagger: 0.06, scrollTrigger: { trigger: sez, start: 'top 70%' } });
+    gsap.ticker.add(function () { if (vista) disegna(); });
+  }
+
   /* ---------- la bobina del laboratorio ---------- */
   function bobina() {
     var sez = document.querySelector('[data-bobina]');
@@ -1091,7 +1138,7 @@
     var home = corpo.classList.contains('pagina-home');
     var entra = home ? eroe() : null;
     var intro = home ? null : apertura();
-    accesi(); sguardo(); intreccio(); caroselli(); annunci(); arteSola(); schedeLuce(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
+    accesi(); sguardo(); intreccio(); caroselli(); fila(); annunci(); arteSola(); schedeLuce(); bobina(); comparse(); nastro(); galleria(); cursore(); magneti(); trama();
     ScrollTrigger.sort(); ScrollTrigger.refresh();
     tutti('[data-su]').forEach(function (b) { b.addEventListener('click', function () { if (lenis) lenis.scrollTo(0, { duration: 2 }); else scrollTo(0, 0); }); });
 

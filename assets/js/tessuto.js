@@ -230,6 +230,30 @@ function avvia() {
   bordoGeo.setAttribute('position', new THREE.BufferAttribute(bordoPos, 3));
   bordoGeo.setAttribute('color', new THREE.BufferAttribute(bordoCol, 3));
 
+  /* ---- la testa di taglio: scende lungo una guida dalla barra e segue il laser ---- */
+  const testaTaglio = new THREE.Group();
+  const corpoTesta = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.09, 0.08), metallo);
+  const ugello = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.03, 0.07, 18), metallo);
+  ugello.rotation.x = Math.PI / 2; ugello.position.z = 0.07;
+  const spia = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.012, 0.004), new THREE.MeshBasicMaterial({ color: '#6f86ff' }));
+  spia.position.set(0.035, 0.022, 0.041);
+  testaTaglio.add(corpoTesta, ugello, spia);
+  testaTaglio.visible = false;
+  scena.add(testaTaglio);
+  /* il portale orizzontale, come quello della macchina da taglio del reparto */
+  const guida = new THREE.Mesh(new THREE.BoxGeometry(W * 1.08, 0.028, 0.03), metallo.clone());
+  guida.visible = false;
+  scena.add(guida);
+
+  /* ---- il fumo che sale dal punto di taglio ---- */
+  const NF = telefono ? 26 : 50;
+  const fuPos = new Float32Array(NF * 3), fuVita = new Float32Array(NF), fuCol = new Float32Array(NF * 3);
+  const fuGeo = new THREE.BufferGeometry();
+  fuGeo.setAttribute('position', new THREE.BufferAttribute(fuPos, 3));
+  fuGeo.setAttribute('color', new THREE.BufferAttribute(fuCol, 3));
+  for (let i = 0; i < NF; i++) fuPos[i * 3 + 1] = -99;
+  let fuProssimo = 0;
+
   /* ---- il laser: una luce, un bagliore e le scintille ---- */
   const luceLaser = new THREE.PointLight('#c9d2ff', 0, 1.6, 1.6);
   scena.add(luceLaser);
@@ -260,10 +284,13 @@ function avvia() {
   scGeo.setAttribute('position', new THREE.BufferAttribute(scPos, 3));
   const scintille = new THREE.Points(scGeo, new THREE.PointsMaterial({ map: tex, size: 0.045, color: '#e8ecff', transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true }));
   scintille.frustumCulled = false;
-  const bordo = new THREE.Points(bordoGeo, new THREE.PointsMaterial({ map: tex, size: 0.05, vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+  const bordo = new THREE.Points(bordoGeo, new THREE.PointsMaterial({ map: tex, size: 0.11, vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
   bordo.frustumCulled = false;
   scena.add(bordo);
   let tagliatePrima = 0;
+  const fumo = new THREE.Points(fuGeo, new THREE.PointsMaterial({ map: tex, size: 0.22, vertexColors: true, transparent: true, opacity: 0.5, depthWrite: false, blending: THREE.NormalBlending }));
+  fumo.frustumCulled = false;
+  scena.add(fumo);
   scena.add(scintille);
   for (let i = 0; i < NS; i++) scPos[i * 3 + 1] = -99;
   let prossima = 0;
@@ -276,6 +303,7 @@ function avvia() {
   }
 
   /* ---- dimensioni ---- */
+  let camZ = 0;
   function misura() {
     const w = tela.clientWidth, h = tela.clientHeight;
     if (!w || !h) return;
@@ -286,6 +314,7 @@ function avvia() {
     const dW = (W / 0.86) / 2 / t / camera.aspect;
     camera.position.set(0, -0.06, Math.max(dH, dW));
     camera.position.x = 0.35;
+    camZ = camera.position.z;
     camera.lookAt(0, -0.06, 0);
     camera.updateProjectionMatrix();
   }
@@ -350,6 +379,16 @@ function avvia() {
         const x = p[k], y = p[k + 1], z = p[k + 2];
         let ax = 0, ay = G, az = 0;
         const calma = 1 - apri * 0.75;
+        /* i lembi appena tagliati si scostano un poco e si arricciano, come la stoffa vera */
+        if (tagliate > 0 && apri < 0.02) {
+          const col = i % m.cols, riga = (i / m.cols) | 0;
+          const lembo = m.sinistra ? m.cols - 1 - col : col;
+          if (riga < tagliate && riga > 0 && lembo < 3) {
+            const peso = (3 - lembo) / 3;
+            ax += (m.sinistra ? -1 : 1) * 2.2 * peso;
+            az += 1.6 * peso * Math.sin(riga * 0.9 + tempo * 2);
+          }
+        }
         /* vento leggero che passa sulla pezza */
         az += (Math.sin(tempo * 1.05 + x * 2.1 + y * 0.9) * 1.6 + Math.sin(tempo * 0.43 + x * 0.8 - y * 0.5) * 1.1 + Math.sin(tempo * 1.9 + x * 4.2) * 0.45) * calma;
         ax += Math.sin(tempo * 0.7 + y * 1.1) * 0.25;
@@ -439,12 +478,34 @@ function avvia() {
     const z = ((SX.pos[a0 + 2] + DX.pos[b0 + 2]) / 2) * (1 - f) + ((SX.pos[a1 + 2] + DX.pos[b1 + 2]) / 2) * f;
     const forza = attivo ? 1 : 0;
     punto.material.opacity += (forza * (0.85 + Math.random() * 0.15) - punto.material.opacity) * 0.25;
-    raggio.material.opacity += (forza * 0.35 - raggio.material.opacity) * 0.2;
-    luceLaser.intensity += (forza * 3.2 - luceLaser.intensity) * 0.2;
+    raggio.material.opacity = 0;
+    luceLaser.intensity += (forza * (2.6 + Math.random() * 1.6) - luceLaser.intensity) * 0.3;
+    /* la testa di taglio e la sua guida */
+    const yb0 = H / 2 + 0.035 + (1 - stato.entrata) * (H * 1.35);
+    const presenza = Math.min(1, Math.max(0, c * 20)) * (1 - Math.min(1, stato.apertura * 30));
+    testaTaglio.visible = guida.visible = presenza > 0.01 && !ridotto;
+    testaTaglio.position.set(x, y + 0.035, z + 0.2);
+    testaTaglio.scale.setScalar(0.4 + 0.6 * presenza);
+    guida.position.set(0, y + 0.035, z + 0.2);
+    /* la camera si avvicina appena mentre taglia */
+    camera.position.z += ((camZ * (attivo ? 0.95 : 1)) - camera.position.z) * 0.04;
+    /* il fumo */
+    if (attivo && Math.random() < 0.5) {
+      const i = fuProssimo; fuProssimo = (fuProssimo + 1) % NF;
+      fuPos[i * 3] = x + (Math.random() - 0.5) * 0.04; fuPos[i * 3 + 1] = y; fuPos[i * 3 + 2] = z + 0.05; fuVita[i] = 1;
+    }
+    for (let i = 0; i < NF; i++) {
+      if (fuVita[i] <= 0) { fuPos[i * 3 + 1] = -99; continue; }
+      fuVita[i] -= dt * 0.7;
+      fuPos[i * 3] += Math.sin(tempo * 2 + i) * dt * 0.06; fuPos[i * 3 + 1] += dt * 0.32; fuPos[i * 3 + 2] += dt * 0.05;
+      const v = Math.max(0, fuVita[i]) * 0.35;
+      fuCol[i * 3] = v * 0.6; fuCol[i * 3 + 1] = v * 0.65; fuCol[i * 3 + 2] = v * 0.85;
+    }
+    fuGeo.attributes.position.needsUpdate = true; fuGeo.attributes.color.needsUpdate = true;
     punto.position.set(x, y, z + 0.03);
     luceLaser.position.set(x, y, z + 0.25);
     raggio.position.set(x, y + 3, z + 0.02);
-    if (attivo && Math.abs(stato.velocita || 0) > 0.0005) for (let i = 0; i < 4; i++) scintilla(x, y, z);
+    if (attivo && Math.abs(stato.velocita || 0) > 0.0005) for (let i = 0; i < 7; i++) scintilla(x, y, z);
     else if (attivo && Math.random() < 0.3) scintilla(x, y, z);
     for (let i = 0; i < NS; i++) {
       if (scVita[i] <= 0) { scPos[i * 3 + 1] = -99; continue; }
@@ -466,12 +527,13 @@ function avvia() {
     for (let j = 0; j < NY; j++) {
       if (j < tagliate && j >= tagliatePrima) caldo[j] = 1;
       if (j >= tagliate) caldo[j] = 0;
-      caldo[j] = Math.max(0, caldo[j] - dt * 0.55);
+      caldo[j] = Math.max(0, caldo[j] - dt * 0.28);
       const a = SX.id(SX.cols - 1, j) * 3, b = DX.id(0, j) * 3;
       for (let q = 0; q < 3; q++) { bordoPos[j * 6 + q] = SX.pos[a + q]; bordoPos[j * 6 + 3 + q] = DX.pos[b + q]; }
       bordoPos[j * 6 + 2] += 0.01; bordoPos[j * 6 + 5] += 0.01;
       const h = caldo[j];
-      for (let q = 0; q < 2; q++) { bordoCol[j * 6 + q * 3] = h * 0.75; bordoCol[j * 6 + q * 3 + 1] = h * 0.8; bordoCol[j * 6 + q * 3 + 2] = h; }
+      const rr = h > 0.55 ? 1 : h * 1.4, gg = h > 0.55 ? 0.55 + (h - 0.55) * 0.9 : h * 0.9, bb = h > 0.55 ? 0.3 + (h - 0.55) * 1.2 : h * 1.6;
+      for (let q = 0; q < 2; q++) { bordoCol[j * 6 + q * 3] = rr * h; bordoCol[j * 6 + q * 3 + 1] = gg * h; bordoCol[j * 6 + q * 3 + 2] = Math.min(1, bb) * h; }
     }
     tagliatePrima = tagliate;
     bordoGeo.attributes.position.needsUpdate = true;
