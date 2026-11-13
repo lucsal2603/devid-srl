@@ -861,3 +861,19 @@ html { overflow-x: clip; }
 @media (max-width: 760px) { .sguardo-testa { align-items: center; } }
 /* le righe dei titoli non tagliano le gambe di g, p, q */
 [data-righe] > * { padding-bottom: .14em; margin-bottom: -.14em; }
+
+/* tutti i titoli al centro */
+.accesi-testa { display: flex; justify-content: center; text-align: center; }
+.accesi-intro { align-items: center; }
+.accesi-frase { margin: 0 auto; }
+.annunci-testa, .sezione-testa { flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: clamp(18px, 2vw, 28px); }
+.chiamata-carta { align-items: center; text-align: center; }
+.chiamata-azioni { justify-content: center; }
+.apertura { text-align: center; }
+.apertura-sopra { justify-content: center; }
+.apertura-testo { margin-left: auto; margin-right: auto; }
+@media (max-width: 760px) {
+  .annunci-testa, .sezione-testa { align-items: center; }
+  .apertura-testo { margin-left: auto; }
+}
+.apertura-tag { justify-content: center; }
