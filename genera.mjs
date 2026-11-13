@@ -193,26 +193,29 @@ const htmlAccesi = (r, testa = true) => `  <section class="accesi${testa ? '' : 
       </a>`).join('')}
     </div>
   </section>`;
-const htmlSguardo = (r) => `  <section class="sguardo" data-sguardo aria-labelledby="sguardo-t">
-    <div class="sguardo-palco">
-      <div class="sguardo-testa">
-        <h2 id="sguardo-t" class="sguardo-titolo" data-righe>Macchine sempre aggiornate,<br>mani che sanno cosa fanno.</h2>
-      </div>
-      <div class="sguardo-binario" data-sguardo-binario>
-        ${[
-          ['dato', 'scuro', '7', 'cm', 'di materasso tagliato in automatico dall’Investronica Diamond'],
-          ['foto', 'zund-portale', 'Crea Solution', 'Il taglio con l’intelligenza artificiale'],
-          ['dato', 'chiaro', '200', 'cm', 'di altezza utile del plotter Algotex Stream 180'],
-          ['foto', 'taglio-testa', 'Morgan Next 2', 'Taglio automatico fino a 5 cm'],
-          ['dato', 'blu', '1', 'm', 'di diametro dei rotoli al banco di controllo'],
-          ['foto', 'stesura', 'Oteman e Bkr', 'Stenditori elettronici con conveyor'],
-          ['dato', 'scuro', '20', 's', 'al massimo di prova vapore, col metodo Hoffman'],
-          ['foto', 'sagome', 'Intelli-di', 'Cartamodelli digitalizzati da una fotografia'],
-        ].map((c) => c[0] === 'dato'
-          ? `<div class="sguardo-carta sguardo-dato sguardo-${c[1]}"><p class="sguardo-cifra"><span data-conta-lato="${c[2]}">${c[2]}</span><small>${c[3]}</small></p><p class="sguardo-testo">${c[4]}</p></div>`
-          : `<figure class="sguardo-carta sguardo-foto"><div class="sguardo-foto-dentro">${img(r, c[1], c[3], { sizes: '(max-width: 760px) 80vw, 34vw', larghe: c[1].startsWith('zund') })}</div><figcaption><span class="sguardo-nome">${c[2]}</span><span class="sguardo-sotto">${c[3]}</span></figcaption></figure>`).join('')}
-        <a class="sguardo-carta sguardo-fine" href="${r}servizi/taglio-tessuti/" data-tenda="Taglio computerizzato"><span>Tutte le macchine del taglio</span><span class="sguardo-fine-cerchio">${G.frecciaDx}</span></a>
-      </div>
+const htmlSguardo = (r) => `  <section class="pila" data-pila aria-labelledby="sguardo-t">
+    <div class="pila-testa">
+      <h2 id="sguardo-t" class="pila-titolo" data-righe>Macchine sempre aggiornate,<br>mani che sanno cosa fanno.</h2>
+    </div>
+    <div class="pila-mazzo">
+      ${[
+        ['scuro', 'zund-portale', 'Taglio con l’intelligenza artificiale', '7', 'cm', 'di materasso tagliato in automatico dall’Investronica Diamond', [['Crea Solution', 'Il taglio con l’intelligenza artificiale'], ['Investronica Diamond', 'Taglio automatico del materasso, fino a 7 cm']]],
+        ['chiaro', 'taglio-testa', 'Taglio automatico', '5', 'cm', 'di materasso con il taglio automatico del Morgan Next 2', [['Morgan Next 2', 'Taglio automatico fino a 5 cm']]],
+        ['blu', 'stesura', 'Controllo e stesura', '1', 'm', 'di diametro dei rotoli al banco di controllo', [['Oteman e Bkr', 'Stenditori elettronici con conveyor'], ['Metodo Hoffman', 'Prova vapore fino a 20 secondi']]],
+        ['notte', 'sagome', 'Modellistica', '200', 'cm', 'di altezza utile del plotter Algotex Stream 180', [['Intelli-di', 'Cartamodelli digitalizzati da una fotografia'], ['Algotex Stream 180', 'Il plotter della modellistica']]],
+      ].map(([tinta, foto, reparto, cifra, unita, testo, righe], i) => `<article class="pila-carta pila-${tinta}" data-pila-carta style="--i:${i}">
+        <figure class="pila-foto"><div class="pila-foto-dentro" data-pila-foto>${img(r, foto, righe[0][0], { sizes: '(max-width: 760px) 92vw, 52vw', larghe: foto.startsWith('zund') })}</div></figure>
+        <div class="pila-info">
+          <h3 class="pila-reparto">${reparto}</h3>
+          <p class="pila-cifra"><span data-pila-conta="${cifra}">${cifra}</span><small>${unita}</small></p>
+          <p class="pila-testo">${testo}</p>
+          <ul class="pila-righe">${righe.map(([n, d]) => `<li data-pila-riga><span class="pila-nome">${n}</span><span class="pila-desc">${d}</span></li>`).join('')}</ul>
+        </div>
+        <span class="pila-ombra" aria-hidden="true"></span>
+      </article>`).join('')}
+    </div>
+    <div class="pila-fine">
+      <a class="bottone bottone-linea" href="${r}servizi/taglio-tessuti/" data-tenda="Taglio computerizzato" data-magnete><span class="bottone-fondo"></span><span class="bottone-testo"><span data-gira>Tutte le macchine del taglio</span>${G.frecciaDx}</span></a>
     </div>
   </section>`;
 const htmlAnnunci = (r, testa = true) => `  <section class="annunci" aria-labelledby="news-t">
