@@ -943,15 +943,28 @@
     var F = function (a) { if (a >= 1) return 0.5; var u = 1 - a; return 0.5 - (u * u * u - u * u * u * u / 2); };
     var disegna = function () {
       fuoco += (obiettivo - fuoco) * (ridotto ? 1 : 0.11);
+      /* ogni foto: distanza dal centro, misura; poi in fila una accanto all'altra, senza sovrapporsi */
+      var voci = [];
       for (var i = 0; i < n; i++) {
         var rel = ((i - fuoco) % n + n) % n; if (rel >= n / 2) rel -= n;
         var d = Math.abs(rel), f = Math.max(0, 1 - d); f = f * f * (3 - 2 * f);
-        var w = pw + (gw - pw) * f, h = ph + (gh - ph) * f;
-        var x = (rel < 0 ? -1 : 1) * ((pw + gap) * d + (gw - pw) * F(d));
-        var el = foto[i];
-        el.style.width = w.toFixed(1) + 'px'; el.style.height = h.toFixed(1) + 'px';
-        el.style.transform = 'translate3d(' + (W / 2 + x - w / 2).toFixed(1) + 'px,-50%,0)';
-        el.style.setProperty('--fila-buio', (0.55 * (1 - f)).toFixed(3));
+        voci.push({ i: i, rel: rel, f: f, w: pw + (gw - pw) * f, h: ph + (gh - ph) * f });
+      }
+      voci.sort(function (p, q) { return p.rel - q.rel; });
+      var pos = 0, k;
+      for (k = 0; k < n; k++) { voci[k].c = pos + voci[k].w / 2; pos += voci[k].w + gap; }
+      /* il punto del centro sta fra la foto appena a sinistra e quella appena a destra */
+      var ia = 0;
+      for (k = 0; k < n; k++) if (voci[k].rel <= 0) ia = k;
+      var A = voci[ia], B = voci[Math.min(n - 1, ia + 1)];
+      var t = B === A ? 0 : (-A.rel) / (B.rel - A.rel);
+      var spost = W / 2 - (A.c * (1 - t) + B.c * t);
+      for (k = 0; k < n; k++) {
+        var v = voci[k], el = foto[v.i];
+        el.style.width = v.w.toFixed(1) + 'px'; el.style.height = v.h.toFixed(1) + 'px';
+        el.style.transform = 'translate3d(' + (spost + v.c - v.w / 2).toFixed(1) + 'px,-50%,0)';
+        el.style.zIndex = String(10 + Math.round(v.f * 100));
+        el.style.setProperty('--fila-buio', (0.55 * (1 - v.f)).toFixed(3));
       }
       mostra(((Math.round(fuoco) % n) + n) % n);
     };
