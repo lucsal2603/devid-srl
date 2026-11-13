@@ -972,11 +972,11 @@
     if (ridotto) return;
     /* si scorre solo trascinando: tieni premuto e sposta, col mouse o col dito */
     var scena = sez.querySelector('.fila-scena');
-    var preso = false, ultimoX = 0, spinta = 0, partenza = 0;
-    scena.addEventListener('pointerdown', function (e) { preso = true; ultimoX = e.clientX; spinta = 0; partenza = Math.round(obiettivo); scena.setPointerCapture(e.pointerId); scena.classList.add('presa'); });
+    var preso = false, ultimoX = 0, spinta = 0, partenza = 0, corsa = 0, toccata = null;
+    scena.addEventListener('pointerdown', function (e) { preso = true; ultimoX = e.clientX; spinta = 0; corsa = 0; toccata = e.target.closest ? e.target.closest('[data-fila-foto]') : null; partenza = Math.round(obiettivo); scena.setPointerCapture(e.pointerId); scena.classList.add('presa'); });
     scena.addEventListener('pointermove', function (e) {
       if (!preso) return;
-      var d = e.clientX - ultimoX; ultimoX = e.clientX;
+      var d = e.clientX - ultimoX; ultimoX = e.clientX; corsa += Math.abs(d);
       spinta = -d / (gw * 0.6);
       obiettivo = obiettivo + spinta;
     });
@@ -985,6 +985,11 @@
       preso = false; scena.classList.remove('presa');
       /* un po' di slancio, poi si ferma sulla foto più vicina */
       var delta = obiettivo - partenza;
+      /* un clic senza trascinare su una foto di lato la porta al centro */
+      if (corsa < 6 && toccata) {
+        var r = ((foto.indexOf(toccata) - partenza) % n + n) % n; if (r >= n / 2) r -= n;
+        obiettivo = partenza + r; return;
+      }
       obiettivo = Math.abs(delta) < 0.12 ? partenza : partenza + (delta > 0 ? 1 : -1) * Math.max(1, Math.round(Math.abs(delta) - 0.4));
     };
     scena.addEventListener('pointerup', lascia); scena.addEventListener('pointercancel', lascia);
