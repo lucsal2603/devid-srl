@@ -557,7 +557,7 @@
       var info = c.querySelector('.pila-info');
       var righe = tutti('[data-pila-riga]', c);
       /* entrando: la foto si stringe nella sua cornice */
-      if (foto) gsap.fromTo(foto, { scale: 1.3 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: c, start: 'top bottom', end: 'top 20%', scrub: true } });
+      if (foto) gsap.fromTo(foto, { scale: 1.3 }, { scale: 1, ease: 'none', force3D: true, scrollTrigger: { trigger: c, start: 'top bottom', end: 'top 20%', scrub: 0.6 } });
       /* il testo arriva quando la scheda si ferma */
       var tl = gsap.timeline({ scrollTrigger: { trigger: c, start: 'top 55%', toggleActions: 'play none none reverse' } });
       tl.from(info.querySelector('.pila-reparto'), { y: 24, autoAlpha: 0, duration: 0.8, ease: 'uscita' })
@@ -573,9 +573,9 @@
       /* quando arriva la scheda dopo, questa si stringe e si spegne sotto */
       if (i < ultima) {
         var dopo = carte[i + 1];
-        gsap.timeline({ scrollTrigger: { trigger: dopo, start: 'top bottom', end: function () { return 'top ' + (parseFloat(getComputedStyle(dopo).top) || 0) + 'px'; }, scrub: true, invalidateOnRefresh: true } })
-          .to(c, { scale: 1 - (ultima - i) * 0.035, rotationX: -4, ease: 'none', transformPerspective: 1600 }, 0)
-          .to(ombra, { opacity: 0.55, ease: 'none' }, 0);
+        gsap.timeline({ scrollTrigger: { trigger: dopo, start: 'top bottom', end: function () { return 'top ' + (parseFloat(getComputedStyle(dopo).top) || 0) + 'px'; }, scrub: 0.6, invalidateOnRefresh: true } })
+          .to(c, { scale: 1 - (ultima - i) * 0.035, ease: 'none', force3D: true }, 0)
+          .to(ombra, { opacity: 0.5, ease: 'none' }, 0);
       }
     });
   }
