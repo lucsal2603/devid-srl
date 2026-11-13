@@ -849,3 +849,8 @@ html { overflow-x: clip; }
 /* il carosello infinito: ogni foto è posizionata da sola */
 .fila-binario { position: relative; width: 100%; height: var(--fila-gh, 30vw); }
 .fila-foto { position: absolute; left: 0; top: 50%; }
+/* dentro il laboratorio: titolo al centro e più respiro sopra e sotto */
+.fila-palco { padding-top: var(--spazio); padding-bottom: var(--spazio); min-height: 0; gap: clamp(28px, 4vw, 64px); }
+.fila-titolo { text-align: center; }
+.fila-scena { min-height: min(56vh, 520px); }
+@media (max-width: 760px) { .fila-palco { padding-top: var(--spazio); padding-bottom: var(--spazio); gap: 24px; } .fila-scena { min-height: 40vh; } }
