@@ -239,11 +239,9 @@ function avvia() {
   spia.position.set(0.035, 0.022, 0.041);
   testaTaglio.add(corpoTesta, ugello, spia);
   testaTaglio.visible = false;
-  scena.add(testaTaglio);
   /* il portale orizzontale, come quello della macchina da taglio del reparto */
   const guida = new THREE.Mesh(new THREE.BoxGeometry(W * 1.08, 0.028, 0.03), metallo.clone());
   guida.visible = false;
-  scena.add(guida);
 
   /* ---- il fumo che sale dal punto di taglio ---- */
   const NF = telefono ? 26 : 50;
@@ -483,7 +481,7 @@ function avvia() {
     /* la testa di taglio e la sua guida */
     const yb0 = H / 2 + 0.035 + (1 - stato.entrata) * (H * 1.35);
     const presenza = Math.min(1, Math.max(0, c * 20)) * (1 - Math.min(1, stato.apertura * 30));
-    testaTaglio.visible = guida.visible = presenza > 0.01 && !ridotto;
+    testaTaglio.visible = guida.visible = false;
     testaTaglio.position.set(x, y + 0.035, z + 0.2);
     testaTaglio.scale.setScalar(0.4 + 0.6 * presenza);
     guida.position.set(0, y + 0.035, z + 0.2);

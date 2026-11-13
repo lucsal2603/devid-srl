@@ -309,14 +309,14 @@ ${intestazione(r, '')}
       <h2 id="fila-t" class="fila-titolo" data-righe>Dentro il laboratorio</h2>
       <div class="fila-scena">
         <div class="fila-binario" data-fila-binario>
-          ${[
+          ${[0, 1].map((k) => [
             ['zund-operatrice', 'Il taglio guidato dallo schermo', 'Taglio con l’intelligenza artificiale'],
             ['taglio-testa', 'La testa del Morgan Next 2', 'Taglio computerizzato'],
             ['sagome', 'Le sagome di un piazzamento', 'Modellistica CAD-CAM'],
             ['zund-portale', 'Il portale che legge la pezza', 'Scansione'],
             ['adesivazione', 'La macchina per l’adesivazione', 'Adesivazione'],
             ['metro', 'Metro e forbici, accanto alla macchina', 'Confezione campioni'],
-          ].map(([f, n, rep]) => `<figure class="fila-foto" data-fila-foto data-nome="${n}" data-reparto="${rep}"><span class="fila-dentro">${img(r, f, n, { sizes: '(max-width: 760px) 80vw, 46vw', larghe: f.startsWith('zund') })}</span></figure>`).join('')}
+          ].map(([f, n, rep]) => `<figure class="fila-foto" data-fila-foto data-nome="${n}" data-reparto="${rep}"${k ? ' aria-hidden="true"' : ''}><span class="fila-dentro">${img(r, f, k ? '' : n, { sizes: '(max-width: 760px) 80vw, 46vw', larghe: f.startsWith('zund') })}</span></figure>`).join('')).join('')}
         </div>
       </div>
       <div class="fila-dida" aria-live="polite"><p class="fila-nome" data-fila-nome></p><p class="fila-reparto" data-fila-reparto></p></div>

@@ -939,28 +939,44 @@
       gsap.timeline().to([nome, reparto], { y: -10, autoAlpha: 0, duration: 0.16, ease: 'power2.in' }).add(cambia).to([nome, reparto], { y: 0, autoAlpha: 1, duration: 0.45, ease: 'power3.out', stagger: 0.05 });
     };
     new IntersectionObserver(function (v) { vista = v[0].isIntersecting; }).observe(sez);
+    /* carosello infinito: ogni foto sta alla sua distanza dal centro, girando in tondo */
+    var F = function (a) { if (a >= 1) return 0.5; var u = 1 - a; return 0.5 - (u * u * u - u * u * u * u / 2); };
     var disegna = function () {
       fuoco += (obiettivo - fuoco) * (ridotto ? 1 : 0.11);
-      var pos = 0, centri = [];
       for (var i = 0; i < n; i++) {
-        var d = Math.abs(i - fuoco), f = Math.max(0, 1 - d); f = f * f * (3 - 2 * f);
+        var rel = ((i - fuoco) % n + n) % n; if (rel >= n / 2) rel -= n;
+        var d = Math.abs(rel), f = Math.max(0, 1 - d); f = f * f * (3 - 2 * f);
         var w = pw + (gw - pw) * f, h = ph + (gh - ph) * f;
-        foto[i].style.width = w.toFixed(1) + 'px'; foto[i].style.height = h.toFixed(1) + 'px';
-        foto[i].style.setProperty('--fila-buio', (0.55 * (1 - f)).toFixed(3));
-        centri.push(pos + w / 2); pos += w + gap;
+        var x = (rel < 0 ? -1 : 1) * ((pw + gap) * d + (gw - pw) * F(d));
+        var el = foto[i];
+        el.style.width = w.toFixed(1) + 'px'; el.style.height = h.toFixed(1) + 'px';
+        el.style.transform = 'translate3d(' + (W / 2 + x - w / 2).toFixed(1) + 'px,-50%,0)';
+        el.style.setProperty('--fila-buio', (0.55 * (1 - f)).toFixed(3));
       }
-      var a = Math.floor(fuoco), b = Math.min(n - 1, a + 1), t = fuoco - a;
-      var x = W / 2 - (centri[a] * (1 - t) + centri[b] * t);
-      bin.style.transform = 'translate3d(' + x.toFixed(1) + 'px,0,0)';
-      mostra(Math.round(fuoco));
+      mostra(((Math.round(fuoco) % n) + n) % n);
     };
     disegna();
     if (ridotto) return;
-    ScrollTrigger.create({
-      trigger: sez, start: 'top top', end: function () { return '+=' + Math.round(innerHeight * n * 0.5); },
-      pin: true, anticipatePin: 1, onUpdate: function (st) { obiettivo = st.progress * (n - 1); },
+    /* si scorre solo trascinando: tieni premuto e sposta, col mouse o col dito */
+    var scena = sez.querySelector('.fila-scena');
+    var preso = false, ultimoX = 0, spinta = 0, partenza = 0;
+    scena.addEventListener('pointerdown', function (e) { preso = true; ultimoX = e.clientX; spinta = 0; partenza = Math.round(obiettivo); scena.setPointerCapture(e.pointerId); scena.classList.add('presa'); });
+    scena.addEventListener('pointermove', function (e) {
+      if (!preso) return;
+      var d = e.clientX - ultimoX; ultimoX = e.clientX;
+      spinta = -d / (gw * 0.6);
+      obiettivo = obiettivo + spinta;
     });
-    gsap.from(foto, { y: 60, autoAlpha: 0, duration: 1.2, ease: 'uscita', stagger: 0.06, scrollTrigger: { trigger: sez, start: 'top 70%' } });
+    var lascia = function () {
+      if (!preso) return;
+      preso = false; scena.classList.remove('presa');
+      /* un po' di slancio, poi si ferma sulla foto più vicina */
+      var delta = obiettivo - partenza;
+      obiettivo = Math.abs(delta) < 0.12 ? partenza : partenza + (delta > 0 ? 1 : -1) * Math.max(1, Math.round(Math.abs(delta) - 0.4));
+    };
+    scena.addEventListener('pointerup', lascia); scena.addEventListener('pointercancel', lascia);
+    scena.addEventListener('dragstart', function (e) { e.preventDefault(); });
+    gsap.from(bin, { autoAlpha: 0, y: 50, duration: 1.3, ease: 'uscita', scrollTrigger: { trigger: sez, start: 'top 70%' } });
     gsap.ticker.add(function () { if (vista) disegna(); });
   }
 
