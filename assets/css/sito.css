@@ -52,7 +52,7 @@ ul, ol { list-style: none; }
 
 .etichetta { font-family: var(--mono); font-size: 12px; letter-spacing: .02em; text-transform: uppercase; color: var(--grigio); line-height: 1.3; }
 .etichetta-chiara { color: var(--ghiaccio-2); }
-.riga { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+.riga { display: block; overflow: hidden; padding-bottom: .16em; margin-bottom: -.16em; }
 .riga-dentro { display: block; }
 .js .eroe-titolo .riga-dentro, .js .apertura-titolo .riga-dentro { transform: translateY(110%); }
 
@@ -854,3 +854,10 @@ html { overflow-x: clip; }
 .fila-titolo { text-align: center; }
 .fila-scena { min-height: min(56vh, 520px); }
 @media (max-width: 760px) { .fila-palco { padding-top: var(--spazio); padding-bottom: var(--spazio); gap: 24px; } .fila-scena { min-height: 40vh; } }
+
+/* Parco macchine: titolo al centro */
+.sguardo-testa { justify-content: center; text-align: center; }
+.sguardo-titolo { text-align: center; margin: 0 auto; }
+@media (max-width: 760px) { .sguardo-testa { align-items: center; } }
+/* le righe dei titoli non tagliano le gambe di g, p, q */
+[data-righe] > * { padding-bottom: .14em; margin-bottom: -.14em; }
