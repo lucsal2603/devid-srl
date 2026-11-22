@@ -546,36 +546,29 @@
 
   /* ---------- parco macchine: le carte scorrono di lato ---------- */
   function sguardo() {
-    var sez = document.querySelector('[data-pila]');
+    var sez = document.querySelector('[data-sguardo]');
     if (!sez) return;
-    var carte = tutti('[data-pila-carta]', sez);
-    if (ridotto || !carte.length) return;
-    var ultima = carte.length - 1;
+    var b = sez.querySelector('[data-sguardo-binario]');
+    var carte = tutti('.sguardo-carta', b);
+    if (ridotto) { sez.querySelector('.sguardo-palco').style.overflowX = 'auto'; return; }
+    var distanza = function () { return Math.max(0, b.scrollWidth - innerWidth); };
+    var corsa = gsap.to(b, {
+      x: function () { return -distanza(); }, ease: 'none',
+      scrollTrigger: { trigger: sez, start: 'top top', end: function () { return '+=' + Math.round(distanza() * 1.1); }, pin: true, scrub: 0.7, anticipatePin: 1, invalidateOnRefresh: true },
+    });
     carte.forEach(function (c, i) {
-      var foto = c.querySelector('[data-pila-foto] img');
-      var ombra = c.querySelector('.pila-ombra');
-      var info = c.querySelector('.pila-info');
-      var righe = tutti('[data-pila-riga]', c);
-      /* entrando: la foto si stringe nella sua cornice */
-      if (foto) gsap.fromTo(foto, { scale: 1.3 }, { scale: 1, ease: 'none', force3D: true, scrollTrigger: { trigger: c, start: 'top bottom', end: 'top 20%', scrub: 0.6 } });
-      /* il testo arriva quando la scheda si ferma */
-      var tl = gsap.timeline({ scrollTrigger: { trigger: c, start: 'top 55%', toggleActions: 'play none none reverse' } });
-      tl.from(info.querySelector('.pila-reparto'), { y: 24, autoAlpha: 0, duration: 0.8, ease: 'uscita' })
-        .from(info.querySelector('.pila-cifra'), { yPercent: 30, autoAlpha: 0, duration: 1, ease: 'uscita' }, 0.08)
-        .from(info.querySelector('.pila-testo'), { y: 16, autoAlpha: 0, duration: 0.8, ease: 'uscita' }, 0.2);
-      if (righe.length) tl.from(righe, { y: 14, autoAlpha: 0, duration: 0.7, ease: 'uscita', stagger: 0.08 }, 0.3);
-      var n = c.querySelector('[data-pila-conta]');
+      if (!c.classList.contains('sguardo-fine')) gsap.fromTo(c, { yPercent: i % 2 ? 14 : -10, rotation: i % 2 ? 3 : -3, scale: 0.9 }, {
+        yPercent: 0, rotation: 0, scale: 1, ease: 'none',
+        scrollTrigger: { trigger: c, containerAnimation: corsa, start: 'left right', end: 'left 78%', scrub: true },
+      });
+      else gsap.from(c, { autoAlpha: 0, x: 60, duration: 1, ease: 'uscita', scrollTrigger: { trigger: c, containerAnimation: corsa, start: 'left 98%' } });
+      var im = c.querySelector('img');
+      if (im) gsap.fromTo(im, { xPercent: 7 }, { xPercent: -7, ease: 'none', scrollTrigger: { trigger: c, containerAnimation: corsa, start: 'left right', end: 'right left', scrub: true } });
+      var n = c.querySelector('[data-conta-lato]');
       if (n) {
-        var fine = parseFloat(n.getAttribute('data-pila-conta')), o = { v: 0 };
+        var fine = parseFloat(n.getAttribute('data-conta-lato')), o = { v: 0 };
         n.textContent = '0';
-        tl.to(o, { v: fine, duration: 1.4, ease: 'morbida', onUpdate: function () { n.textContent = String(Math.round(o.v)); } }, 0.1);
-      }
-      /* quando arriva la scheda dopo, questa si stringe e si spegne sotto */
-      if (i < ultima) {
-        var dopo = carte[i + 1];
-        gsap.timeline({ scrollTrigger: { trigger: dopo, start: 'top bottom', end: function () { return 'top ' + (parseFloat(getComputedStyle(dopo).top) || 0) + 'px'; }, scrub: 0.6, invalidateOnRefresh: true } })
-          .to(c, { scale: 1 - (ultima - i) * 0.035, ease: 'none', force3D: true }, 0)
-          .to(ombra, { opacity: 0.5, ease: 'none' }, 0);
+        gsap.to(o, { v: fine, duration: 1.6, ease: 'morbida', onUpdate: function () { n.textContent = String(Math.round(o.v)); }, scrollTrigger: { trigger: c, containerAnimation: corsa, start: 'left 80%' } });
       }
     });
   }
