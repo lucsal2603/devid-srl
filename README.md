@@ -4,11 +4,11 @@ Sito nuovo per Devid srl, taglio tessuti e modellistica (Vezzano sul Crostolo, R
 
 ## Il riferimento
 
-Lo stile viene da **Lusion** (lusion.co), lo studio inglese di siti in 3D premiato più volte su Awwwards: fondo chiaro lavanda, grandi carte arrotondate, blu, bianco e nero, un oggetto 3D vero che risponde al mouse, contatore nel caricamento, bottoni a pillola. Codice, testi, foto e caratteri sono tutti nostri o di Devid: dal loro sito non è copiato niente.
+Lo stile viene da **Lusion** (lusion.co), lo studio inglese di siti in 3D premiato più volte su Awwwards: fondo chiaro lavanda, grandi carte arrotondate, blu, bianco e nero, un oggetto 3D vero che risponde al mouse, bottoni a pillola. Codice, testi, foto e caratteri sono tutti nostri o di Devid: dal loro sito non è copiato niente.
 
 ## Le parti
 
-- **Caricamento** (solo alla prima visita): sul nero compare appena la sagoma del logo; un raggio laser scende dall'alto e la attraversa da sinistra a destra, con la testa luminosa che va su e giù come un'incisione e le scintille, e dove passa compare il logo vero di Devid (il loro file, identico). Il contatore va da 0 a 100 col laser; alla fine un lampo e il nero sale e scopre la pagina.
+- **Caricamento** (solo alla prima visita): sul nero compare appena la sagoma del logo; un raggio laser scende dall'alto e la attraversa da sinistra a destra, con la testa luminosa che va su e giù come un'incisione e le scintille, e dove passa compare il logo vero di Devid (il loro file, identico).; alla fine un lampo e il nero sale e scopre la pagina.
 - **Apertura**: un vero tessuto in 3D (simulazione fisica, saia, cimosa con la scritta Devid, orli cuciti), appeso a una barra in metallo con gli anelli. Al centro del tendone è stampato il logo di Devid, che il laser taglia a metà. Anche scorrendo velocissimo la stoffa resta liscia: il taglio e la ricucitura seguono lo scroll senza strappi e ogni punto ha un limite di velocità. Ha la memoria della forma: quando nessuno lo tocca torna sempre a pendere dritto e non resta mai attorcigliato. Arriva che scende ondeggiando. Il mouse lo spinge come una mano. Scorrendo, il laser lo taglia dall'alto in basso con scintille e un filo di fumo: il bordo appena tagliato resta incandescente e poi si raffredda, i lembi si scostano e la camera si avvicina appena, poi le due metà si aprono come un sipario e appare «Il taglio del futuro è già presente».
 - Tutta la home resta del blu notte dell'apertura, fino al fondo.
 - **Chi siamo**: al centro, la frase che si accende parola per parola.
