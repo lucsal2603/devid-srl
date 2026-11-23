@@ -269,7 +269,6 @@ function home() {
       <span class="carica-scintille" data-carica-scintille></span>
     </div>
   </div>
-  <p class="carica-conta"><span data-conta-carica>0</span></p>
 </div>
 ${intestazione(r, '')}
 <main id="contenuto">

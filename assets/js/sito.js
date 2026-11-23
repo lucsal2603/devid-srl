@@ -1122,7 +1122,6 @@
     var c = document.querySelector('[data-carica]');
     if (!c || getComputedStyle(c).display === 'none' || ridotto) { if (c) c.style.display = 'none'; poi(); return; }
     memoria.scrivi('devid-visto', '1');
-    var conta = c.querySelector('[data-conta-carica]');
     var box = c.querySelector('[data-carica-box]');
     var logo = c.querySelector('[data-carica-logo]');
     var raggio = c.querySelector('[data-carica-raggio]');
@@ -1146,7 +1145,6 @@
       var y = (Math.sin(t0 * 0.55) * 0.5 + 0.5) * h;
       testa.style.top = 'calc(60vh + ' + y.toFixed(1) + 'px)';
       if (o.p > 0 && o.p < 1 && Math.random() < 0.8) scintilla(x, y);
-      conta.textContent = String(Math.round(o.p * 100));
     };
     var tl = gsap.timeline({ paused: true });
     tl.fromTo(c.querySelector('.carica-fantasma'), { opacity: 0 }, { opacity: 0.07, duration: 0.5 }, 0)
@@ -1155,7 +1153,7 @@
       .to(raggio, { opacity: 0, duration: 0.3 }, 2.6)
       .fromTo(logo, { filter: 'brightness(1)' }, { filter: 'brightness(1.8)', duration: 0.18, yoyo: true, repeat: 1 }, 2.55)
       .to(box, { scale: 1.04, duration: 0.5, ease: 'power2.out' }, 2.6)
-      .to([box, conta], { yPercent: -30, autoAlpha: 0, duration: 0.5, ease: 'power2.in' }, 3.2)
+      .to(box, { yPercent: -30, autoAlpha: 0, duration: 0.5, ease: 'power2.in' }, 3.2)
       .add(poi, 3.55)
       .to(c, { clipPath: 'inset(0% 0% 100% 0% round 0px 0px 60px 60px)', duration: 1.1, ease: 'tenda' }, 3.5)
       .set(c, { display: 'none' });

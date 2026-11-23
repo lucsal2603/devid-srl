@@ -141,7 +141,6 @@ ul, ol { list-style: none; }
 .arrivo .carica, .visto-carica .carica { display: none !important; }
 .carica-barra { position: absolute; left: 50%; top: 50%; width: min(220px, 40vw); height: 3px; transform: translate(-50%, -50%); background: rgba(255, 255, 255, .14); border-radius: 3px; overflow: hidden; }
 .carica-barra i { position: absolute; inset: 0; background: #fff; transform-origin: 0 50%; transform: scaleX(0); border-radius: 3px; }
-.carica-conta { position: absolute; left: calc(var(--m) * 2); bottom: var(--m); font-size: clamp(90px, 16vw, 260px); font-weight: 480; letter-spacing: -.06em; line-height: .8; font-variant-numeric: tabular-nums; }
 .carica-logo { position: absolute; left: 50%; top: calc(50% - 64px); width: min(196px, 44vw); height: auto; transform: translate(-50%, -50%); }
 
 /* ---------- eroe col tessuto ---------- */
